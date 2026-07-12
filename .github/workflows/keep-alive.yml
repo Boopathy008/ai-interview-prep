@@ -1,0 +1,16 @@
+name: Keep Render App Alive
+
+on:
+  schedule:
+    # Runs every 14 minutes
+    - cron: '*/14 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Application
+        run: curl -s https://ai-interview-prep-38xp.onrender.com > /dev/null
+        # If the app fails to respond for some reason, the action will just fail silently or we can ignore errors
+        continue-on-error: true
