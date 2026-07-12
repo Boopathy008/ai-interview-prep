@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test â€“ AI Interview Prep</title>
+  <title>Test – AI Interview Prep</title>
   <link rel="stylesheet" href="/css/main.css">
   <style>
     body { background: var(--bg); }
@@ -126,19 +126,19 @@
 <!-- Test Header -->
 <div class="test-header">
   <div class="test-header-left">
-    <div style="width:36px;height:36px;background:linear-gradient(135deg,var(--primary),#9B8FFF);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">ðŸŽ¯</div>
+    <div style="width:36px;height:36px;background:linear-gradient(135deg,var(--primary),#9B8FFF);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🤖</div>
     <div style="min-width:0;">
       <div class="test-title" id="testTitle">AI Interview Test</div>
       <div class="test-meta" id="testMeta">Loading...</div>
     </div>
   </div>
   <div class="test-header-right">
-    <div class="test-timer" id="testTimer">â±ï¸ 00:00</div>
+    <div class="test-timer" id="testTimer">⏱️ 00:00</div>
     <div style="text-align:center;">
       <div style="font-size:16px;font-weight:800;" id="progressFraction">0/0</div>
       <div style="font-size:10px;color:var(--text-muted);">answered</div>
     </div>
-    <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:7px;cursor:pointer;"><span id="themeIcon">ðŸŒ™</span></button>
+    <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:7px;cursor:pointer;"><span id="themeIcon">🌙</span></button>
     <button class="btn btn-danger btn-sm" onclick="confirmSubmit()">Submit</button>
   </div>
 </div>
@@ -188,10 +188,10 @@
 
     <!-- Navigation Buttons -->
     <div id="questionNavBtns" style="display:flex;justify-content:space-between;align-items:center;margin-top:24px;">
-      <button class="btn btn-secondary" id="prevBtn" onclick="navigate(-1)" disabled>â† Previous</button>
+      <button class="btn btn-secondary" id="prevBtn" onclick="navigate(-1)" disabled>← Previous</button>
       <div style="display:flex;gap:10px;">
-        <button class="btn btn-secondary" onclick="skipQuestion()">Skip â†’</button>
-        <button class="btn btn-primary" onclick="navigate(1)" id="nextBtn">Next â†’</button>
+        <button class="btn btn-secondary" onclick="skipQuestion()">Skip →</button>
+        <button class="btn btn-primary" onclick="navigate(1)" id="nextBtn">Next →</button>
       </div>
     </div>
   </div>
@@ -241,8 +241,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function initTest() {
-  document.getElementById('testTitle').textContent = `${getLangIcon(testData.topicName)} ${testData.topicName} â€“ ${testData.language}`;
-  document.getElementById('testMeta').textContent = `${testData.testType} Â· ${testData.difficulty} Â· ${questions.length} Questions`;
+  document.getElementById('testTitle').textContent = `${getLangIcon(testData.topicName)} ${testData.topicName} – ${testData.language}`;
+  document.getElementById('testMeta').textContent = `${testData.testType} · ${testData.difficulty} · ${questions.length} Questions`;
 
   renderQuestionNav();
   renderQuestion(0);
@@ -255,7 +255,7 @@ function initTest() {
 function startTimer() {
   timer = setInterval(() => {
     secondsElapsed++;
-    document.getElementById('testTimer').textContent = `â±ï¸ ${formatTime(secondsElapsed)}`;
+    document.getElementById('testTimer').textContent = `⏱️ ${formatTime(secondsElapsed)}`;
     if (secondsElapsed === 1800) {
       document.getElementById('testTimer').classList.add('warning');
       Toast.warning('Time check', '30 minutes elapsed. Consider submitting soon.');
@@ -277,7 +277,7 @@ function renderQuestion(index) {
 
   currentQ = index;
   document.getElementById('prevBtn').disabled = index === 0;
-  document.getElementById('nextBtn').textContent = index === questions.length - 1 ? 'Finish' : 'Next â†’';
+  document.getElementById('nextBtn').textContent = index === questions.length - 1 ? 'Finish' : 'Next →';
 
   // Update nav
   document.querySelectorAll('.q-nav-btn').forEach((btn, i) => {
@@ -419,7 +419,7 @@ async function submitTest() {
   // Show loading
   document.getElementById('questionArea').innerHTML = `
     <div class="ai-loading" style="padding:80px 40px;">
-      <div class="ai-loading-orb">ðŸ¤–</div>
+      <div class="ai-loading-orb">🤖</div>
       <div class="ai-loading-text">AI is evaluating your answers...</div>
       <div class="ai-loading-subtext">Generating detailed feedback and score</div>
     </div>
@@ -444,4 +444,3 @@ async function submitTest() {
 </script>
 </body>
 </html>
-

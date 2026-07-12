@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test Results â€“ AI Interview Prep</title>
+  <title>Test Results – AI Interview Prep</title>
   <link rel="stylesheet" href="/css/main.css">
   <style>
     @media (max-width: 768px) {
@@ -33,39 +33,39 @@
 
 <div class="app-layout">
   <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand"><div class="brand-logo"><div class="brand-icon">ðŸŽ¯</div><div><div class="brand-name">AI Interview <span>Prep</span></div><span class="brand-sub">Multi-Language Mentor</span></div></div></div>
+    <div class="sidebar-brand"><div class="brand-logo"><div class="brand-icon">🤖</div><div><div class="brand-name">AI Interview <span>Prep</span></div><span class="brand-sub">Multi-Language Mentor</span></div></div></div>
     <nav class="sidebar-nav">
       <div class="nav-section-label">Main</div>
-      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">ðŸ“Š</div><span>Dashboard</span></a>
-      <a class="sidebar-link" href="/topics"><div class="nav-icon">ðŸš€</div><span>Start Practice</span></a>
-      <a class="sidebar-link" href="/mock-interview"><div class="nav-icon">ðŸŽ¤</div><span>Mock Interview</span></a>
+      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">📊</div><span>Dashboard</span></a>
+      <a class="sidebar-link" href="/topics"><div class="nav-icon">🚀</div><span>Start Practice</span></a>
+      <a class="sidebar-link" href="/mock-interview"><div class="nav-icon">🎤</div><span>Mock Interview</span></a>
       <div class="nav-section-label">Progress</div>
-      <a class="sidebar-link" href="/progress"><div class="nav-icon">ðŸ“ˆ</div><span>My Progress</span></a>
-      <a class="sidebar-link" href="/study-plan"><div class="nav-icon">ðŸ—ºï¸</div><span>Study Plan</span></a>
+      <a class="sidebar-link" href="/progress"><div class="nav-icon">📈</div><span>My Progress</span></a>
+      <a class="sidebar-link" href="/study-plan"><div class="nav-icon">🗺️</div><span>Study Plan</span></a>
       <div class="nav-section-label">Account</div>
-      <a class="sidebar-link" href="/profile"><div class="nav-icon">ðŸ‘¤</div><span>My Profile</span></a>
+      <a class="sidebar-link" href="/profile"><div class="nav-icon">👤</div><span>My Profile</span></a>
     </nav>
     <div class="sidebar-footer">
       <div class="sidebar-user"><div class="user-avatar" id="sidebarUserAvatar">U</div><div class="user-info"><div class="user-name" id="sidebarUserName">Loading...</div><div class="user-role" id="sidebarUserRole">Student</div></div></div>
-      <a class="sidebar-link" href="#" data-action="logout" style="margin-top:4px;"><div class="nav-icon">ðŸšª</div><span>Logout</span></a>
+      <a class="sidebar-link" href="#" data-action="logout" style="margin-top:4px;"><div class="nav-icon">🚪</div><span>Logout</span></a>
     </div>
   </aside>
 
   <main class="main-content">
     <div class="top-navbar">
       <div style="display:flex;align-items:center;gap:14px;">
-        <button class="sidebar-toggle" id="sidebarToggle">â˜°</button>
-        <div class="page-title">ðŸ“Š Test Results</div>
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="page-title">📊 Test Results</div>
       </div>
       <div style="display:flex;gap:10px;">
-        <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;"><span id="themeIcon">ðŸŒ™</span></button>
+        <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;"><span id="themeIcon">🌙</span></button>
         <a href="/topics" class="btn btn-primary">+ New Test</a>
       </div>
     </div>
 
     <div class="page-content" id="mainContent">
       <div class="ai-loading" style="min-height:60vh;">
-        <div class="ai-loading-orb">ðŸ¤–</div>
+        <div class="ai-loading-orb">🤖</div>
         <div class="ai-loading-text">Loading your results...</div>
         <div class="ai-loading-subtext">Preparing AI feedback</div>
       </div>
@@ -103,17 +103,17 @@ function renderResults(test) {
       <div class="result-banner-grid" style="display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;">
         <div id="scoreCircleContainer"></div>
         <div>
-          <div style="font-size:12px;opacity:0.75;margin-bottom:4px;">${getLangIcon(test.topicName)} ${test.topicName} Â· ${test.language} Â· ${test.difficulty}</div>
+          <div style="font-size:12px;opacity:0.75;margin-bottom:4px;">${getLangIcon(test.topicName)} ${test.topicName} · ${test.language} · ${test.difficulty}</div>
           <div style="font-size:22px;font-weight:800;margin-bottom:6px;">
-            ${score >= 80 ? 'ðŸŽ‰ Excellent!' : score >= 60 ? 'ðŸ‘ Good Job!' : score >= 40 ? 'ðŸ“š Keep Practicing' : 'ðŸ’ª Don\'t Give Up!'}
+            ${score >= 80 ? '🎉 Excellent!' : score >= 60 ? '👍 Good Job!' : score >= 40 ? '📚 Keep Practicing' : '💪 Don\'t Give Up!'}
           </div>
           <div style="opacity:0.8;font-size:13px;">
-            ${correct} out of ${total} correct Â· ${formatTime(test.timeTaken || 0)} taken
+            ${correct} out of ${total} correct · ${formatTime(test.timeTaken || 0)} taken
           </div>
           <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
             ${typeBadge(test.testType)}
             ${difficultyBadge(test.difficulty)}
-            <span class="badge badge-secondary">â±ï¸ ${formatTime(test.timeTaken || 0)}</span>
+            <span class="badge badge-secondary">⏱️ ${formatTime(test.timeTaken || 0)}</span>
           </div>
         </div>
         <div style="text-align:center;">
@@ -126,19 +126,19 @@ function renderResults(test) {
     <!-- Stats Row -->
     <div class="result-stats-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;">
       <div class="stat-card" style="color:var(--secondary);">
-        <div class="stat-icon" style="background:#E8FBF5;">âœ…</div>
+        <div class="stat-icon" style="background:#E8FBF5;">✅</div>
         <div><div class="stat-value">${correct}</div><div class="stat-label">Correct</div></div>
       </div>
       <div class="stat-card" style="color:var(--accent);">
-        <div class="stat-icon" style="background:#FEF0F0;">âŒ</div>
+        <div class="stat-icon" style="background:#FEF0F0;">❌</div>
         <div><div class="stat-value">${total - correct}</div><div class="stat-label">Wrong</div></div>
       </div>
       <div class="stat-card" style="color:var(--primary);">
-        <div class="stat-icon" style="background:var(--primary-light);">ðŸŽ¯</div>
+        <div class="stat-icon" style="background:var(--primary-light);">🎯</div>
         <div><div class="stat-value">${Math.round(score)}%</div><div class="stat-label">Score</div></div>
       </div>
       <div class="stat-card" style="color:var(--info);">
-        <div class="stat-icon" style="background:#E3F7FF;">â±ï¸</div>
+        <div class="stat-icon" style="background:#E3F7FF;">⏱️</div>
         <div><div class="stat-value">${formatTime(test.timeTaken || 0)}</div><div class="stat-label">Time</div></div>
       </div>
     </div>
@@ -148,34 +148,34 @@ function renderResults(test) {
       <!-- AI Feedback -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">ðŸ¤– AI Feedback</div>
+          <div class="card-title">🤖 AI Feedback</div>
           <span class="badge badge-success">AI Analysis</span>
         </div>
         <div class="card-body">
           ${fb ? `
             ${fb.strengths ? `<div class="feedback-section strengths">
-              <div class="feedback-section-title" style="color:var(--secondary);">ðŸ’ª Strengths</div>
+              <div class="feedback-section-title" style="color:var(--secondary);">💪 Strengths</div>
               <div style="font-size:13px;line-height:1.7;color:var(--text-primary);">${fb.strengths}</div>
             </div>` : ''}
             ${fb.weaknesses ? `<div class="feedback-section weaknesses">
-              <div class="feedback-section-title" style="color:var(--accent);">ðŸ“Œ Areas to Improve</div>
+              <div class="feedback-section-title" style="color:var(--accent);">📌 Areas to Improve</div>
               <div style="font-size:13px;line-height:1.7;color:var(--text-primary);">${fb.weaknesses}</div>
             </div>` : ''}
             ${fb.mistakes ? `<div class="feedback-section" style="border-color:var(--warning);">
-              <div class="feedback-section-title" style="color:var(--warning);">âš ï¸ Common Mistakes</div>
+              <div class="feedback-section-title" style="color:var(--warning);">⚠️ Common Mistakes</div>
               <div style="font-size:13px;line-height:1.7;color:var(--text-primary);">${fb.mistakes}</div>
             </div>` : ''}
             ${fb.improvementTips ? `<div class="feedback-section tips">
-              <div class="feedback-section-title" style="color:#E65100;">ðŸ’¡ Improvement Tips</div>
+              <div class="feedback-section-title" style="color:#E65100;">💡 Improvement Tips</div>
               <div style="font-size:13px;line-height:1.7;color:var(--text-primary);">${fb.improvementTips}</div>
             </div>` : ''}
             ${fb.studyRecommendations ? `<div class="feedback-section study">
-              <div class="feedback-section-title" style="color:#0277BD;">ðŸ“š Study Recommendations</div>
+              <div class="feedback-section-title" style="color:#0277BD;">📚 Study Recommendations</div>
               <div style="font-size:13px;line-height:1.7;color:var(--text-primary);">${fb.studyRecommendations}</div>
             </div>` : ''}
             ${fb.nextTopics?.length ? `
               <div style="margin-top:14px;">
-                <div style="font-size:12px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">ðŸ“Œ Study Next</div>
+                <div style="font-size:12px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">📌 Study Next</div>
                 <div style="display:flex;flex-wrap:wrap;gap:6px;">
                   ${fb.nextTopics.map(t => `<span class="badge badge-primary">${t}</span>`).join('')}
                 </div>
@@ -187,7 +187,7 @@ function renderResults(test) {
       <!-- Performance Breakdown -->
       <div style="display:flex;flex-direction:column;gap:16px;">
         <div class="card">
-          <div class="card-header"><div class="card-title">ðŸ“Š Performance</div></div>
+          <div class="card-header"><div class="card-title">📊 Performance</div></div>
           <div class="card-body">
             <div style="margin-bottom:16px;">
               <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
@@ -225,16 +225,16 @@ function renderResults(test) {
           <div class="card-body">
             <div style="display:flex;flex-direction:column;gap:10px;">
               <a href="/topics?topic=${test.topicName?.toLowerCase()}&lang=${test.language}" class="btn btn-primary btn-block">
-                ðŸ”„ Retry Same Topic
+                🔄 Retry Same Topic
               </a>
               <a href="/topics" class="btn btn-secondary btn-block">
-                ðŸš€ Try Different Topic
+                🚀 Try Different Topic
               </a>
               <a href="/study-plan" class="btn btn-secondary btn-block">
-                ðŸ—ºï¸ Generate Study Plan
+                🗺️ Generate Study Plan
               </a>
               <a href="/progress" class="btn btn-secondary btn-block">
-                ðŸ“ˆ View Progress
+                📈 View Progress
               </a>
             </div>
           </div>
@@ -245,11 +245,11 @@ function renderResults(test) {
     <!-- Question Review -->
     <div class="card">
       <div class="card-header review-header">
-        <div class="card-title">ðŸ“ Question Review</div>
+        <div class="card-title">📝 Question Review</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
           <button class="btn btn-sm btn-secondary" onclick="filterReview('all', this)">All</button>
-          <button class="btn btn-sm btn-secondary" onclick="filterReview('wrong', this)">âŒ Wrong</button>
-          <button class="btn btn-sm btn-secondary" onclick="filterReview('correct', this)">âœ… Correct</button>
+          <button class="btn btn-sm btn-secondary" onclick="filterReview('wrong', this)">❌ Wrong</button>
+          <button class="btn btn-sm btn-secondary" onclick="filterReview('correct', this)">✅ Correct</button>
         </div>
       </div>
       <div class="card-body" id="questionReview">
@@ -270,7 +270,7 @@ function renderQuestionReview(questions) {
     const isCorrect = q.isCorrect;
     const hasAnswer = q.userAnswer;
     const statusColor = isCorrect ? 'var(--secondary)' : hasAnswer ? 'var(--accent)' : 'var(--warning)';
-    const statusIcon = isCorrect ? 'âœ…' : hasAnswer ? 'âŒ' : 'â­ï¸';
+    const statusIcon = isCorrect ? '✅' : hasAnswer ? '❌' : '⏭️';
     const statusLabel = isCorrect ? 'Correct' : hasAnswer ? 'Wrong' : 'Skipped';
 
     return `
@@ -288,7 +288,7 @@ function renderQuestionReview(questions) {
           </div>
           <div style="display:flex;align-items:center;gap:10px;">
             <span class="badge ${isCorrect ? 'badge-success' : hasAnswer ? 'badge-danger' : 'badge-warning'}">${statusLabel}</span>
-            <span style="color:var(--text-muted);">â–¼</span>
+            <span style="color:var(--text-muted);">▼</span>
           </div>
         </div>
         <div class="review-detail" style="display:none;padding:20px;">
@@ -303,8 +303,8 @@ function renderQuestionReview(questions) {
                 ${q.options.map(opt => `
                   <div style="padding:10px 14px;border-radius:8px;border:2px solid ${opt.label===q.correctAnswer?'var(--secondary)':opt.label===q.userAnswer&&!isCorrect?'var(--accent)':'var(--border)'};background:${opt.label===q.correctAnswer?'#E8FBF5':opt.label===q.userAnswer&&!isCorrect?'#FEF0F0':'var(--bg-input)'};color:${opt.label===q.correctAnswer||(opt.label===q.userAnswer&&!isCorrect)?'#1e293b':'inherit'};font-size:13px;">
                     <strong>${opt.label}.</strong> ${opt.text}
-                    ${opt.label===q.correctAnswer?'<span style="color:var(--secondary);margin-left:6px;">âœ“ Correct</span>':''}
-                    ${opt.label===q.userAnswer&&!isCorrect?'<span style="color:var(--accent);margin-left:6px;">âœ— Your answer</span>':''}
+                    ${opt.label===q.correctAnswer?'<span style="color:var(--secondary);margin-left:6px;">✓ Correct</span>':''}
+                    ${opt.label===q.userAnswer&&!isCorrect?'<span style="color:var(--accent);margin-left:6px;">✗ Your answer</span>':''}
                   </div>
                 `).join('')}
               </div>
@@ -325,7 +325,7 @@ function renderQuestionReview(questions) {
           `}
           ${q.explanation ? `
             <div style="background:var(--primary-light);border:1px solid rgba(108,99,255,0.2);border-radius:8px;padding:14px;color:#1e293b;">
-              <div style="font-size:12px;font-weight:600;text-transform:uppercase;color:var(--primary);margin-bottom:6px;">ðŸ’¡ Explanation</div>
+              <div style="font-size:12px;font-weight:600;text-transform:uppercase;color:var(--primary);margin-bottom:6px;">💡 Explanation</div>
               <div style="font-size:13px;line-height:1.7;">${q.explanation}</div>
             </div>
           ` : ''}
@@ -345,7 +345,7 @@ function toggleReview(header) {
   const arrow = header.querySelector('span:last-child');
   const isOpen = detail.style.display !== 'none';
   detail.style.display = isOpen ? 'none' : 'block';
-  arrow.textContent = isOpen ? 'â–¼' : 'â–²';
+  arrow.textContent = isOpen ? '▼' : '▲';
 }
 
 function filterReview(type, btn) {
@@ -362,4 +362,3 @@ function filterReview(type, btn) {
 </script>
 </body>
 </html>
-

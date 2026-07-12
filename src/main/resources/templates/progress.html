@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Progress â€“ AI Interview Prep</title>
+  <title>Progress – AI Interview Prep</title>
   <link rel="stylesheet" href="/css/main.css">
   <style>
     /* Progress page mobile fixes */
@@ -26,32 +26,32 @@
 
 <div class="app-layout">
   <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand"><div class="brand-logo"><div class="brand-icon">ðŸŽ¯</div><div><div class="brand-name">AI Interview <span>Prep</span></div><span class="brand-sub">Multi-Language Mentor</span></div></div></div>
+    <div class="sidebar-brand"><div class="brand-logo"><div class="brand-icon">🤖</div><div><div class="brand-name">AI Interview <span>Prep</span></div><span class="brand-sub">Multi-Language Mentor</span></div></div></div>
     <nav class="sidebar-nav">
       <div class="nav-section-label">Main</div>
-      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">ðŸ“Š</div><span>Dashboard</span></a>
-      <a class="sidebar-link" href="/topics"><div class="nav-icon">ðŸš€</div><span>Start Practice</span></a>
-      <a class="sidebar-link" href="/mock-interview"><div class="nav-icon">ðŸŽ¤</div><span>Mock Interview</span></a>
+      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">📊</div><span>Dashboard</span></a>
+      <a class="sidebar-link" href="/topics"><div class="nav-icon">🚀</div><span>Start Practice</span></a>
+      <a class="sidebar-link" href="/mock-interview"><div class="nav-icon">🎤</div><span>Mock Interview</span></a>
       <div class="nav-section-label">Progress</div>
-      <a class="sidebar-link active" href="/progress"><div class="nav-icon">ðŸ“ˆ</div><span>My Progress</span></a>
-      <a class="sidebar-link" href="/study-plan"><div class="nav-icon">ðŸ—ºï¸</div><span>Study Plan</span></a>
+      <a class="sidebar-link active" href="/progress"><div class="nav-icon">📈</div><span>My Progress</span></a>
+      <a class="sidebar-link" href="/study-plan"><div class="nav-icon">🗺️</div><span>Study Plan</span></a>
       <div class="nav-section-label">Account</div>
-      <a class="sidebar-link" href="/profile"><div class="nav-icon">ðŸ‘¤</div><span>My Profile</span></a>
+      <a class="sidebar-link" href="/profile"><div class="nav-icon">👤</div><span>My Profile</span></a>
     </nav>
     <div class="sidebar-footer">
       <div class="sidebar-user"><div class="user-avatar" id="sidebarUserAvatar">U</div><div class="user-info"><div class="user-name" id="sidebarUserName">Loading...</div><div class="user-role" id="sidebarUserRole">Student</div></div></div>
-      <a class="sidebar-link" href="#" data-action="logout" style="margin-top:4px;"><div class="nav-icon">ðŸšª</div><span>Logout</span></a>
+      <a class="sidebar-link" href="#" data-action="logout" style="margin-top:4px;"><div class="nav-icon">🚪</div><span>Logout</span></a>
     </div>
   </aside>
 
   <main class="main-content">
     <div class="top-navbar">
       <div style="display:flex;align-items:center;gap:14px;">
-        <button class="sidebar-toggle" id="sidebarToggle">â˜°</button>
-        <div class="page-title">ðŸ“ˆ My Progress</div>
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="page-title">📈 My Progress</div>
       </div>
       <div style="display:flex;gap:10px;">
-        <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;"><span id="themeIcon">ðŸŒ™</span></button>
+        <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;"><span id="themeIcon">🌙</span></button>
         <a href="/topics" class="btn btn-primary">+ New Test</a>
       </div>
     </div>
@@ -69,8 +69,8 @@
       <!-- Weak Topic Analysis -->
       <div class="card" style="margin-bottom:24px;">
         <div class="card-header">
-          <div class="card-title">ðŸ” AI Weak Topic Analysis</div>
-          <button class="btn btn-sm btn-primary" onclick="runWeakAnalysis()">Analyse Now ðŸ¤–</button>
+          <div class="card-title">🔍 AI Weak Topic Analysis</div>
+          <button class="btn btn-sm btn-primary" onclick="runWeakAnalysis()">Analyse Now 🤖</button>
         </div>
         <div class="card-body" id="weakAnalysisContainer">
           <div style="text-align:center;color:var(--text-secondary);padding:20px;font-size:13px;">
@@ -82,7 +82,7 @@
       <!-- Topic Progress Grid -->
       <div class="card" style="margin-bottom:24px;">
         <div class="card-header">
-          <div class="card-title">ðŸ“Š Progress by Topic</div>
+          <div class="card-title">📊 Progress by Topic</div>
           <div style="display:flex;gap:8px;" class="progress-sort-btns">
             <button class="btn btn-sm btn-primary" onclick="sortProgress('score', this)">By Score</button>
             <button class="btn btn-sm btn-secondary" onclick="sortProgress('tests', this)">By Tests</button>
@@ -97,7 +97,7 @@
       <!-- Test History -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">ðŸ• Test History</div>
+          <div class="card-title">🕐 Test History</div>
           <div style="display:flex;gap:8px;align-items:center;">
             <select id="historyFilter" class="form-control" style="width:140px;padding:7px 12px;font-size:13px;" onchange="filterHistory(this.value)">
               <option value="all">All Tests</option>
@@ -142,19 +142,19 @@ async function loadDashboard() {
 function renderOverview(d) {
   document.getElementById('overviewStats').innerHTML = `
     <div class="stat-card" style="color:var(--primary);">
-      <div class="stat-icon" style="background:var(--primary-light);">ðŸ“</div>
+      <div class="stat-icon" style="background:var(--primary-light);">📝</div>
       <div><div class="stat-value">${d.totalTests || 0}</div><div class="stat-label">Total Tests</div></div>
     </div>
     <div class="stat-card" style="color:#00A87A;">
-      <div class="stat-icon" style="background:#E8FBF5;">ðŸŽ¯</div>
+      <div class="stat-icon" style="background:#E8FBF5;">🎯</div>
       <div><div class="stat-value">${d.averageScore ? Math.round(d.averageScore) + '%' : '0%'}</div><div class="stat-label">Avg Score</div></div>
     </div>
     <div class="stat-card" style="color:#B45309;">
-      <div class="stat-icon" style="background:#FFF3E0;">ðŸ”¥</div>
+      <div class="stat-icon" style="background:#FFF3E0;">🔥</div>
       <div><div class="stat-value">${d.streakDays || 0}</div><div class="stat-label">Day Streak</div></div>
     </div>
     <div class="stat-card" style="color:#0277BD;">
-      <div class="stat-icon" style="background:#E3F7FF;">ðŸ—‚ï¸</div>
+      <div class="stat-icon" style="background:#E3F7FF;">🗂️</div>
       <div><div class="stat-value">${d.topicProgress?.length || 0}</div><div class="stat-label">Topics</div></div>
     </div>
   `;
@@ -164,7 +164,7 @@ function renderProgressGrid(progress) {
   if (!progress.length) {
     document.getElementById('topicProgressGrid').innerHTML = `
       <div style="text-align:center;padding:40px;">
-        <div style="font-size:48px;margin-bottom:12px;">ðŸ“š</div>
+        <div style="font-size:48px;margin-bottom:12px;">📚</div>
         <div style="font-weight:600;margin-bottom:8px;">No tests yet</div>
         <div style="color:var(--text-secondary);font-size:13px;margin-bottom:16px;">Take your first test to see progress here</div>
         <a href="/topics" class="btn btn-primary">Start Practicing</a>
@@ -230,7 +230,7 @@ function renderHistory(tests) {
   if (!tests.length) {
     document.getElementById('testHistoryContainer').innerHTML = `
       <div style="text-align:center;padding:40px;">
-        <div style="font-size:48px;margin-bottom:12px;">ðŸ“‹</div>
+        <div style="font-size:48px;margin-bottom:12px;">📋</div>
         <div style="color:var(--text-secondary);margin-bottom:16px;">No tests taken yet</div>
         <a href="/topics" class="btn btn-primary">Start your first test</a>
       </div>
@@ -247,9 +247,9 @@ function renderHistory(tests) {
             <div style="font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${getLangIcon(t.topicName)} ${t.topicName}</div>
             <div style="font-size:11px;color:var(--text-muted);margin-top:2px;display:flex;flex-wrap:wrap;gap:4px;">
               <span>${t.language}</span>
-              <span>Â·</span>
+              <span>·</span>
               ${typeBadge(t.testType)}
-              <span>Â·</span>
+              <span>·</span>
               ${difficultyBadge(t.difficulty)}
             </div>
           </div>
@@ -291,7 +291,7 @@ function filterHistory(status) {
 
 async function runWeakAnalysis() {
   const container = document.getElementById('weakAnalysisContainer');
-  container.innerHTML = `<div class="ai-loading" style="padding:40px;"><div class="ai-loading-orb">ðŸ¤–</div><div class="ai-loading-text">AI is analysing your performance...</div></div>`;
+  container.innerHTML = `<div class="ai-loading" style="padding:40px;"><div class="ai-loading-orb">🤖</div><div class="ai-loading-text">AI is analysing your performance...</div></div>`;
 
   const res = await API.dashboard.weakTopics();
   if (!res?.success) return;
@@ -301,7 +301,7 @@ async function runWeakAnalysis() {
     container.innerHTML = `
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;">
         <div>
-          <div style="font-weight:700;color:var(--accent);margin-bottom:12px;">âš ï¸ Areas to Improve</div>
+          <div style="font-weight:700;color:var(--accent);margin-bottom:12px;">⚠️ Areas to Improve</div>
           ${(data.weakTopics||[]).slice(0,5).map(t => `
             <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg-input);border-radius:8px;margin-bottom:8px;">
               <span class="badge badge-danger">${t.priority}</span>
@@ -311,14 +311,14 @@ async function runWeakAnalysis() {
           `).join('') || '<div style="color:var(--text-muted);font-size:13px;">No weak topics identified yet</div>'}
         </div>
         <div>
-          <div style="font-weight:700;color:var(--secondary);margin-bottom:12px;">âœ… Strong Areas</div>
+          <div style="font-weight:700;color:var(--secondary);margin-bottom:12px;">✅ Strong Areas</div>
           ${(data.strongTopics||[]).map(t => `<span class="badge badge-success" style="margin:0 4px 4px 0;">${t}</span>`).join('') || '<div style="color:var(--text-muted);font-size:13px;">Keep practicing to identify strengths</div>'}
           ${data.overallPattern ? `
             <div style="margin-top:16px;padding:12px;background:var(--primary-light);border-radius:8px;font-size:13px;line-height:1.6;color:#1e293b;">${data.overallPattern}</div>
           ` : ''}
           ${data.actionPlan?.length ? `
             <div style="margin-top:12px;">
-              <div style="font-weight:600;font-size:13px;margin-bottom:8px;">ðŸŽ¯ Action Plan</div>
+              <div style="font-weight:600;font-size:13px;margin-bottom:8px;">🎯 Action Plan</div>
               ${data.actionPlan.map((step, i) => `
                 <div style="display:flex;gap:8px;font-size:13px;margin-bottom:6px;">
                   <span style="background:var(--primary);color:white;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;">${i+1}</span>
@@ -337,4 +337,3 @@ async function runWeakAnalysis() {
 </script>
 </body>
 </html>
-
