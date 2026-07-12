@@ -1,0 +1,258 @@
+# ============================================================
+# AI Interview Prep — API Testing Guide
+# Base URL: http://localhost:8080
+# ============================================================
+
+# ---------------------------------------------------------------
+# 1. REGISTER A NEW USER
+# ---------------------------------------------------------------
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "fullName": "Jane Developer",
+  "username": "janedev",
+  "email": "jane@example.com",
+  "password": "SecurePass123",
+  "college": "IIT Bombay",
+  "graduationYear": 2025,
+  "targetRole": "Software Engineer"
+}
+
+# Expected Response:
+# {
+#   "success": true,
+#   "message": "Registration successful",
+#   "data": {
+#     "token": "eyJhbGciOiJ...",
+#     "userId": 2,
+#     "username": "janedev",
+#     "email": "jane@example.com",
+#     "fullName": "Jane Developer",
+#     "role": "STUDENT"
+#   }
+# }
+
+# ---------------------------------------------------------------
+# 2. LOGIN
+# ---------------------------------------------------------------
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "usernameOrEmail": "janedev",
+  "password": "SecurePass123"
+}
+
+# Save the token from response → use as Bearer <token> below
+
+# ---------------------------------------------------------------
+# 3. GET ALL TOPICS (no auth needed)
+# ---------------------------------------------------------------
+GET http://localhost:8080/api/topics
+
+# ---------------------------------------------------------------
+# 4. GET DASHBOARD
+# ---------------------------------------------------------------
+GET http://localhost:8080/api/dashboard
+Authorization: Bearer eyJhbGciOiJ...
+
+# ---------------------------------------------------------------
+# 5. CREATE A TEST (AI generates questions)
+# ---------------------------------------------------------------
+POST http://localhost:8080/api/tests/create
+Authorization: Bearer eyJhbGciOiJ...
+Content-Type: application/json
+
+{
+  "topicId": 1,
+  "language": "Python",
+  "difficulty": "MEDIUM",
+  "testType": "MCQ",
+  "numberOfQuestions": 5
+}
+
+# Expected: Test object with id + AI-generated questions array
+
+# ---------------------------------------------------------------
+# 6. SUBMIT ANSWERS
+# (Use question IDs from the create response)
+# ---------------------------------------------------------------
+POST http://localhost:8080/api/tests/submit
+Authorization: Bearer eyJhbGciOiJ...
+Content-Type: application/json
+
+{
+  "testId": 1,
+  "answers": {
+    "1": "A",
+    "2": "C",
+    "3": "B",
+    "4": "D",
+    "5": "A"
+  },
+  "timeTaken": 420
+}
+
+# Expected: Completed test with score, AI feedback, grade
+
+# ---------------------------------------------------------------
+# 7. GET TEST RESULT
+# ---------------------------------------------------------------
+GET http://localhost:8080/api/tests/1
+Authorization: Bearer eyJhbGciOiJ...
+
+# ---------------------------------------------------------------
+# 8. GET MY TESTS HISTORY
+# ---------------------------------------------------------------
+GET http://localhost:8080/api/tests/my
+Authorization: Bearer eyJhbGciOiJ...
+
+# ---------------------------------------------------------------
+# 9. CODING TEST
+# ---------------------------------------------------------------
+POST http://localhost:8080/api/tests/create
+Authorization: Bearer eyJhbGciOiJ...
+Content-Type: application/json
+
+{
+  "topicId": 12,
+  "language": "Python",
+  "difficulty": "EASY",
+  "testType": "CODING",
+  "numberOfQuestions": 3
+}
+
+# Submit with code solutions:
+POST http://localhost:8080/api/tests/submit
+Authorization: Bearer eyJhbGciOiJ...
+Content-Type: application/json
+
+{
+  "testId": 2,
+  "answers": {
+    "6": "def two_sum(nums, target):\n    seen = {}\n    for i, n in enumerate(nums):\n        diff = target - n\n        if diff in seen:\n            return [seen[diff], i]\n        seen[n] = i\n    return []",
+    "7": "def reverse_string(s):\n    return s[::-1]",
+    "8": "def is_palindrome(s):\n    return s == s[::-1]"
+  },
+  "timeTaken": 900
+}
+
+# ---------------------------------------------------------------
+# 10. START MOCK INTERVIEW
+# ---------------------------------------------------------------
+POST http://localhost:8080/api/mock-interview/start
+Authorization: Bearer eyJhbGciOiJ...
+Content-Type: application/json
+
+{
+  "topicId": 2,
+  "language": "Python",
+  "difficulty": "MEDIUM",
+  "targetRole": "Backend Developer",
+  "companyType": "PRODUCT"
+}
+
+# Response includes interviewId + first question from AI
+
+# ---------------------------------------------------------------
+# 11. RESPOND TO MOCK INTERVIEW
+# ---------------------------------------------------------------
+POST http://localhost:8080/api/mock-interview/1/respond?answer=A list is mutable and ordered while a tuple is immutable. Lists use [] and tuples use (). Tuples are faster and use less memory.&questionNumber=1
+Authorization: Bearer eyJhbGciOiJ...
+
+# Response includes AI evaluation + next question
+
+# ---------------------------------------------------------------
+# 12. GENERATE STUDY PLAN
+# ---------------------------------------------------------------
+POST http://localhost:8080/api/study-plan/generate
+Authorization: Bearer eyJhbGciOiJ...
+Content-Type: application/json
+
+{
+  "language": "JavaScript",
+  "targetRole": "Frontend Developer",
+  "durationWeeks": 4,
+  "weakTopics": ["Promises", "Closures", "DOM"],
+  "experienceLevel": "FRESHER"
+}
+
+# ---------------------------------------------------------------
+# 13. GET ACTIVE STUDY PLAN
+# ---------------------------------------------------------------
+GET http://localhost:8080/api/study-plan/active
+Authorization: Bearer eyJhbGciOiJ...
+
+# ---------------------------------------------------------------
+# 14. AI MENTOR CHAT
+# ---------------------------------------------------------------
+POST http://localhost:8080/api/ai/chat
+Authorization: Bearer eyJhbGciOiJ...
+Content-Type: application/json
+
+{
+  "message": "Explain the difference between == and === in JavaScript with examples",
+  "language": "JavaScript",
+  "context": "Learning JavaScript fundamentals"
+}
+
+# ---------------------------------------------------------------
+# 15. AI CODE REVIEW
+# ---------------------------------------------------------------
+POST http://localhost:8080/api/ai/code-review
+Authorization: Bearer eyJhbGciOiJ...
+Content-Type: application/json
+
+{
+  "language": "Python",
+  "problem": "Find the maximum element in a list",
+  "code": "def find_max(arr):\n    max_val = arr[0]\n    for i in range(1, len(arr)):\n        if arr[i] > max_val:\n            max_val = arr[i]\n    return max_val"
+}
+
+# ---------------------------------------------------------------
+# 16. GET PROGRESS
+# ---------------------------------------------------------------
+GET http://localhost:8080/api/dashboard/progress
+Authorization: Bearer eyJhbGciOiJ...
+
+# ---------------------------------------------------------------
+# 17. GET WEAK TOPIC ANALYSIS (AI powered)
+# ---------------------------------------------------------------
+GET http://localhost:8080/api/dashboard/weak-topics
+Authorization: Bearer eyJhbGciOiJ...
+
+# ---------------------------------------------------------------
+# 18. ADMIN — GET PLATFORM STATS
+# (admin token required)
+# ---------------------------------------------------------------
+GET http://localhost:8080/api/admin/stats
+Authorization: Bearer <admin-token>
+
+# Admin credentials: username=admin, password=Admin@123
+
+# ---------------------------------------------------------------
+# CURL EXAMPLES
+# ---------------------------------------------------------------
+
+# Register
+curl -X POST http://localhost:8080/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"fullName":"Test User","username":"testuser","email":"test@test.com","password":"Test1234"}'
+
+# Login
+curl -X POST http://localhost:8080/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"usernameOrEmail":"testuser","password":"Test1234"}'
+
+# Create test (replace TOKEN)
+curl -X POST http://localhost:8080/api/tests/create \
+  -H "Authorization: Bearer TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"topicId":1,"language":"Java","difficulty":"EASY","testType":"MCQ","numberOfQuestions":5}'
+
+# Get dashboard
+curl -H "Authorization: Bearer TOKEN" http://localhost:8080/api/dashboard
+
+# Admin stats
+curl -H "Authorization: Bearer ADMIN_TOKEN" http://localhost:8080/api/admin/stats

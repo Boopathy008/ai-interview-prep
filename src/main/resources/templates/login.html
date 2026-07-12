@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login – AI Interview Prep</title>
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+<div class="auth-container">
+  <!-- Left Branding Panel -->
+  <div class="auth-left">
+    <div style="max-width:480px;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:48px;">
+        <div style="width:44px;height:44px;background:linear-gradient(135deg,#6C63FF,#00D8A0);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;">🎯</div>
+        <div style="color:white;font-weight:700;font-size:20px;">AI Interview <span style="color:#00D8A0;">Prep</span></div>
+      </div>
+
+      <h2 style="color:white;font-size:36px;font-weight:800;line-height:1.2;margin-bottom:16px;">
+        Your interview<br>prep journey starts here
+      </h2>
+      <p style="color:rgba(255,255,255,0.55);font-size:16px;line-height:1.7;margin-bottom:40px;">
+        Practice with AI-generated questions in 14+ programming languages. Get instant feedback, track your progress, and ace your next tech interview.
+      </p>
+
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:40px;height:40px;background:rgba(108,99,255,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🤖</div>
+          <div>
+            <div style="color:white;font-weight:600;font-size:14px;">AI-Generated Questions</div>
+            <div style="color:rgba(255,255,255,0.45);font-size:13px;">Fresh questions every session, powered by AI</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:40px;height:40px;background:rgba(0,216,160,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">📊</div>
+          <div>
+            <div style="color:white;font-weight:600;font-size:14px;">Track Every Test</div>
+            <div style="color:rgba(255,255,255,0.45);font-size:13px;">Visual progress charts and weak topic analysis</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:40px;height:40px;background:rgba(255,183,77,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🎤</div>
+          <div>
+            <div style="color:white;font-weight:600;font-size:14px;">Mock Interviews</div>
+            <div style="color:rgba(255,255,255,0.45);font-size:13px;">Simulate real interviews with AI as your interviewer</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lang-tags" style="margin-top:40px;">
+        <span class="lang-tag">☕ Java</span>
+        <span class="lang-tag">🐍 Python</span>
+        <span class="lang-tag">🟨 JS</span>
+        <span class="lang-tag">🐹 Go</span>
+        <span class="lang-tag">🔷 TS</span>
+        <span class="lang-tag">⚙️ C++</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Login Form -->
+  <div class="auth-right">
+    <div class="auth-card">
+      <div style="text-align:center;margin-bottom:32px;">
+        <div style="width:56px;height:56px;background:linear-gradient(135deg,#6C63FF,#00D8A0);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 16px;">🎯</div>
+        <h1 style="font-size:24px;font-weight:800;color:var(--text-primary);margin-bottom:6px;">Welcome back!</h1>
+        <p style="color:var(--text-secondary);font-size:14px;">Sign in to continue your preparation</p>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label class="form-label">Username or Email</label>
+          <div class="input-group">
+            <span class="input-group-icon">👤</span>
+            <input type="text" id="usernameOrEmail" name="usernameOrEmail"
+                   class="form-control" placeholder="Enter username or email" required autocomplete="username">
+          </div>
+          <div class="form-error" data-error="usernameOrEmail" id="emailError"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="input-group" style="position:relative">
+            <span class="input-group-icon">🔒</span>
+            <input type="password" id="password" name="password"
+                   class="form-control" placeholder="Enter your password" required autocomplete="current-password">
+            <button type="button" class="password-toggle" onclick="togglePassword('password', this)">👁️</button>
+          </div>
+          <div class="form-error" data-error="password" id="passwordError"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg" id="loginBtn" style="margin-top:8px;">
+          <span id="loginBtnText">Sign In</span>
+        </button>
+
+        <div id="loginError" style="display:none;background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.3);border-radius:8px;padding:12px 16px;margin-top:14px;color:var(--accent);font-size:13px;text-align:center;"></div>
+      </form>
+
+      <div class="divider" style="margin:24px 0;"></div>
+
+      <p style="text-align:center;color:var(--text-secondary);font-size:14px;">
+        Don't have an account?
+        <a href="/register" style="color:var(--primary);font-weight:600;">Create one free</a>
+      </p>
+
+      <p style="text-align:center;margin-top:8px;">
+        <a href="/" style="color:var(--text-muted);font-size:13px;">← Back to Home</a>
+      </p>
+
+      <!-- Demo credentials -->
+      <div style="margin-top:24px;background:var(--bg-input);border-radius:10px;padding:14px;text-align:center;">
+        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:8px;">Demo Credentials</div>
+        <div style="font-size:13px;color:var(--text-secondary);">
+          Admin: <code style="background:var(--border);padding:1px 6px;border-radius:4px;">admin</code> /
+          <code style="background:var(--border);padding:1px 6px;border-radius:4px;">Admin@123</code>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toastContainer" class="toast-container"></div>
+
+<script src="/js/main.js"></script>
+<script>
+  // Redirect if already logged in
+  if (Auth.isLoggedIn()) window.location.href = '/dashboard';
+
+  function togglePassword(id, btn) {
+    const input = document.getElementById(id);
+    if (input.type === 'password') { input.type = 'text'; btn.textContent = '🙈'; }
+    else { input.type = 'password'; btn.textContent = '👁️'; }
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('loginBtn');
+    const btnText = document.getElementById('loginBtnText');
+    const errEl = document.getElementById('loginError');
+
+    btnText.innerHTML = '⏳ Signing in...';
+    btn.disabled = true;
+    errEl.style.display = 'none';
+
+    const data = {
+      usernameOrEmail: document.getElementById('usernameOrEmail').value.trim(),
+      password: document.getElementById('password').value
+    };
+
+    if (!data.usernameOrEmail || !data.password) {
+      errEl.textContent = 'Please fill in all fields';
+      errEl.style.display = 'block';
+      btnText.innerHTML = 'Sign In';
+      btn.disabled = false;
+      return;
+    }
+
+    const res = await API.auth.login(data);
+
+    if (res?.success) {
+      Auth.setSession(res.data.token, {
+        id: res.data.userId,
+        username: res.data.username,
+        email: res.data.email,
+        fullName: res.data.fullName,
+        role: res.data.role
+      });
+      Toast.success('Welcome back!', `Hello, ${res.data.fullName} 👋`);
+      setTimeout(() => {
+        window.location.href = res.data.role === 'ADMIN' ? '/admin' : '/dashboard';
+      }, 800);
+    } else {
+      errEl.textContent = res?.message || 'Invalid credentials. Please try again.';
+      errEl.style.display = 'block';
+      btnText.innerHTML = 'Sign In';
+      btn.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>

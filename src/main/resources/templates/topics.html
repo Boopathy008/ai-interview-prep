@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start Practice – AI Interview Prep</title>
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<div id="toastContainer" class="toast-container"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand"><div class="brand-logo"><div class="brand-icon">🎯</div><div><div class="brand-name">AI Interview <span>Prep</span></div><span class="brand-sub">Multi-Language Mentor</span></div></div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">📊</div><span>Dashboard</span></a>
+      <a class="sidebar-link active" href="/topics"><div class="nav-icon">🚀</div><span>Start Practice</span></a>
+      <a class="sidebar-link" href="/mock-interview"><div class="nav-icon">🎤</div><span>Mock Interview</span></a>
+      <div class="nav-section-label">Progress</div>
+      <a class="sidebar-link" href="/progress"><div class="nav-icon">📈</div><span>My Progress</span></a>
+      <a class="sidebar-link" href="/study-plan"><div class="nav-icon">🗺️</div><span>Study Plan</span></a>
+      <div class="nav-section-label">Account</div>
+      <a class="sidebar-link" href="/profile"><div class="nav-icon">👤</div><span>My Profile</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user"><div class="user-avatar" id="sidebarUserAvatar">U</div><div class="user-info"><div class="user-name" id="sidebarUserName">Loading...</div><div class="user-role" id="sidebarUserRole">Student</div></div></div>
+      <a class="sidebar-link" href="#" data-action="logout" style="margin-top:4px;"><div class="nav-icon">🚪</div><span>Logout</span></a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="top-navbar">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="page-title">🚀 Start Practice</div>
+      </div>
+      <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:16px;"><span id="themeIcon">🌙</span></button>
+    </div>
+
+    <div class="page-content">
+      <!-- Step Indicator -->
+      <div class="steps-indicator">
+        <div class="step-dot active" id="dot-1"></div>
+        <div class="step-line" id="line-1"></div>
+        <div class="step-dot" id="dot-2"></div>
+        <div class="step-line" id="line-2"></div>
+        <div class="step-dot" id="dot-3"></div>
+        <div class="step-line" id="line-3"></div>
+        <div class="step-dot" id="dot-4"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:28px;font-size:12px;color:var(--text-muted);">
+        <span>1. Language</span><span>2. Topic</span><span>3. Configure</span><span>4. Start</span>
+      </div>
+
+      <!-- Step 1: Language Selection -->
+      <div id="step1" class="step-panel">
+        <div style="margin-bottom:20px;">
+          <h2 style="font-size:22px;font-weight:800;color:var(--text-primary);margin-bottom:6px;">Choose Your Language</h2>
+          <p style="color:var(--text-secondary);font-size:14px;">Select the programming language you want to practice interviews in</p>
+        </div>
+
+        <!-- Category Filter -->
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;" id="categoryFilter">
+          <button class="btn btn-primary btn-sm" onclick="filterCategory('ALL', this)">All</button>
+          <button class="btn btn-secondary btn-sm" onclick="filterCategory('LANGUAGE', this)">Languages</button>
+          <button class="btn btn-secondary btn-sm" onclick="filterCategory('DSA', this)">DSA</button>
+          <button class="btn btn-secondary btn-sm" onclick="filterCategory('FRAMEWORK', this)">Frameworks</button>
+          <button class="btn btn-secondary btn-sm" onclick="filterCategory('DATABASE', this)">Database</button>
+          <button class="btn btn-secondary btn-sm" onclick="filterCategory('SYSTEM_DESIGN', this)">System Design</button>
+        </div>
+
+        <div class="lang-grid" id="topicGrid">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Step 2: Sub-Topic -->
+      <div id="step2" class="step-panel" style="display:none;">
+        <div style="margin-bottom:20px;">
+          <button class="btn btn-secondary btn-sm" onclick="goToStep(1)" style="margin-bottom:16px;">← Back</button>
+          <h2 style="font-size:22px;font-weight:800;color:var(--text-primary);margin-bottom:6px;">What aspect of <span id="selectedLangName" class="text-gradient">—</span> do you want to practice?</h2>
+          <p style="color:var(--text-secondary);font-size:14px;">Pick a sub-topic or go broad with "All Topics"</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;" id="subtopicGrid">
+          <!-- Dynamic sub-topics -->
+        </div>
+      </div>
+
+      <!-- Step 3: Configuration -->
+      <div id="step3" class="step-panel" style="display:none;">
+        <div style="margin-bottom:20px;">
+          <button class="btn btn-secondary btn-sm" onclick="goToStep(2)" style="margin-bottom:16px;">← Back</button>
+          <h2 style="font-size:22px;font-weight:800;color:var(--text-primary);margin-bottom:6px;">Configure Your Test</h2>
+          <p style="color:var(--text-secondary);font-size:14px;">Selected: <span id="configSummary" class="text-gradient font-bold">—</span></p>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <div class="card">
+            <div class="card-header"><div class="card-title">📊 Difficulty Level</div></div>
+            <div class="card-body" style="padding:16px;">
+              <div style="display:flex;flex-direction:column;gap:10px;" id="difficultyOptions">
+                <label class="option-item" style="cursor:pointer;">
+                  <input type="radio" name="difficulty" value="EASY" style="display:none;" onchange="selectDifficulty('EASY')">
+                  <div style="flex:1;">
+                    <div style="font-weight:600;font-size:14px;">🟢 Easy</div>
+                    <div style="font-size:12px;color:var(--text-muted);">Fundamentals, basic syntax, core concepts</div>
+                  </div>
+                </label>
+                <label class="option-item" style="cursor:pointer;">
+                  <input type="radio" name="difficulty" value="MEDIUM" style="display:none;" onchange="selectDifficulty('MEDIUM')">
+                  <div style="flex:1;">
+                    <div style="font-weight:600;font-size:14px;">🟡 Medium</div>
+                    <div style="font-size:12px;color:var(--text-muted);">Applied concepts, common interview patterns</div>
+                  </div>
+                </label>
+                <label class="option-item" style="cursor:pointer;">
+                  <input type="radio" name="difficulty" value="HARD" style="display:none;" onchange="selectDifficulty('HARD')">
+                  <div style="flex:1;">
+                    <div style="font-weight:600;font-size:14px;">🔴 Hard</div>
+                    <div style="font-size:12px;color:var(--text-muted);">Advanced topics, complex algorithms</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><div class="card-title">📝 Question Type</div></div>
+            <div class="card-body" style="padding:16px;">
+              <div style="display:flex;flex-direction:column;gap:10px;" id="typeOptions">
+                <label class="option-item" style="cursor:pointer;">
+                  <input type="radio" name="testType" value="MCQ" style="display:none;" onchange="selectType('MCQ')">
+                  <div style="flex:1;"><div style="font-weight:600;font-size:14px;">📝 MCQ</div><div style="font-size:12px;color:var(--text-muted);">Multiple choice questions</div></div>
+                </label>
+                <label class="option-item" style="cursor:pointer;">
+                  <input type="radio" name="testType" value="CODING" style="display:none;" onchange="selectType('CODING')">
+                  <div style="flex:1;"><div style="font-weight:600;font-size:14px;">💻 Coding</div><div style="font-size:12px;color:var(--text-muted);">Write code to solve problems</div></div>
+                </label>
+                <label class="option-item" style="cursor:pointer;">
+                  <input type="radio" name="testType" value="THEORY" style="display:none;" onchange="selectType('THEORY')">
+                  <div style="flex:1;"><div style="font-weight:600;font-size:14px;">📚 Theory</div><div style="font-size:12px;color:var(--text-muted);">Explain concepts in your own words</div></div>
+                </label>
+                <label class="option-item" style="cursor:pointer;">
+                  <input type="radio" name="testType" value="OUTPUT" style="display:none;" onchange="selectType('OUTPUT')">
+                  <div style="flex:1;"><div style="font-weight:600;font-size:14px;">🖥️ Output</div><div style="font-size:12px;color:var(--text-muted);">Predict what the code prints</div></div>
+                </label>
+                <label class="option-item" style="cursor:pointer;">
+                  <input type="radio" name="testType" value="DEBUGGING" style="display:none;" onchange="selectType('DEBUGGING')">
+                  <div style="flex:1;"><div style="font-weight:600;font-size:14px;">🐛 Debugging</div><div style="font-size:12px;color:var(--text-muted);">Find and fix bugs in code</div></div>
+                </label>
+                <label class="option-item" style="cursor:pointer;">
+                  <input type="radio" name="testType" value="MIXED" style="display:none;" onchange="selectType('MIXED')">
+                  <div style="flex:1;"><div style="font-weight:600;font-size:14px;">🔀 Mixed</div><div style="font-size:12px;color:var(--text-muted);">Combination of all types</div></div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px;">
+          <div class="card-body" style="padding:20px;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label">Number of Questions</label>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
+                <button class="btn btn-secondary btn-sm" onclick="setNumQuestions(5, this)">5 Quick</button>
+                <button class="btn btn-primary btn-sm active" onclick="setNumQuestions(10, this)">10 Standard</button>
+                <button class="btn btn-secondary btn-sm" onclick="setNumQuestions(15, this)">15 Full</button>
+              </div>
+              <input type="hidden" id="numQuestions" value="10">
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;">
+          <button class="btn btn-primary btn-lg btn-block" onclick="goToStep(4)" id="configNextBtn" disabled>
+            Preview & Start →
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 4: Confirm and Start -->
+      <div id="step4" class="step-panel" style="display:none;">
+        <div style="margin-bottom:20px;">
+          <button class="btn btn-secondary btn-sm" onclick="goToStep(3)" style="margin-bottom:16px;">← Back</button>
+          <h2 style="font-size:22px;font-weight:800;color:var(--text-primary);margin-bottom:6px;">Ready to go! 🚀</h2>
+        </div>
+
+        <div style="max-width:500px;margin:0 auto;">
+          <div class="card" style="margin-bottom:20px;">
+            <div class="card-header"><div class="card-title">📋 Test Summary</div></div>
+            <div class="card-body">
+              <div style="display:grid;gap:12px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--bg-input);border-radius:8px;">
+                  <span style="color:var(--text-secondary);font-size:13px;">Language</span>
+                  <span id="sum-lang" style="font-weight:700;">—</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--bg-input);border-radius:8px;">
+                  <span style="color:var(--text-secondary);font-size:13px;">Topic</span>
+                  <span id="sum-topic" style="font-weight:700;">—</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--bg-input);border-radius:8px;">
+                  <span style="color:var(--text-secondary);font-size:13px;">Difficulty</span>
+                  <span id="sum-difficulty" style="font-weight:700;">—</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--bg-input);border-radius:8px;">
+                  <span style="color:var(--text-secondary);font-size:13px;">Question Type</span>
+                  <span id="sum-type" style="font-weight:700;">—</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--bg-input);border-radius:8px;">
+                  <span style="color:var(--text-secondary);font-size:13px;">Questions</span>
+                  <span id="sum-count" style="font-weight:700;">—</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="startBtn" class="card" style="background:linear-gradient(135deg,var(--primary),#9B8FFF);cursor:pointer;text-align:center;padding:28px;" onclick="startTest()">
+            <div style="font-size:48px;margin-bottom:12px;">🚀</div>
+            <div style="color:white;font-size:20px;font-weight:800;margin-bottom:6px;">Generate My Questions</div>
+            <div style="color:rgba(255,255,255,0.75);font-size:13px;">AI will create fresh questions just for you</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script src="/js/main.js"></script>
+<script>
+if (!Auth.requireAuth()) {}
+
+const SUBTOPICS = {
+  'Java': ['Core Java', 'OOP Concepts', 'Collections Framework', 'Multithreading', 'Java 8+ Features', 'Exception Handling', 'JVM & Memory', 'All Topics'],
+  'Python': ['Python Basics', 'OOP in Python', 'Data Structures', 'File Handling', 'Libraries & Modules', 'Decorators & Generators', 'All Topics'],
+  'JavaScript': ['ES6+ Basics', 'DOM & Events', 'Async/Promises', 'Prototypes & Closures', 'Node.js Concepts', 'All Topics'],
+  'TypeScript': ['Types & Interfaces', 'Generics', 'Decorators', 'Type Utilities', 'All Topics'],
+  'C': ['Pointers', 'Memory Management', 'Structures & Unions', 'File I/O', 'All Topics'],
+  'C++': ['OOP in C++', 'STL', 'Templates', 'Smart Pointers', 'Concurrency', 'All Topics'],
+  'C#': ['OOP in C#', 'LINQ', 'Async/Await', 'Delegates & Events', '.NET Basics', 'All Topics'],
+  'Go': ['Go Basics', 'Goroutines', 'Channels', 'Interfaces', 'Error Handling', 'All Topics'],
+  'Kotlin': ['Kotlin Basics', 'Coroutines', 'Data Classes', 'Extension Functions', 'Android Concepts', 'All Topics'],
+  'PHP': ['PHP Basics', 'OOP in PHP', 'Web Concepts', 'Database Interaction', 'All Topics'],
+  'SQL': ['SELECT Queries', 'JOINs', 'Aggregations', 'Subqueries', 'Indexing & Optimization', 'Stored Procedures', 'All Topics'],
+  'DSA': ['Arrays & Strings', 'Linked Lists', 'Stacks & Queues', 'Trees & Graphs', 'Dynamic Programming', 'Sorting & Searching', 'All Topics'],
+  'Spring Boot': ['REST APIs', 'Spring Security', 'Spring Data JPA', 'Spring AI', 'Microservices', 'All Topics'],
+  'System Design': ['Low Level Design', 'High Level Design', 'Database Design', 'API Design', 'Scalability', 'All Topics']
+};
+
+let allTopics = [];
+let selectedTopic = null;
+let selectedSubtopic = null;
+let selectedDifficulty = null;
+let selectedType = null;
+let numQuestions = 10;
+let currentStep = 1;
+
+document.addEventListener('DOMContentLoaded', async () => {
+  Sidebar.init();
+
+  // Check for URL preset
+  const params = new URLSearchParams(window.location.search);
+  const preset = params.get('preset');
+
+  const res = await API.topics.getAll();
+  if (res?.success) {
+    allTopics = res.data;
+    renderTopics(allTopics);
+  }
+
+  if (preset) applyPreset(preset);
+});
+
+function applyPreset(preset) {
+  const presets = {
+    'python-mcq': { lang: 'Python', subtopic: 'All Topics', diff: 'EASY', type: 'MCQ' },
+    'java-coding': { lang: 'Java', subtopic: 'All Topics', diff: 'MEDIUM', type: 'CODING' },
+    'sql-theory': { lang: 'SQL', subtopic: 'All Topics', diff: 'EASY', type: 'THEORY' },
+    'dsa-hard': { lang: 'DSA', subtopic: 'All Topics', diff: 'HARD', type: 'CODING' }
+  };
+  const p = presets[preset];
+  if (!p) return;
+  // Auto-select after topics load
+  setTimeout(() => {
+    const t = allTopics.find(t => t.name === p.lang);
+    if (t) { selectTopic(t); setTimeout(() => { selectSubtopic(p.subtopic); selectDifficulty(p.diff); selectType(p.type); goToStep(4); }, 100); }
+  }, 500);
+}
+
+function filterCategory(cat, btn) {
+  document.querySelectorAll('#categoryFilter button').forEach(b => b.className = 'btn btn-secondary btn-sm');
+  btn.className = 'btn btn-primary btn-sm';
+  renderTopics(cat === 'ALL' ? allTopics : allTopics.filter(t => t.category === cat));
+}
+
+function renderTopics(topics) {
+  document.getElementById('topicGrid').innerHTML = topics.map(t => `
+    <div class="lang-card" onclick="selectTopic(${JSON.stringify(t).replace(/"/g, '&quot;')})" id="topic-${t.id}">
+      <div class="check-mark">✓</div>
+      <div class="lang-icon">${getLangIcon(t.name)}</div>
+      <div class="lang-name">${t.name}</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">${t.category}</div>
+    </div>
+  `).join('');
+}
+
+function selectTopic(topic) {
+  selectedTopic = topic;
+  document.querySelectorAll('.lang-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById(`topic-${topic.id}`)?.classList.add('selected');
+
+  // Render subtopics
+  const subs = SUBTOPICS[topic.name] || ['All Topics'];
+  document.getElementById('selectedLangName').textContent = topic.name;
+  document.getElementById('subtopicGrid').innerHTML = subs.map(s => `
+    <div class="lang-card" onclick="selectSubtopic('${s.replace(/'/g,"\\'")}')">
+      <div class="check-mark">✓</div>
+      <div style="font-size:24px;margin-bottom:8px;">${s === 'All Topics' ? '🔀' : '📌'}</div>
+      <div class="lang-name">${s}</div>
+    </div>
+  `).join('');
+
+  goToStep(2);
+}
+
+function selectSubtopic(sub) {
+  selectedSubtopic = sub;
+  document.querySelectorAll('#subtopicGrid .lang-card').forEach(c => c.classList.remove('selected'));
+  event.currentTarget?.classList.add('selected');
+  setTimeout(() => goToStep(3), 200);
+}
+
+function selectDifficulty(diff) {
+  selectedDifficulty = diff;
+  document.querySelectorAll('#difficultyOptions .option-item').forEach(el => {
+    el.classList.toggle('selected', el.querySelector('input').value === diff);
+  });
+  updateStartBtn();
+}
+
+function selectType(type) {
+  selectedType = type;
+  document.querySelectorAll('#typeOptions .option-item').forEach(el => {
+    el.classList.toggle('selected', el.querySelector('input').value === type);
+  });
+  updateStartBtn();
+}
+
+function setNumQuestions(n, btn) {
+  numQuestions = n;
+  document.getElementById('numQuestions').value = n;
+  document.querySelectorAll('[onclick^="setNumQuestions"]').forEach(b => b.className = 'btn btn-secondary btn-sm');
+  btn.className = 'btn btn-primary btn-sm';
+}
+
+function updateStartBtn() {
+  const btn = document.getElementById('configNextBtn');
+  if (btn) btn.disabled = !selectedDifficulty || !selectedType;
+}
+
+function goToStep(n) {
+  for (let i = 1; i <= 4; i++) {
+    const panel = document.getElementById(`step${i}`);
+    if (panel) panel.style.display = i === n ? 'block' : 'none';
+
+    const dot = document.getElementById(`dot-${i}`);
+    if (dot) {
+      dot.classList.toggle('active', i === n);
+      dot.classList.toggle('done', i < n);
+    }
+    const line = document.getElementById(`line-${i}`);
+    if (line) line.classList.toggle('done', i < n);
+  }
+  currentStep = n;
+
+  if (n === 4) updateSummary();
+}
+
+function updateSummary() {
+  document.getElementById('sum-lang').textContent = selectedTopic?.name || '—';
+  document.getElementById('sum-topic').textContent = selectedSubtopic || '—';
+  document.getElementById('sum-difficulty').textContent = selectedDifficulty || '—';
+  document.getElementById('sum-type').textContent = selectedType || '—';
+  document.getElementById('sum-count').textContent = numQuestions + ' questions';
+}
+
+async function startTest() {
+  const btn = document.getElementById('startBtn');
+  btn.innerHTML = `<div class="ai-loading-orb" style="width:60px;height:60px;font-size:24px;margin:0 auto 12px;">🤖</div>
+    <div style="color:white;font-size:18px;font-weight:700;">Generating questions...</div>
+    <div style="color:rgba(255,255,255,0.7);font-size:13px;">AI is creating your personalized test</div>`;
+  btn.style.cursor = 'not-allowed';
+
+  const body = {
+    topicId: selectedTopic.id,
+    language: selectedTopic.name,
+    difficulty: selectedDifficulty,
+    testType: selectedType,
+    numberOfQuestions: numQuestions
+  };
+
+  const res = await API.tests.create(body);
+  if (res?.success) {
+    localStorage.setItem('current_test', JSON.stringify(res.data));
+    Toast.success('Questions ready!', `${res.data.questions?.length || numQuestions} questions generated by AI`);
+    setTimeout(() => window.location.href = `/test?testId=${res.data.id}`, 800);
+  } else {
+    btn.innerHTML = `<div style="font-size:48px;margin-bottom:12px;">🚀</div>
+      <div style="color:white;font-size:20px;font-weight:800;margin-bottom:6px;">Generate My Questions</div>
+      <div style="color:rgba(255,255,255,0.75);font-size:13px;">AI will create fresh questions just for you</div>`;
+    btn.style.cursor = 'pointer';
+  }
+}
+</script>
+</body>
+</html>

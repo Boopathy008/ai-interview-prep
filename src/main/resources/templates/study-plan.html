@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Plan – AI Interview Prep</title>
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<div id="toastContainer" class="toast-container"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand"><div class="brand-logo"><div class="brand-icon">🎯</div><div><div class="brand-name">AI Interview <span>Prep</span></div><span class="brand-sub">Multi-Language Mentor</span></div></div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">📊</div><span>Dashboard</span></a>
+      <a class="sidebar-link" href="/topics"><div class="nav-icon">🚀</div><span>Start Practice</span></a>
+      <a class="sidebar-link" href="/mock-interview"><div class="nav-icon">🎤</div><span>Mock Interview</span></a>
+      <div class="nav-section-label">Progress</div>
+      <a class="sidebar-link" href="/progress"><div class="nav-icon">📈</div><span>My Progress</span></a>
+      <a class="sidebar-link active" href="/study-plan"><div class="nav-icon">🗺️</div><span>Study Plan</span></a>
+      <div class="nav-section-label">Account</div>
+      <a class="sidebar-link" href="/profile"><div class="nav-icon">👤</div><span>My Profile</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user"><div class="user-avatar" id="sidebarUserAvatar">U</div><div class="user-info"><div class="user-name" id="sidebarUserName">Loading...</div><div class="user-role" id="sidebarUserRole">Student</div></div></div>
+      <a class="sidebar-link" href="#" data-action="logout" style="margin-top:4px;"><div class="nav-icon">🚪</div><span>Logout</span></a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="top-navbar">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="page-title">🗺️ Study Plan</div>
+      </div>
+      <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;"><span id="themeIcon">🌙</span></button>
+    </div>
+
+    <div class="page-content">
+
+      <!-- Generator Form -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-header">
+          <div class="card-title">🤖 Generate Personalized Study Plan</div>
+          <span class="badge badge-success">AI Powered</span>
+        </div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label">Primary Language *</label>
+              <select id="sp-language" class="form-control">
+                <option value="">Select language</option>
+                <option>Java</option><option>Python</option><option>JavaScript</option>
+                <option>TypeScript</option><option>C</option><option>C++</option>
+                <option>C#</option><option>Go</option><option>Kotlin</option>
+                <option>PHP</option><option>SQL</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label">Target Role</label>
+              <select id="sp-role" class="form-control">
+                <option value="Software Engineer">Software Engineer</option>
+                <option value="Backend Developer">Backend Developer</option>
+                <option value="Frontend Developer">Frontend Developer</option>
+                <option value="Full Stack Developer">Full Stack Developer</option>
+                <option value="Android Developer">Android Developer</option>
+                <option value="Data Engineer">Data Engineer</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label">Duration</label>
+              <select id="sp-weeks" class="form-control">
+                <option value="2">2 Weeks – Quick Prep</option>
+                <option value="4" selected>4 Weeks – Standard</option>
+                <option value="6">6 Weeks – Thorough</option>
+                <option value="8">8 Weeks – Deep Dive</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label">Experience Level</label>
+              <select id="sp-exp" class="form-control">
+                <option value="FRESHER">🎓 Fresher</option>
+                <option value="JUNIOR">👶 Junior (0-1 yr)</option>
+                <option value="MID">📈 Mid (1-3 yr)</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-lg" onclick="generatePlan()" id="generateBtn" style="margin-top:16px;">
+            🤖 Generate My Study Plan
+          </button>
+        </div>
+      </div>
+
+      <!-- Active Plan Display -->
+      <div id="planContainer">
+        <div style="text-align:center;padding:60px 20px;">
+          <div style="font-size:64px;margin-bottom:16px;">🗺️</div>
+          <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;">No Study Plan Yet</h3>
+          <p style="color:var(--text-secondary);font-size:14px;margin-bottom:24px;">Generate a personalized AI study plan based on your weak topics and goals</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script src="/js/main.js"></script>
+<script>
+if (!Auth.requireAuth()) {}
+
+let currentDraftParams = null;
+let currentDraftPlanJson = null;
+
+document.addEventListener('DOMContentLoaded', async () => {
+  Sidebar.init();
+  const res = await API.studyPlan.active();
+  if (res?.success && res.data) renderPlan(res.data.planJson, res.data.title, false);
+});
+
+async function generatePlan() {
+  const language = document.getElementById('sp-language').value;
+  if (!language) { Toast.warning('Missing', 'Please select a language'); return; }
+
+  const btn = document.getElementById('generateBtn');
+  btn.innerHTML = '<div class="ai-loading-orb" style="width:24px;height:24px;font-size:12px;display:inline-flex;margin-right:8px;">🤖</div> Generating...';
+  btn.disabled = true;
+
+  document.getElementById('planContainer').innerHTML = `
+    <div class="ai-loading" style="padding:80px;">
+      <div class="ai-loading-orb">🤖</div>
+      <div class="ai-loading-text">Creating your personalized study plan...</div>
+      <div class="ai-loading-subtext">The AI is analysing your progress and building a customized roadmap</div>
+    </div>
+  `;
+
+  const params = {
+    language,
+    targetRole: document.getElementById('sp-role').value,
+    durationWeeks: parseInt(document.getElementById('sp-weeks').value),
+    experienceLevel: document.getElementById('sp-exp').value
+  };
+
+  const res = await API.studyPlan.generate(params);
+
+  btn.innerHTML = '🤖 Generate My Study Plan';
+  btn.disabled = false;
+
+  if (res?.success) {
+    Toast.success('Study plan ready!', 'Your personalized plan has been drafted. Please save it to keep it.');
+    currentDraftParams = params;
+    currentDraftPlanJson = res.data.planJson;
+    renderPlan(res.data.planJson, res.data.title, true);
+  }
+}
+
+function renderPlan(planJson, title, isDraft = false) {
+  let plan;
+  try {
+    plan = typeof planJson === 'string' ? JSON.parse(planJson.replace(/```json\n?/g,'').replace(/```\n?/g,'').trim()) : planJson;
+  } catch {
+    document.getElementById('planContainer').innerHTML = `
+      <div class="card"><div class="card-body">
+        <pre style="white-space:pre-wrap;font-size:13px;line-height:1.7;">${planJson}</pre>
+      </div></div>
+    `;
+    return;
+  }
+
+  const weeks = plan.weeks || [];
+
+  document.getElementById('planContainer').innerHTML = `
+    <!-- Plan Header -->
+    <div style="background:linear-gradient(135deg,var(--primary),#9B8FFF);border-radius:var(--radius-md);padding:24px 28px;margin-bottom:24px;color:white;">
+      <div style="font-size:20px;font-weight:800;margin-bottom:8px;">${plan.title || title || 'Study Plan'}</div>
+      ${plan.overview ? `<div style="opacity:0.85;font-size:14px;line-height:1.6;margin-bottom:12px;">${plan.overview}</div>` : ''}
+      <div style="display:flex;gap:20px;flex-wrap:wrap;">
+        <div><span style="opacity:0.7;font-size:12px;">Duration</span><br><strong>${weeks.length} Weeks</strong></div>
+        <div><span style="opacity:0.7;font-size:12px;">Interview Ready</span><br><strong>${plan.interviewReadinessDate || 'End of plan'}</strong></div>
+      </div>
+    </div>
+
+    <!-- Key Milestones -->
+    ${plan.keyMilestones?.length ? `
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-header"><div class="card-title">🏆 Key Milestones</div></div>
+        <div class="card-body">
+          <div style="display:flex;flex-wrap:wrap;gap:10px;">
+            ${plan.keyMilestones.map((m, i) => `
+              <div style="display:flex;align-items:center;gap:8px;background:var(--bg-input);padding:10px 16px;border-radius:100px;font-size:13px;">
+                <span style="background:var(--primary);color:white;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">${i+1}</span>
+                ${m}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- Weekly Plan -->
+    <div style="display:grid;gap:16px;" id="weeklyPlan">
+      ${weeks.map((week, wi) => `
+        <div class="card">
+          <div class="card-header" style="cursor:pointer;" onclick="toggleWeek(${wi})">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:40px;height:40px;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:14px;flex-shrink:0;">W${week.weekNumber || wi+1}</div>
+              <div>
+                <div class="card-title">${week.theme || `Week ${wi+1}`}</div>
+                <div style="font-size:12px;color:var(--text-muted);">${week.goals?.length || 0} goals · ${week.days?.length || 0} days planned</div>
+              </div>
+            </div>
+            <span id="weekArrow-${wi}" style="color:var(--text-muted);">▼</span>
+          </div>
+
+          <div id="weekContent-${wi}" style="${wi === 0 ? '' : 'display:none;'}">
+            ${week.goals?.length ? `
+              <div style="padding:16px 24px;border-bottom:1px solid var(--border);">
+                <div style="font-size:12px;font-weight:600;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;">Goals</div>
+                <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                  ${week.goals.map(g => `<span class="badge badge-primary">${g}</span>`).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            <div style="padding:16px 24px;">
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;">
+                ${(week.days||[]).map(day => `
+                  <div style="background:var(--bg-input);border-radius:var(--radius-sm);padding:14px;">
+                    <div style="font-weight:700;font-size:13px;color:var(--primary);margin-bottom:8px;">${day.day}</div>
+                    ${day.topics?.length ? `
+                      <div style="margin-bottom:8px;">
+                        <div style="font-size:11px;font-weight:600;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">Topics</div>
+                        ${day.topics.map(t => `<div style="font-size:13px;color:var(--text-primary);padding:2px 0;">📌 ${t}</div>`).join('')}
+                      </div>
+                    ` : ''}
+                    ${day.exercises?.length ? `
+                      <div style="margin-bottom:8px;">
+                        <div style="font-size:11px;font-weight:600;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">Exercises</div>
+                        ${day.exercises.map(e => `<div style="font-size:13px;color:var(--text-primary);padding:2px 0;">💻 ${e}</div>`).join('')}
+                      </div>
+                    ` : ''}
+                    ${day.estimatedHours ? `
+                      <div style="margin-top:8px;font-size:12px;color:var(--text-muted);">⏱️ ~${day.estimatedHours}h estimated</div>
+                    ` : ''}
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div style="margin-top:20px;display:flex;gap:12px;justify-content:center;" id="planActionButtons">
+      <a href="/topics" class="btn btn-primary">🚀 Start Practicing Now</a>
+      ${isDraft ? `
+        <button class="btn btn-success" style="background:#00A87A;color:white;" onclick="savePlan()" id="savePlanBtn">💾 Save Study Plan</button>
+      ` : `
+        <button class="btn btn-secondary" onclick="generatePlan()">🔄 Regenerate Plan</button>
+        <button class="btn" style="background:#FEF0F0;color:var(--accent);border:1px solid var(--accent);" onclick="deletePlan()">🗑️ Delete Plan</button>
+      `}
+    </div>
+  `;
+}
+
+function toggleWeek(wi) {
+  const content = document.getElementById(`weekContent-${wi}`);
+  const arrow = document.getElementById(`weekArrow-${wi}`);
+  const isHidden = content.style.display === 'none';
+  content.style.display = isHidden ? 'block' : 'none';
+  arrow.textContent = isHidden ? '▲' : '▼';
+}
+
+async function deletePlan() {
+  if (!confirm('Are you sure you want to delete your active study plan?')) return;
+  const btn = event.target;
+  const originalHtml = btn.innerHTML;
+  btn.innerHTML = '🗑️ Deleting...';
+  btn.disabled = true;
+
+  const res = await API.studyPlan.deleteActive();
+  if (res?.success) {
+    Toast.success('Deleted', 'Study plan deleted successfully');
+    document.getElementById('planContainer').innerHTML = `
+      <div style="text-align:center;padding:60px 20px;">
+        <div style="font-size:64px;margin-bottom:16px;">🗺️</div>
+        <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;">No Study Plan Yet</h3>
+        <p style="color:var(--text-secondary);font-size:14px;margin-bottom:24px;">Generate a personalized AI study plan based on your weak topics and goals</p>
+      </div>
+    `;
+  } else {
+    btn.innerHTML = originalHtml;
+    btn.disabled = false;
+  }
+}
+
+async function savePlan() {
+  const btn = document.getElementById('savePlanBtn');
+  if (!btn || !currentDraftParams || !currentDraftPlanJson) return;
+
+  const originalHtml = btn.innerHTML;
+  btn.innerHTML = '💾 Saving...';
+  btn.disabled = true;
+
+  const requestData = {
+    ...currentDraftParams,
+    planJson: currentDraftPlanJson
+  };
+
+  const res = await API.studyPlan.save(requestData);
+  
+  if (res?.success) {
+    Toast.success('Saved!', 'Your study plan is now active.');
+    // Change buttons to standard active plan buttons
+    document.getElementById('planActionButtons').innerHTML = `
+      <a href="/topics" class="btn btn-primary">🚀 Start Practicing Now</a>
+      <button class="btn btn-secondary" onclick="generatePlan()">🔄 Regenerate Plan</button>
+      <button class="btn" style="background:#FEF0F0;color:var(--accent);border:1px solid var(--accent);" onclick="deletePlan()">🗑️ Delete Plan</button>
+    `;
+  } else {
+    btn.innerHTML = originalHtml;
+    btn.disabled = false;
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progress – AI Interview Prep</title>
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<div id="toastContainer" class="toast-container"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand"><div class="brand-logo"><div class="brand-icon">🎯</div><div><div class="brand-name">AI Interview <span>Prep</span></div><span class="brand-sub">Multi-Language Mentor</span></div></div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">📊</div><span>Dashboard</span></a>
+      <a class="sidebar-link" href="/topics"><div class="nav-icon">🚀</div><span>Start Practice</span></a>
+      <a class="sidebar-link" href="/mock-interview"><div class="nav-icon">🎤</div><span>Mock Interview</span></a>
+      <div class="nav-section-label">Progress</div>
+      <a class="sidebar-link active" href="/progress"><div class="nav-icon">📈</div><span>My Progress</span></a>
+      <a class="sidebar-link" href="/study-plan"><div class="nav-icon">🗺️</div><span>Study Plan</span></a>
+      <div class="nav-section-label">Account</div>
+      <a class="sidebar-link" href="/profile"><div class="nav-icon">👤</div><span>My Profile</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user"><div class="user-avatar" id="sidebarUserAvatar">U</div><div class="user-info"><div class="user-name" id="sidebarUserName">Loading...</div><div class="user-role" id="sidebarUserRole">Student</div></div></div>
+      <a class="sidebar-link" href="#" data-action="logout" style="margin-top:4px;"><div class="nav-icon">🚪</div><span>Logout</span></a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="top-navbar">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="page-title">📈 My Progress</div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;"><span id="themeIcon">🌙</span></button>
+        <a href="/topics" class="btn btn-primary">+ New Test</a>
+      </div>
+    </div>
+
+    <div class="page-content">
+
+      <!-- Overview Stats -->
+      <div id="overviewStats" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-bottom:24px;">
+        <div class="skeleton" style="height:90px;border-radius:12px;"></div>
+        <div class="skeleton" style="height:90px;border-radius:12px;"></div>
+        <div class="skeleton" style="height:90px;border-radius:12px;"></div>
+        <div class="skeleton" style="height:90px;border-radius:12px;"></div>
+      </div>
+
+      <!-- Weak Topic Analysis -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-header">
+          <div class="card-title">🔍 AI Weak Topic Analysis</div>
+          <button class="btn btn-sm btn-primary" onclick="runWeakAnalysis()">Analyse Now 🤖</button>
+        </div>
+        <div class="card-body" id="weakAnalysisContainer">
+          <div style="text-align:center;color:var(--text-secondary);padding:20px;font-size:13px;">
+            Click "Analyse Now" to get AI-powered insights on your weak areas
+          </div>
+        </div>
+      </div>
+
+      <!-- Topic Progress Grid -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-header">
+          <div class="card-title">📊 Progress by Topic</div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-sm btn-primary" onclick="sortProgress('score', this)">By Score</button>
+            <button class="btn btn-sm btn-secondary" onclick="sortProgress('tests', this)">By Tests</button>
+            <button class="btn btn-sm btn-secondary" onclick="sortProgress('mastery', this)">By Mastery</button>
+          </div>
+        </div>
+        <div class="card-body" id="topicProgressGrid">
+          <div style="text-align:center;color:var(--text-muted);padding:40px;">Loading progress...</div>
+        </div>
+      </div>
+
+      <!-- Test History -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🕐 Test History</div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <select id="historyFilter" class="form-control" style="width:140px;padding:7px 12px;font-size:13px;" onchange="filterHistory(this.value)">
+              <option value="all">All Tests</option>
+              <option value="COMPLETED">Completed</option>
+              <option value="IN_PROGRESS">In Progress</option>
+            </select>
+          </div>
+        </div>
+        <div class="card-body" id="testHistoryContainer" style="padding:0;">
+          <div style="padding:40px;text-align:center;color:var(--text-muted);">Loading history...</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script src="/js/main.js"></script>
+<script>
+if (!Auth.requireAuth()) {}
+
+let allTests = [];
+let allProgress = [];
+
+document.addEventListener('DOMContentLoaded', async () => {
+  Sidebar.init();
+  loadDashboard();
+});
+
+async function loadDashboard() {
+  const [dashRes, testsRes, progressRes] = await Promise.all([
+    API.dashboard.get(),
+    API.tests.my(),
+    API.dashboard.progress()
+  ]);
+
+  if (dashRes?.success) renderOverview(dashRes.data);
+  if (testsRes?.success) { allTests = testsRes.data; renderHistory(allTests); }
+  if (progressRes?.success) { allProgress = progressRes.data; renderProgressGrid(allProgress); }
+}
+
+function renderOverview(d) {
+  document.getElementById('overviewStats').innerHTML = `
+    <div class="stat-card" style="color:var(--primary);">
+      <div class="stat-icon" style="background:var(--primary-light);">📝</div>
+      <div><div class="stat-value">${d.totalTests || 0}</div><div class="stat-label">Total Tests</div></div>
+    </div>
+    <div class="stat-card" style="color:#00A87A;">
+      <div class="stat-icon" style="background:#E8FBF5;">🎯</div>
+      <div><div class="stat-value">${d.averageScore ? Math.round(d.averageScore) + '%' : '0%'}</div><div class="stat-label">Avg Score</div></div>
+    </div>
+    <div class="stat-card" style="color:#B45309;">
+      <div class="stat-icon" style="background:#FFF3E0;">🔥</div>
+      <div><div class="stat-value">${d.streakDays || 0}</div><div class="stat-label">Day Streak</div></div>
+    </div>
+    <div class="stat-card" style="color:#0277BD;">
+      <div class="stat-icon" style="background:#E3F7FF;">🗂️</div>
+      <div><div class="stat-value">${d.topicProgress?.length || 0}</div><div class="stat-label">Topics</div></div>
+    </div>
+  `;
+}
+
+function renderProgressGrid(progress) {
+  if (!progress.length) {
+    document.getElementById('topicProgressGrid').innerHTML = `
+      <div style="text-align:center;padding:40px;">
+        <div style="font-size:48px;margin-bottom:12px;">📚</div>
+        <div style="font-weight:600;margin-bottom:8px;">No tests yet</div>
+        <div style="color:var(--text-secondary);font-size:13px;margin-bottom:16px;">Take your first test to see progress here</div>
+        <a href="/topics" class="btn btn-primary">Start Practicing</a>
+      </div>
+    `;
+    return;
+  }
+
+  document.getElementById('topicProgressGrid').innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;">
+      ${progress.map(p => `
+        <div style="background:var(--bg-input);border-radius:var(--radius-sm);padding:18px;border:1px solid var(--border);transition:all 0.2s;"
+          onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--border)'">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="font-size:28px;">${getLangIcon(p.topicName)}</div>
+              <div>
+                <div style="font-weight:700;font-size:14px;">${p.topicName}</div>
+                <div style="font-size:12px;color:var(--text-muted);">${p.language}</div>
+              </div>
+            </div>
+            ${masteryBadge(p.masteryLevel)}
+          </div>
+
+          <div style="margin-bottom:10px;">
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px;">
+              <span style="color:var(--text-muted);">Average Score</span>
+              <strong style="color:${(p.avgScore||0)>=60?'var(--secondary)':'var(--accent)'};">${Math.round(p.avgScore||0)}%</strong>
+            </div>
+            ${renderProgressBar(p.avgScore || 0, (p.avgScore||0) >= 60 ? 'success' : 'warning')}
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px;text-align:center;">
+            <div style="background:var(--bg-card);border-radius:6px;padding:8px;">
+              <div style="font-weight:700;font-size:14px;color:#00875A;">${p.easyCompleted}</div>
+              <div style="font-size:10px;color:var(--text-muted);">Easy</div>
+            </div>
+            <div style="background:var(--bg-card);border-radius:6px;padding:8px;">
+              <div style="font-weight:700;font-size:14px;color:#B45309;">${p.mediumCompleted}</div>
+              <div style="font-size:10px;color:var(--text-muted);">Medium</div>
+            </div>
+            <div style="background:var(--bg-card);border-radius:6px;padding:8px;">
+              <div style="font-weight:700;font-size:14px;color:#B91C1C;">${p.hardCompleted}</div>
+              <div style="font-size:10px;color:var(--text-muted);">Hard</div>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:12px;">
+            <span>${p.totalTests} test${p.totalTests!==1?'s':''}</span>
+            <span>Best: <strong style="color:var(--text-primary);">${Math.round(p.bestScore||0)}%</strong></span>
+            <span>Last: ${p.lastTested ? formatDate(p.lastTested) : 'Never'}</span>
+          </div>
+
+          <a href="/topics?topic=${p.topicSlug}&lang=${p.language}" class="btn btn-sm btn-primary btn-block">Practice More</a>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  setTimeout(animateProgressBars, 100);
+}
+
+function renderHistory(tests) {
+  if (!tests.length) {
+    document.getElementById('testHistoryContainer').innerHTML = `
+      <div style="text-align:center;padding:40px;">
+        <div style="font-size:48px;margin-bottom:12px;">📋</div>
+        <div style="color:var(--text-secondary);margin-bottom:16px;">No tests taken yet</div>
+        <a href="/topics" class="btn btn-primary">Start your first test</a>
+      </div>
+    `;
+    return;
+  }
+
+  document.getElementById('testHistoryContainer').innerHTML = `
+    <table style="width:100%;border-collapse:collapse;">
+      <thead>
+        <tr style="border-bottom:1px solid var(--border);background:var(--bg-input);">
+          <th style="padding:12px 20px;text-align:left;font-size:12px;color:var(--text-muted);font-weight:600;text-transform:uppercase;">Test</th>
+          <th style="padding:12px 16px;text-align:left;font-size:12px;color:var(--text-muted);font-weight:600;text-transform:uppercase;">Type</th>
+          <th style="padding:12px 16px;text-align:left;font-size:12px;color:var(--text-muted);font-weight:600;text-transform:uppercase;">Difficulty</th>
+          <th style="padding:12px 16px;text-align:center;font-size:12px;color:var(--text-muted);font-weight:600;text-transform:uppercase;">Score</th>
+          <th style="padding:12px 16px;text-align:center;font-size:12px;color:var(--text-muted);font-weight:600;text-transform:uppercase;">Questions</th>
+          <th style="padding:12px 16px;text-align:right;font-size:12px;color:var(--text-muted);font-weight:600;text-transform:uppercase;">Date</th>
+          <th style="padding:12px 8px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+        ${tests.map(t => `
+          <tr class="test-row" style="border-bottom:1px solid var(--border);" onmouseover="this.style.background='var(--bg-input)'" onmouseout="this.style.background=''">
+            <td style="padding:14px 20px;">
+              <div style="font-weight:600;font-size:14px;">${getLangIcon(t.topicName)} ${t.topicName}</div>
+              <div style="font-size:12px;color:var(--text-muted);">${t.language}</div>
+            </td>
+            <td style="padding:14px 16px;">${typeBadge(t.testType)}</td>
+            <td style="padding:14px 16px;">${difficultyBadge(t.difficulty)}</td>
+            <td style="padding:14px 16px;text-align:center;">
+              ${t.status === 'COMPLETED' ? `
+                <div style="font-weight:800;font-size:16px;color:${(t.score||0)>=60?'var(--secondary)':'var(--accent)'};">${Math.round(t.score||0)}%</div>
+                <div style="font-size:10px;color:var(--text-muted);">${getGrade(t.score||0)}</div>
+              ` : `<span class="badge badge-warning">In Progress</span>`}
+            </td>
+            <td style="padding:14px 16px;text-align:center;font-size:13px;">
+              ${t.status === 'COMPLETED' ? `${t.correctAnswers}/${t.totalQuestions}` : `0/${t.totalQuestions}`}
+            </td>
+            <td style="padding:14px 16px;text-align:right;font-size:12px;color:var(--text-muted);">${formatDate(t.startedAt)}</td>
+            <td style="padding:14px 8px;">
+              ${t.status === 'COMPLETED' ?
+                `<a href="/results?testId=${t.id}" class="btn btn-sm btn-secondary">View</a>` :
+                `<a href="/test?testId=${t.id}" class="btn btn-sm btn-primary">Resume</a>`
+              }
+            </td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+function sortProgress(by, btn) {
+  document.querySelectorAll('[onclick^="sortProgress"]').forEach(b => b.className = 'btn btn-sm btn-secondary');
+  btn.className = 'btn btn-sm btn-primary';
+  const sorted = [...allProgress].sort((a, b) => {
+    if (by === 'score') return (b.avgScore||0) - (a.avgScore||0);
+    if (by === 'tests') return (b.totalTests||0) - (a.totalTests||0);
+    const order = { EXPERT:4, ADVANCED:3, INTERMEDIATE:2, BEGINNER:1 };
+    return (order[b.masteryLevel]||0) - (order[a.masteryLevel]||0);
+  });
+  renderProgressGrid(sorted);
+}
+
+function filterHistory(status) {
+  const filtered = status === 'all' ? allTests : allTests.filter(t => t.status === status);
+  renderHistory(filtered);
+}
+
+async function runWeakAnalysis() {
+  const container = document.getElementById('weakAnalysisContainer');
+  container.innerHTML = `<div class="ai-loading" style="padding:40px;"><div class="ai-loading-orb">🤖</div><div class="ai-loading-text">AI is analysing your performance...</div></div>`;
+
+  const res = await API.dashboard.weakTopics();
+  if (!res?.success) return;
+
+  try {
+    const data = JSON.parse(res.data);
+    container.innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <div>
+          <div style="font-weight:700;color:var(--accent);margin-bottom:12px;">⚠️ Areas to Improve</div>
+          ${(data.weakTopics||[]).slice(0,5).map(t => `
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg-input);border-radius:8px;margin-bottom:8px;">
+              <span class="badge badge-danger">${t.priority}</span>
+              <div style="flex:1;font-size:13px;">${t.topic}</div>
+              <span style="font-weight:700;color:var(--accent);">${t.score}%</span>
+            </div>
+          `).join('') || '<div style="color:var(--text-muted);font-size:13px;">No weak topics identified yet</div>'}
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--secondary);margin-bottom:12px;">✅ Strong Areas</div>
+          ${(data.strongTopics||[]).map(t => `<span class="badge badge-success" style="margin:0 4px 4px 0;">${t}</span>`).join('') || '<div style="color:var(--text-muted);font-size:13px;">Keep practicing to identify strengths</div>'}
+          ${data.overallPattern ? `
+            <div style="margin-top:16px;padding:12px;background:var(--primary-light);border-radius:8px;font-size:13px;line-height:1.6;color:#1e293b;">${data.overallPattern}</div>
+          ` : ''}
+          ${data.actionPlan?.length ? `
+            <div style="margin-top:12px;">
+              <div style="font-weight:600;font-size:13px;margin-bottom:8px;">🎯 Action Plan</div>
+              ${data.actionPlan.map((step, i) => `
+                <div style="display:flex;gap:8px;font-size:13px;margin-bottom:6px;">
+                  <span style="background:var(--primary);color:white;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;">${i+1}</span>
+                  <span>${step}</span>
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  } catch {
+    container.innerHTML = `<div style="font-size:14px;line-height:1.7;white-space:pre-wrap;">${res.data}</div>`;
+  }
+}
+</script>
+</body>
+</html>

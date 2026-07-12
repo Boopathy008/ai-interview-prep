@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test – AI Interview Prep</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <style>
+    body { background: var(--bg); }
+    .test-header {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .question-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 16px;
+    }
+    .q-nav-btn {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: var(--bg-card);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .q-nav-btn.current { border-color: var(--primary); background: var(--primary); color: white; }
+    .q-nav-btn.answered { border-color: var(--secondary); background: #E8FBF5; color: #00875A; }
+    .q-nav-btn.skipped { border-color: var(--warning); }
+  </style>
+</head>
+<body>
+
+<div id="toastContainer" class="toast-container"></div>
+
+<!-- Test Header -->
+<div class="test-header">
+  <div style="display:flex;align-items:center;gap:14px;">
+    <div style="width:40px;height:40px;background:linear-gradient(135deg,var(--primary),#9B8FFF);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;">🎯</div>
+    <div>
+      <div style="font-weight:700;font-size:15px;" id="testTitle">AI Interview Test</div>
+      <div style="font-size:12px;color:var(--text-muted);" id="testMeta">Loading...</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <div class="test-timer" id="testTimer">⏱️ 00:00</div>
+    <div style="text-align:center;">
+      <div style="font-size:18px;font-weight:800;" id="progressFraction">0/0</div>
+      <div style="font-size:11px;color:var(--text-muted);">answered</div>
+    </div>
+    <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px;cursor:pointer;"><span id="themeIcon">🌙</span></button>
+    <button class="btn btn-danger btn-sm" onclick="confirmSubmit()">Submit Test</button>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:280px 1fr;min-height:calc(100vh - 65px);">
+
+  <!-- Left Panel: Question Navigator -->
+  <div style="background:var(--bg-card);border-right:1px solid var(--border);padding:16px;position:sticky;top:65px;height:calc(100vh - 65px);overflow-y:auto;">
+    <div style="font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.5px;">Questions</div>
+    <div class="question-nav" id="questionNav"></div>
+
+    <div class="divider"></div>
+
+    <!-- Legend -->
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Legend</div>
+    <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:24px;height:24px;border-radius:50%;background:var(--primary);"></div>
+        <span>Current</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:24px;height:24px;border-radius:50%;background:#E8FBF5;border:2px solid var(--secondary);"></div>
+        <span>Answered</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:24px;height:24px;border-radius:50%;background:var(--bg-input);border:2px solid var(--border);"></div>
+        <span>Not attempted</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div style="font-size:13px;color:var(--text-secondary);">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+        <span>Answered</span><strong id="answeredCount" style="color:var(--secondary);">0</strong>
+      </div>
+      <div style="display:flex;justify-content:space-between;">
+        <span>Remaining</span><strong id="remainingCount" style="color:var(--accent);">0</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Question Area -->
+  <div style="padding:28px;max-width:900px;">
+    <div id="questionArea"></div>
+
+    <!-- Navigation Buttons -->
+    <div id="questionNavBtns" style="display:flex;justify-content:space-between;align-items:center;margin-top:24px;">
+      <button class="btn btn-secondary" id="prevBtn" onclick="navigate(-1)" disabled>← Previous</button>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-secondary" onclick="skipQuestion()">Skip →</button>
+        <button class="btn btn-primary" onclick="navigate(1)" id="nextBtn">Next →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/main.js"></script>
+<script>
+if (!Auth.requireAuth()) {}
+
+let testData = null;
+let questions = [];
+let answers = {};
+let currentQ = 0;
+let timer = null;
+let secondsElapsed = 0;
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const params = new URLSearchParams(window.location.search);
+  const testId = params.get('testId');
+
+  if (!testId) { window.location.href = '/topics'; return; }
+
+  // Try to load from localStorage first (already created)
+  const cached = localStorage.getItem('current_test');
+  if (cached) {
+    const t = JSON.parse(cached);
+    if (t.id == testId) {
+      testData = t;
+      questions = t.questions || [];
+      localStorage.removeItem('current_test');
+    }
+  }
+
+  if (!testData || !questions.length) {
+    const res = await API.tests.get(testId);
+    if (!res?.success) { window.location.href = '/dashboard'; return; }
+    testData = res.data;
+    questions = res.data.questions || [];
+  }
+
+  if (testData.status === 'COMPLETED') {
+    window.location.href = `/results?testId=${testId}`;
+    return;
+  }
+
+  initTest();
+});
+
+function initTest() {
+  document.getElementById('testTitle').textContent = `${getLangIcon(testData.topicName)} ${testData.topicName} – ${testData.language}`;
+  document.getElementById('testMeta').textContent = `${testData.testType} · ${testData.difficulty} · ${questions.length} Questions`;
+
+  renderQuestionNav();
+  renderQuestion(0);
+  startTimer();
+
+  document.getElementById('remainingCount').textContent = questions.length;
+  document.getElementById('progressFraction').textContent = `0/${questions.length}`;
+}
+
+function startTimer() {
+  timer = setInterval(() => {
+    secondsElapsed++;
+    document.getElementById('testTimer').textContent = `⏱️ ${formatTime(secondsElapsed)}`;
+    if (secondsElapsed === 1800) {
+      document.getElementById('testTimer').classList.add('warning');
+      Toast.warning('Time check', '30 minutes elapsed. Consider submitting soon.');
+    }
+  }, 1000);
+}
+
+function renderQuestionNav() {
+  const nav = document.getElementById('questionNav');
+  nav.innerHTML = questions.map((q, i) => `
+    <button class="q-nav-btn ${i === currentQ ? 'current' : ''} ${answers[q.id] ? 'answered' : ''}"
+      onclick="goToQuestion(${i})" id="qnav-${i}">${i + 1}</button>
+  `).join('');
+}
+
+function renderQuestion(index) {
+  const q = questions[index];
+  if (!q) return;
+
+  currentQ = index;
+  document.getElementById('prevBtn').disabled = index === 0;
+  document.getElementById('nextBtn').textContent = index === questions.length - 1 ? 'Finish' : 'Next →';
+
+  // Update nav
+  document.querySelectorAll('.q-nav-btn').forEach((btn, i) => {
+    btn.className = `q-nav-btn ${i === index ? 'current' : ''} ${answers[questions[i]?.id] ? 'answered' : ''}`;
+  });
+
+  const isMCQ = q.questionType === 'MCQ' || q.questionType === 'OUTPUT';
+  const isCoding = q.questionType === 'CODING' || q.questionType === 'DEBUGGING';
+
+  let optionsHtml = '';
+  if (isMCQ && q.options?.length) {
+    optionsHtml = `<div class="option-list">
+      ${q.options.map(opt => `
+        <div class="option-item ${answers[q.id] === opt.label ? 'selected' : ''}"
+             onclick="selectMCQ('${q.id}', '${opt.label}', this)">
+          <div class="option-label">${opt.label}</div>
+          <div style="flex:1;font-size:14px;line-height:1.5;">${opt.text}</div>
+        </div>
+      `).join('')}
+    </div>`;
+  } else if (isCoding) {
+    optionsHtml = `
+      <div class="code-area">
+        <div class="code-area-header">
+          <div class="code-dots">
+            <div class="code-dot red"></div>
+            <div class="code-dot yellow"></div>
+            <div class="code-dot green"></div>
+          </div>
+          <span style="color:rgba(255,255,255,0.4);font-size:12px;">${testData.language}</span>
+          <button onclick="clearCode('${q.id}')" style="background:rgba(255,255,255,0.1);border:none;color:rgba(255,255,255,0.5);padding:4px 10px;border-radius:4px;cursor:pointer;font-size:12px;">Clear</button>
+        </div>
+        <textarea class="code-input" id="code-${q.id}" placeholder="Write your ${testData.language} solution here..."
+          onchange="saveAnswer('${q.id}', this.value)"
+          onkeyup="saveAnswer('${q.id}', this.value)">${answers[q.id] || ''}</textarea>
+      </div>`;
+  } else {
+    optionsHtml = `
+      <textarea class="form-control" id="text-${q.id}" rows="5"
+        style="font-size:14px;line-height:1.6;"
+        placeholder="Type your answer here..."
+        onkeyup="saveAnswer('${q.id}', this.value)">${answers[q.id] || ''}</textarea>`;
+  }
+
+  document.getElementById('questionArea').innerHTML = `
+    <div class="question-card">
+      <div class="question-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="question-num">${index + 1}</div>
+          <div>
+            ${typeBadge(q.questionType)}
+            ${difficultyBadge(q.difficulty || testData.difficulty)}
+          </div>
+        </div>
+        <div style="font-size:13px;color:var(--text-muted);">${q.points || 10} points</div>
+      </div>
+      <div class="question-body">
+        <div class="question-text">${formatQuestionText(q.questionText)}</div>
+        ${optionsHtml}
+      </div>
+    </div>
+  `;
+
+  updateProgress();
+}
+
+function formatQuestionText(text) {
+  // Convert code blocks
+  return text.replace(/```(\w+)?\n?([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
+             .replace(/`([^`]+)`/g, '<code>$1</code>');
+}
+
+function selectMCQ(qId, label, el) {
+  document.querySelectorAll('.option-item').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  saveAnswer(qId, label);
+}
+
+function saveAnswer(qId, value) {
+  if (value?.trim()) answers[qId] = value;
+  else delete answers[qId];
+
+  // Update nav button
+  const idx = questions.findIndex(q => q.id == qId);
+  if (idx !== -1) {
+    const btn = document.getElementById(`qnav-${idx}`);
+    if (btn) {
+      btn.className = `q-nav-btn ${idx === currentQ ? 'current' : ''} ${answers[qId] ? 'answered' : ''}`;
+    }
+  }
+
+  updateProgress();
+}
+
+function clearCode(qId) {
+  const ta = document.getElementById(`code-${qId}`);
+  if (ta) ta.value = '';
+  delete answers[qId];
+  updateProgress();
+}
+
+function navigate(dir) {
+  const next = currentQ + dir;
+  if (next >= 0 && next < questions.length) renderQuestion(next);
+  else if (next >= questions.length) confirmSubmit();
+}
+
+function goToQuestion(i) { renderQuestion(i); }
+
+function skipQuestion() {
+  const btn = document.getElementById(`qnav-${currentQ}`);
+  if (btn) btn.classList.add('skipped');
+  navigate(1);
+}
+
+function updateProgress() {
+  const answered = Object.keys(answers).length;
+  const total = questions.length;
+  document.getElementById('progressFraction').textContent = `${answered}/${total}`;
+  document.getElementById('answeredCount').textContent = answered;
+  document.getElementById('remainingCount').textContent = total - answered;
+}
+
+function confirmSubmit() {
+  const answered = Object.keys(answers).length;
+  const total = questions.length;
+  const unanswered = total - answered;
+
+  const msg = unanswered > 0
+    ? `You have ${unanswered} unanswered question${unanswered > 1 ? 's' : ''}. Are you sure you want to submit?`
+    : 'Submit your test? This cannot be undone.';
+
+  if (confirm(msg)) submitTest();
+}
+
+async function submitTest() {
+  clearInterval(timer);
+
+  // Show loading
+  document.getElementById('questionArea').innerHTML = `
+    <div class="ai-loading" style="padding:80px 40px;">
+      <div class="ai-loading-orb">🤖</div>
+      <div class="ai-loading-text">AI is evaluating your answers...</div>
+      <div class="ai-loading-subtext">Generating detailed feedback and score</div>
+    </div>
+  `;
+  document.getElementById('questionNavBtns').style.display = 'none';
+
+  const body = {
+    testId: testData.id,
+    answers: answers,
+    timeTaken: secondsElapsed
+  };
+
+  const res = await API.tests.submit(body);
+  if (res?.success) {
+    Toast.success('Test submitted!', 'Redirecting to your results...');
+    setTimeout(() => window.location.href = `/results?testId=${testData.id}`, 1200);
+  } else {
+    document.getElementById('questionNavBtns').style.display = 'flex';
+    renderQuestion(currentQ);
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Results – AI Interview Prep</title>
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<div id="toastContainer" class="toast-container"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand"><div class="brand-logo"><div class="brand-icon">🎯</div><div><div class="brand-name">AI Interview <span>Prep</span></div><span class="brand-sub">Multi-Language Mentor</span></div></div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">📊</div><span>Dashboard</span></a>
+      <a class="sidebar-link" href="/topics"><div class="nav-icon">🚀</div><span>Start Practice</span></a>
+      <a class="sidebar-link" href="/mock-interview"><div class="nav-icon">🎤</div><span>Mock Interview</span></a>
+      <div class="nav-section-label">Progress</div>
+      <a class="sidebar-link" href="/progress"><div class="nav-icon">📈</div><span>My Progress</span></a>
+      <a class="sidebar-link" href="/study-plan"><div class="nav-icon">🗺️</div><span>Study Plan</span></a>
+      <div class="nav-section-label">Account</div>
+      <a class="sidebar-link" href="/profile"><div class="nav-icon">👤</div><span>My Profile</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user"><div class="user-avatar" id="sidebarUserAvatar">U</div><div class="user-info"><div class="user-name" id="sidebarUserName">Loading...</div><div class="user-role" id="sidebarUserRole">Student</div></div></div>
+      <a class="sidebar-link" href="#" data-action="logout" style="margin-top:4px;"><div class="nav-icon">🚪</div><span>Logout</span></a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="top-navbar">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="page-title">📊 Test Results</div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;"><span id="themeIcon">🌙</span></button>
+        <a href="/topics" class="btn btn-primary">+ New Test</a>
+      </div>
+    </div>
+
+    <div class="page-content" id="mainContent">
+      <div class="ai-loading" style="min-height:60vh;">
+        <div class="ai-loading-orb">🤖</div>
+        <div class="ai-loading-text">Loading your results...</div>
+        <div class="ai-loading-subtext">Preparing AI feedback</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="/js/main.js"></script>
+<script>
+if (!Auth.requireAuth()) {}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  Sidebar.init();
+  const params = new URLSearchParams(window.location.search);
+  const testId = params.get('testId');
+  if (!testId) { window.location.href = '/dashboard'; return; }
+
+  const res = await API.tests.get(testId);
+  if (!res?.success) { window.location.href = '/dashboard'; return; }
+
+  renderResults(res.data);
+});
+
+function renderResults(test) {
+  const fb = test.feedback;
+  const score = test.score || 0;
+  const grade = fb?.grade || getGrade(score);
+  const correct = test.correctAnswers || 0;
+  const total = test.totalQuestions || 0;
+  const gradeClass = getGradeClass(grade);
+
+  document.getElementById('mainContent').innerHTML = `
+    <!-- Header Banner -->
+    <div style="background:linear-gradient(135deg,var(--primary),#9B8FFF);border-radius:var(--radius-md);padding:28px 32px;margin-bottom:24px;color:white;">
+      <div style="display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;">
+        <div id="scoreCircleContainer"></div>
+        <div>
+          <div style="font-size:13px;opacity:0.75;margin-bottom:4px;">${getLangIcon(test.topicName)} ${test.topicName} · ${test.language} · ${test.difficulty}</div>
+          <div style="font-size:24px;font-weight:800;margin-bottom:6px;">
+            ${score >= 80 ? '🎉 Excellent!' : score >= 60 ? '👍 Good Job!' : score >= 40 ? '📚 Keep Practicing' : '💪 Don\'t Give Up!'}
+          </div>
+          <div style="opacity:0.8;font-size:14px;">
+            ${correct} out of ${total} correct · ${formatTime(test.timeTaken || 0)} taken
+          </div>
+          <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
+            ${typeBadge(test.testType)}
+            ${difficultyBadge(test.difficulty)}
+            <span class="badge badge-secondary">⏱️ ${formatTime(test.timeTaken || 0)}</span>
+          </div>
+        </div>
+        <div style="text-align:center;">
+          <div class="grade-badge ${gradeClass}" style="width:72px;height:72px;font-size:28px;margin:0 auto 8px;">${grade}</div>
+          <div style="opacity:0.75;font-size:12px;">Grade</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;">
+      <div class="stat-card" style="color:var(--secondary);">
+        <div class="stat-icon" style="background:#E8FBF5;">✅</div>
+        <div><div class="stat-value">${correct}</div><div class="stat-label">Correct</div></div>
+      </div>
+      <div class="stat-card" style="color:var(--accent);">
+        <div class="stat-icon" style="background:#FEF0F0;">❌</div>
+        <div><div class="stat-value">${total - correct}</div><div class="stat-label">Wrong</div></div>
+      </div>
+      <div class="stat-card" style="color:var(--primary);">
+        <div class="stat-icon" style="background:var(--primary-light);">🎯</div>
+        <div><div class="stat-value">${Math.round(score)}%</div><div class="stat-label">Score</div></div>
+      </div>
+      <div class="stat-card" style="color:var(--info);">
+        <div class="stat-icon" style="background:#E3F7FF;">⏱️</div>
+        <div><div class="stat-value">${formatTime(test.timeTaken || 0)}</div><div class="stat-label">Time Taken</div></div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;">
+
+      <!-- AI Feedback -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🤖 AI Feedback</div>
+          <span class="badge badge-success">AI Analysis</span>
+        </div>
+        <div class="card-body">
+          ${fb ? `
+            ${fb.strengths ? `<div class="feedback-section strengths">
+              <div class="feedback-section-title" style="color:var(--secondary);">💪 Strengths</div>
+              <div style="font-size:13px;line-height:1.7;color:var(--text-primary);">${fb.strengths}</div>
+            </div>` : ''}
+            ${fb.weaknesses ? `<div class="feedback-section weaknesses">
+              <div class="feedback-section-title" style="color:var(--accent);">📌 Areas to Improve</div>
+              <div style="font-size:13px;line-height:1.7;color:var(--text-primary);">${fb.weaknesses}</div>
+            </div>` : ''}
+            ${fb.mistakes ? `<div class="feedback-section" style="border-color:var(--warning);">
+              <div class="feedback-section-title" style="color:var(--warning);">⚠️ Common Mistakes</div>
+              <div style="font-size:13px;line-height:1.7;color:var(--text-primary);">${fb.mistakes}</div>
+            </div>` : ''}
+            ${fb.improvementTips ? `<div class="feedback-section tips">
+              <div class="feedback-section-title" style="color:#E65100;">💡 Improvement Tips</div>
+              <div style="font-size:13px;line-height:1.7;color:var(--text-primary);">${fb.improvementTips}</div>
+            </div>` : ''}
+            ${fb.studyRecommendations ? `<div class="feedback-section study">
+              <div class="feedback-section-title" style="color:#0277BD;">📚 Study Recommendations</div>
+              <div style="font-size:13px;line-height:1.7;color:var(--text-primary);">${fb.studyRecommendations}</div>
+            </div>` : ''}
+            ${fb.nextTopics?.length ? `
+              <div style="margin-top:14px;">
+                <div style="font-size:12px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">📌 Study Next</div>
+                <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                  ${fb.nextTopics.map(t => `<span class="badge badge-primary">${t}</span>`).join('')}
+                </div>
+              </div>` : ''}
+          ` : `<div style="text-align:center;padding:20px;color:var(--text-muted);">AI feedback not available</div>`}
+        </div>
+      </div>
+
+      <!-- Performance Breakdown -->
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="card">
+          <div class="card-header"><div class="card-title">📊 Performance</div></div>
+          <div class="card-body">
+            <div style="margin-bottom:16px;">
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                <span style="font-size:13px;font-weight:600;">Accuracy</span>
+                <span style="font-size:13px;font-weight:700;color:${score>=60?'var(--secondary)':'var(--accent)'};">${Math.round(score)}%</span>
+              </div>
+              ${renderProgressBar(score, score >= 60 ? 'success' : 'warning')}
+            </div>
+            <div style="margin-bottom:16px;">
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                <span style="font-size:13px;font-weight:600;">Completion</span>
+                <span style="font-size:13px;font-weight:700;">${Math.round((test.attemptedQuestions/total)*100)}%</span>
+              </div>
+              ${renderProgressBar((test.attemptedQuestions/total)*100, 'primary')}
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:16px;text-align:center;">
+              <div style="background:var(--bg-input);border-radius:8px;padding:10px;">
+                <div style="font-size:20px;font-weight:800;color:var(--secondary);">${correct}</div>
+                <div style="font-size:11px;color:var(--text-muted);">Correct</div>
+              </div>
+              <div style="background:var(--bg-input);border-radius:8px;padding:10px;">
+                <div style="font-size:20px;font-weight:800;color:var(--accent);">${total - correct}</div>
+                <div style="font-size:11px;color:var(--text-muted);">Wrong</div>
+              </div>
+              <div style="background:var(--bg-input);border-radius:8px;padding:10px;">
+                <div style="font-size:20px;font-weight:800;color:var(--warning);">${total - test.attemptedQuestions}</div>
+                <div style="font-size:11px;color:var(--text-muted);">Skipped</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="card">
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <a href="/topics?topic=${test.topicName?.toLowerCase()}&lang=${test.language}" class="btn btn-primary btn-block">
+                🔄 Retry Same Topic
+              </a>
+              <a href="/topics" class="btn btn-secondary btn-block">
+                🚀 Try Different Topic
+              </a>
+              <a href="/study-plan" class="btn btn-secondary btn-block">
+                🗺️ Generate Study Plan
+              </a>
+              <a href="/progress" class="btn btn-secondary btn-block">
+                📈 View Progress
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Question Review -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">📝 Question Review</div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-sm btn-secondary" onclick="filterReview('all', this)">All</button>
+          <button class="btn btn-sm btn-secondary" onclick="filterReview('wrong', this)">❌ Wrong</button>
+          <button class="btn btn-sm btn-secondary" onclick="filterReview('correct', this)">✅ Correct</button>
+        </div>
+      </div>
+      <div class="card-body" id="questionReview">
+        ${renderQuestionReview(test.questions || [])}
+      </div>
+    </div>
+  `;
+
+  // Render score circle
+  renderScoreCircle('scoreCircleContainer', score);
+  setTimeout(animateProgressBars, 100);
+}
+
+function renderQuestionReview(questions) {
+  if (!questions.length) return '<div style="text-align:center;color:var(--text-muted);padding:20px;">No questions to review</div>';
+
+  return questions.map((q, i) => {
+    const isCorrect = q.isCorrect;
+    const hasAnswer = q.userAnswer;
+    const statusColor = isCorrect ? 'var(--secondary)' : hasAnswer ? 'var(--accent)' : 'var(--warning)';
+    const statusIcon = isCorrect ? '✅' : hasAnswer ? '❌' : '⏭️';
+    const statusLabel = isCorrect ? 'Correct' : hasAnswer ? 'Wrong' : 'Skipped';
+
+    return `
+      <div class="review-item" data-correct="${isCorrect}" style="border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:14px;overflow:hidden;">
+        <div style="background:var(--bg-input);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;"
+             onclick="toggleReview(this)">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:32px;height:32px;border-radius:50%;background:${isCorrect?'#E8FBF5':'#FEF0F0'};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;border:2px solid ${statusColor};">
+              ${statusIcon}
+            </div>
+            <div>
+              <span style="font-weight:600;font-size:14px;">Q${i + 1}.</span>
+              <span style="font-size:13px;color:var(--text-secondary);margin-left:6px;">${q.questionText.substring(0, 80)}${q.questionText.length > 80 ? '...' : ''}</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span class="badge ${isCorrect ? 'badge-success' : hasAnswer ? 'badge-danger' : 'badge-warning'}">${statusLabel}</span>
+            <span style="color:var(--text-muted);">▼</span>
+          </div>
+        </div>
+        <div class="review-detail" style="display:none;padding:20px;">
+          <div style="margin-bottom:12px;">
+            <div style="font-size:12px;font-weight:600;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Question</div>
+            <div style="font-size:14px;line-height:1.7;">${formatQText(q.questionText)}</div>
+          </div>
+          ${q.options?.length ? `
+            <div style="margin-bottom:12px;">
+              <div style="font-size:12px;font-weight:600;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;">Options</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                ${q.options.map(opt => `
+                  <div style="padding:10px 14px;border-radius:8px;border:2px solid ${opt.label===q.correctAnswer?'var(--secondary)':opt.label===q.userAnswer&&!isCorrect?'var(--accent)':'var(--border)'};background:${opt.label===q.correctAnswer?'#E8FBF5':opt.label===q.userAnswer&&!isCorrect?'#FEF0F0':'var(--bg-input)'};color:${opt.label===q.correctAnswer||(opt.label===q.userAnswer&&!isCorrect)?'#1e293b':'inherit'};font-size:13px;">
+                    <strong>${opt.label}.</strong> ${opt.text}
+                    ${opt.label===q.correctAnswer?'<span style="color:var(--secondary);margin-left:6px;">✓ Correct</span>':''}
+                    ${opt.label===q.userAnswer&&!isCorrect?'<span style="color:var(--accent);margin-left:6px;">✗ Your answer</span>':''}
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          ` : `
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+              ${q.userAnswer ? `
+                <div style="background:${isCorrect?'#E8FBF5':'#FEF0F0'};border:1px solid ${isCorrect?'var(--secondary)':'var(--accent)'};border-radius:8px;padding:12px;color:#1e293b;">
+                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;color:${isCorrect?'#10b981':'#ef4444'};margin-bottom:6px;">Your Answer</div>
+                  <pre style="font-size:13px;white-space:pre-wrap;font-family:JetBrains Mono,monospace;margin:0;">${q.userAnswer}</pre>
+                </div>
+              ` : '<div style="color:var(--text-muted);font-size:13px;padding:12px;background:var(--bg-input);border-radius:8px;">Not answered</div>'}
+              <div style="background:#E8FBF5;border:1px solid var(--secondary);border-radius:8px;padding:12px;color:#1e293b;">
+                <div style="font-size:11px;font-weight:600;text-transform:uppercase;color:#10b981;margin-bottom:6px;">Expected Answer</div>
+                <pre style="font-size:13px;white-space:pre-wrap;font-family:JetBrains Mono,monospace;margin:0;">${q.correctAnswer || 'N/A'}</pre>
+              </div>
+            </div>
+          `}
+          ${q.explanation ? `
+            <div style="background:var(--primary-light);border:1px solid rgba(108,99,255,0.2);border-radius:8px;padding:14px;color:#1e293b;">
+              <div style="font-size:12px;font-weight:600;text-transform:uppercase;color:var(--primary);margin-bottom:6px;">💡 Explanation</div>
+              <div style="font-size:13px;line-height:1.7;">${q.explanation}</div>
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function formatQText(text) {
+  return text.replace(/```(\w+)?\n?([\s\S]*?)```/g, '<pre style="background:var(--bg-input);padding:12px;border-radius:8px;overflow-x:auto;font-size:13px;"><code>$2</code></pre>')
+             .replace(/`([^`]+)`/g, '<code style="background:var(--bg-input);padding:1px 5px;border-radius:4px;font-family:JetBrains Mono,monospace;">$1</code>');
+}
+
+function toggleReview(header) {
+  const detail = header.nextElementSibling;
+  const arrow = header.querySelector('span:last-child');
+  const isOpen = detail.style.display !== 'none';
+  detail.style.display = isOpen ? 'none' : 'block';
+  arrow.textContent = isOpen ? '▼' : '▲';
+}
+
+function filterReview(type, btn) {
+  document.querySelectorAll('[onclick^="filterReview"]').forEach(b => b.className = 'btn btn-sm btn-secondary');
+  btn.className = 'btn btn-sm btn-primary';
+
+  document.querySelectorAll('.review-item').forEach(item => {
+    const correct = item.dataset.correct === 'true';
+    if (type === 'all') item.style.display = '';
+    else if (type === 'correct') item.style.display = correct ? '' : 'none';
+    else if (type === 'wrong') item.style.display = !correct ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

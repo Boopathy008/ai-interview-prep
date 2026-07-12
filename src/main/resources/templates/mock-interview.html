@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mock Interview – AI Interview Prep</title>
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<div id="toastContainer" class="toast-container"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand"><div class="brand-logo"><div class="brand-icon">🎯</div><div><div class="brand-name">AI Interview <span>Prep</span></div><span class="brand-sub">Multi-Language Mentor</span></div></div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">📊</div><span>Dashboard</span></a>
+      <a class="sidebar-link" href="/topics"><div class="nav-icon">🚀</div><span>Start Practice</span></a>
+      <a class="sidebar-link active" href="/mock-interview"><div class="nav-icon">🎤</div><span>Mock Interview</span></a>
+      <div class="nav-section-label">Progress</div>
+      <a class="sidebar-link" href="/progress"><div class="nav-icon">📈</div><span>My Progress</span></a>
+      <a class="sidebar-link" href="/study-plan"><div class="nav-icon">🗺️</div><span>Study Plan</span></a>
+      <div class="nav-section-label">Account</div>
+      <a class="sidebar-link" href="/profile"><div class="nav-icon">👤</div><span>My Profile</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user"><div class="user-avatar" id="sidebarUserAvatar">U</div><div class="user-info"><div class="user-name" id="sidebarUserName">Loading...</div><div class="user-role" id="sidebarUserRole">Student</div></div></div>
+      <a class="sidebar-link" href="#" data-action="logout" style="margin-top:4px;"><div class="nav-icon">🚪</div><span>Logout</span></a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="top-navbar">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="page-title">🎤 Mock Interview</div>
+      </div>
+      <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;"><span id="themeIcon">🌙</span></button>
+    </div>
+
+    <div class="page-content">
+
+      <!-- Setup Panel -->
+      <div id="setupPanel">
+        <div style="max-width:700px;margin:0 auto;">
+          <div style="text-align:center;margin-bottom:32px;">
+            <div style="font-size:56px;margin-bottom:12px;">🎤</div>
+            <h2 style="font-size:26px;font-weight:800;margin-bottom:8px;">AI Mock Interview</h2>
+            <p style="color:var(--text-secondary);font-size:15px;">Simulate a real technical interview with our AI interviewer. Get feedback on every answer.</p>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><div class="card-title">Configure Your Interview</div></div>
+            <div class="card-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                <div class="form-group">
+                  <label class="form-label">Language *</label>
+                  <select id="mi-language" class="form-control" onchange="updateTopics()">
+                    <option value="">Select language</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Topic *</label>
+                  <select id="mi-topic" class="form-control">
+                    <option value="">Select topic</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Difficulty *</label>
+                  <select id="mi-difficulty" class="form-control">
+                    <option value="EASY">🟢 Easy – Fresher Level</option>
+                    <option value="MEDIUM" selected>🟡 Medium – Campus Placement</option>
+                    <option value="HARD">🔴 Hard – Product Company</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Target Role</label>
+                  <input type="text" id="mi-role" class="form-control" placeholder="e.g. Software Engineer" value="Software Engineer">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Company Type</label>
+                  <select id="mi-company" class="form-control">
+                    <option value="PRODUCT">🏢 Product Company</option>
+                    <option value="SERVICE">🔧 Service Company</option>
+                    <option value="STARTUP">🚀 Startup</option>
+                    <option value="MNC">🌍 MNC</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style="background:var(--bg-input);border-radius:var(--radius-sm);padding:16px;margin:16px 0;">
+                <div style="font-weight:600;font-size:14px;margin-bottom:8px;">💡 How it works</div>
+                <ul style="color:var(--text-secondary);font-size:13px;line-height:2;list-style:none;">
+                  <li>🤖 AI acts as a real technical interviewer</li>
+                  <li>❓ 8-10 progressive questions from easy to hard</li>
+                  <li>📝 Type your answers naturally</li>
+                  <li>⚡ Get instant feedback after each response</li>
+                  <li>🏆 Receive overall score & improvement tips at the end</li>
+                </ul>
+              </div>
+
+              <button class="btn btn-primary btn-block btn-lg" onclick="startInterview()" id="startInterviewBtn">
+                🎤 Start Mock Interview
+              </button>
+            </div>
+          </div>
+
+          <!-- Past Interviews -->
+          <div class="card" style="margin-top:20px;">
+            <div class="card-header"><div class="card-title">📋 Past Mock Interviews</div></div>
+            <div class="card-body" id="pastInterviewsContainer">
+              <div style="text-align:center;color:var(--text-muted);padding:20px;">Loading...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interview Panel -->
+      <div id="interviewPanel" style="display:none;">
+        <div style="display:grid;grid-template-columns:1fr 300px;gap:20px;height:calc(100vh - 130px);">
+
+          <!-- Chat Area -->
+          <div class="card" style="display:flex;flex-direction:column;overflow:hidden;">
+            <div class="card-header" style="flex-shrink:0;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="width:40px;height:40px;background:linear-gradient(135deg,var(--primary),#9B8FFF);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;">🤖</div>
+                <div>
+                  <div style="font-weight:700;font-size:15px;">AI Interviewer</div>
+                  <div style="font-size:12px;color:var(--secondary);">● Online · Asking question <span id="questionCounter">1</span> of 10</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <div class="test-timer" id="interviewTimer">⏱️ 00:00</div>
+                <button class="btn btn-danger btn-sm" onclick="endInterview()">End Interview</button>
+              </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages" style="flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px;"></div>
+
+            <div class="chat-input-area" style="flex-shrink:0;border-top:1px solid var(--border);padding:16px;">
+              <div style="flex:1;">
+                <textarea id="answerInput" placeholder="Type your answer here... (Be thorough and clear. Mention code concepts if relevant.)"
+                  style="width:100%;padding:12px 16px;background:var(--bg-input);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:Inter,sans-serif;font-size:14px;color:var(--text-primary);resize:none;height:88px;outline:none;transition:border-color 0.2s;"
+                  onfocus="this.style.borderColor='var(--primary)'"
+                  onblur="this.style.borderColor='var(--border)'"
+                  onkeydown="handleAnswerKey(event)"></textarea>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Press Ctrl+Enter to send</div>
+              </div>
+              <button class="btn btn-primary" onclick="sendAnswer()" id="sendAnswerBtn" style="align-self:flex-end;height:48px;padding:0 24px;">
+                Send Answer 🚀
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Panel: Interview Info -->
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div class="card">
+              <div class="card-header"><div class="card-title">📊 Session</div></div>
+              <div class="card-body" style="padding:16px;">
+                <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;">
+                  <div style="display:flex;justify-content:space-between;">
+                    <span style="color:var(--text-secondary);">Language</span>
+                    <strong id="info-lang">—</strong>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;">
+                    <span style="color:var(--text-secondary);">Difficulty</span>
+                    <strong id="info-diff">—</strong>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;">
+                    <span style="color:var(--text-secondary);">Questions</span>
+                    <strong id="info-qcount">0 / 10</strong>
+                  </div>
+                  <div class="divider"></div>
+                  <div style="display:flex;justify-content:space-between;">
+                    <span style="color:var(--text-secondary);">Avg Score</span>
+                    <strong id="info-avgscore" style="color:var(--primary);">—</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header"><div class="card-title">💡 Tips</div></div>
+              <div class="card-body" style="padding:16px;">
+                <ul style="font-size:12px;color:var(--text-secondary);line-height:2;list-style:none;">
+                  <li>📌 Be specific and use examples</li>
+                  <li>⏱️ Explain your thought process</li>
+                  <li>💻 Mention relevant code concepts</li>
+                  <li>🤔 Ask clarifying questions</li>
+                  <li>💪 It's OK to say "I'm not sure"</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="card" id="scoreBoard" style="display:none;">
+              <div class="card-header"><div class="card-title">🏆 Scores</div></div>
+              <div class="card-body" style="padding:16px;" id="scoreBoardContent"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Panel -->
+      <div id="resultsPanel" style="display:none;">
+        <div style="max-width:700px;margin:0 auto;">
+          <div style="text-align:center;margin-bottom:28px;">
+            <div style="font-size:56px;margin-bottom:12px;">🏆</div>
+            <h2 style="font-size:26px;font-weight:800;margin-bottom:8px;">Interview Complete!</h2>
+          </div>
+          <div id="finalResultsContent"></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script src="/js/main.js"></script>
+<script>
+if (!Auth.requireAuth()) {}
+
+let interviewId = null;
+let currentQuestionNum = 0;
+let interviewTimer = null;
+let interviewSeconds = 0;
+let sessionScores = [];
+let currentConfig = {};
+
+const SUBTOPICS = {
+  'Java': ['Core Java', 'OOP Concepts', 'Collections Framework', 'Multithreading', 'Java 8+ Features', 'Exception Handling', 'JVM & Memory', 'All Topics'],
+  'Python': ['Python Basics', 'OOP in Python', 'Data Structures', 'File Handling', 'Libraries & Modules', 'Decorators & Generators', 'All Topics'],
+  'JavaScript': ['ES6+ Basics', 'DOM & Events', 'Async/Promises', 'Prototypes & Closures', 'Node.js Concepts', 'All Topics'],
+  'TypeScript': ['Types & Interfaces', 'Generics', 'Decorators', 'Type Utilities', 'All Topics'],
+  'C': ['Pointers', 'Memory Management', 'Structures & Unions', 'File I/O', 'All Topics'],
+  'C++': ['OOP in C++', 'STL', 'Templates', 'Smart Pointers', 'Concurrency', 'All Topics'],
+  'C#': ['OOP in C#', 'LINQ', 'Async/Await', 'Delegates & Events', '.NET Basics', 'All Topics'],
+  'Go': ['Go Basics', 'Goroutines', 'Channels', 'Interfaces', 'Error Handling', 'All Topics'],
+  'Kotlin': ['Kotlin Basics', 'Coroutines', 'Data Classes', 'Extension Functions', 'Android Concepts', 'All Topics'],
+  'PHP': ['PHP Basics', 'OOP in PHP', 'Web Concepts', 'Database Interaction', 'All Topics'],
+  'SQL': ['SELECT Queries', 'JOINs', 'Aggregations', 'Subqueries', 'Indexing & Optimization', 'Stored Procedures', 'All Topics'],
+  'DSA': ['Arrays & Strings', 'Linked Lists', 'Stacks & Queues', 'Trees & Graphs', 'Dynamic Programming', 'Sorting & Searching', 'All Topics'],
+  'Spring Boot': ['REST APIs', 'Spring Security', 'Spring Data JPA', 'Spring AI', 'Microservices', 'All Topics'],
+  'System Design': ['Low Level Design', 'High Level Design', 'Database Design', 'API Design', 'Scalability', 'All Topics']
+};
+
+document.addEventListener('DOMContentLoaded', async () => {
+  Sidebar.init();
+  loadTopics();
+  loadPastInterviews();
+});
+
+async function loadTopics() {
+  const res = await API.topics.getAll();
+  if (!res?.success) return;
+  
+  const langSel = document.getElementById('mi-language');
+  langSel.innerHTML = '<option value="">Select language</option>' +
+    res.data.map(t => `<option value="${t.id}" data-name="${t.name}">${getLangIcon(t.name)} ${t.name}</option>`).join('');
+}
+
+function updateTopics() {
+  const langSel = document.getElementById('mi-language');
+  const topicSel = document.getElementById('mi-topic');
+  
+  const selectedOption = langSel.options[langSel.selectedIndex];
+  if (!selectedOption || !selectedOption.value) {
+    topicSel.innerHTML = '<option value="">Select topic</option>';
+    return;
+  }
+  
+  const langName = selectedOption.dataset.name;
+  const subs = SUBTOPICS[langName] || ['All Topics'];
+  
+  topicSel.innerHTML = '<option value="">Select topic</option>' + 
+    subs.map(s => `<option value="${s}">${s}</option>`).join('');
+}
+
+async function loadPastInterviews() {
+  const res = await API.mock.my();
+  const container = document.getElementById('pastInterviewsContainer');
+  if (!res?.success || !res.data.length) {
+    container.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:20px;font-size:13px;">No mock interviews yet. Start your first one!</div>';
+    return;
+  }
+  container.innerHTML = res.data.slice(0, 5).map(mi => `
+    <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--bg-input);border-radius:var(--radius-sm);margin-bottom:10px;">
+      <div style="width:44px;height:44px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🎤</div>
+      <div style="flex:1;">
+        <div style="font-weight:600;font-size:14px;">${mi.topicName} – ${mi.language}</div>
+        <div style="font-size:12px;color:var(--text-muted);">${difficultyBadge(mi.difficulty)} · ${timeSince(mi.startedAt)}</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-weight:700;color:${(mi.overallScore||0)>=60?'var(--secondary)':'var(--accent)'};">${mi.overallScore ? Math.round(mi.overallScore) + '%' : 'N/A'}</div>
+        <div style="font-size:11px;color:var(--text-muted);">${mi.status}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function startInterview() {
+  const langEl = document.getElementById('mi-language');
+  const topicEl = document.getElementById('mi-topic');
+  const topicId = langEl.value; // The DB topic ID
+  const language = topicEl.value; // The subtopic string
+  const difficulty = document.getElementById('mi-difficulty').value;
+
+  if (!topicId || !language) {
+    Toast.warning('Missing Info', 'Please select a language and topic');
+    return;
+  }
+
+  const btn = document.getElementById('startInterviewBtn');
+  btn.innerHTML = '⏳ Starting interview...';
+  btn.disabled = true;
+
+  currentConfig = {
+    language,
+    topicName: langEl.options[langEl.selectedIndex]?.dataset.name || language,
+    difficulty,
+    targetRole: document.getElementById('mi-role').value,
+    companyType: document.getElementById('mi-company').value
+  };
+
+  const res = await API.mock.start({
+    topicId: parseInt(topicId),
+    language,
+    difficulty,
+    targetRole: currentConfig.targetRole,
+    companyType: currentConfig.companyType
+  });
+
+  if (!res?.success) {
+    btn.innerHTML = '🎤 Start Mock Interview';
+    btn.disabled = false;
+    return;
+  }
+
+  interviewId = res.data.interviewId;
+  currentQuestionNum = 1;
+
+  // Switch panels
+  document.getElementById('setupPanel').style.display = 'none';
+  document.getElementById('interviewPanel').style.display = 'block';
+
+  // Set info
+  document.getElementById('info-lang').textContent = language;
+  document.getElementById('info-diff').textContent = difficulty;
+  document.getElementById('info-qcount').textContent = `0 / 10`;
+
+  // Start timer
+  interviewTimer = setInterval(() => {
+    interviewSeconds++;
+    document.getElementById('interviewTimer').textContent = `⏱️ ${formatTime(interviewSeconds)}`;
+  }, 1000);
+
+  // Add intro message
+  addAiMessage("👋 Hello! I'm your AI interviewer today. I'll be asking you technical questions to assess your knowledge. Take your time, be thorough, and explain your thinking. Let's begin!");
+  setTimeout(() => {
+    // Add first question
+    const aiData = res.data.aiResponse;
+    if (aiData?.question) {
+      addAiMessage(aiData.question, aiData.questionType);
+    }
+  }, 1000);
+}
+
+function addAiMessage(message, type = null) {
+  const chat = document.getElementById('chatMessages');
+  const typeLabel = type ? `<span class="badge badge-primary" style="margin-bottom:8px;">${type}</span><br>` : '';
+  chat.innerHTML += `
+    <div style="display:flex;gap:12px;align-items:flex-start;">
+      <div style="width:36px;height:36px;background:linear-gradient(135deg,var(--primary),#9B8FFF);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🤖</div>
+      <div class="chat-bubble ai" style="background:var(--bg-input);border-radius:4px 14px 14px 14px;padding:14px 18px;max-width:85%;">
+        ${typeLabel}${message.replace(/\n/g, '<br>')}
+      </div>
+    </div>
+  `;
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function addUserMessage(message) {
+  const chat = document.getElementById('chatMessages');
+  chat.innerHTML += `
+    <div style="display:flex;gap:12px;align-items:flex-start;justify-content:flex-end;">
+      <div class="chat-bubble user" style="background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border-radius:14px 4px 14px 14px;padding:14px 18px;max-width:85%;">
+        ${message.replace(/\n/g, '<br>')}
+      </div>
+      <div style="width:36px;height:36px;background:var(--bg-input);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">👤</div>
+    </div>
+  `;
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function addEvalMessage(evalData) {
+  const chat = document.getElementById('chatMessages');
+  const score = evalData?.score || 5;
+  const feedback = evalData?.feedback || '';
+  const scoreColor = score >= 7 ? 'var(--secondary)' : score >= 5 ? 'var(--warning)' : 'var(--accent)';
+
+  chat.innerHTML += `
+    <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin:4px 0;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+        <span style="font-size:12px;font-weight:600;text-transform:uppercase;color:var(--text-muted);">AI Evaluation</span>
+        <div style="display:flex;gap:2px;">
+          ${Array(10).fill(0).map((_, i) => `<div style="width:8px;height:16px;border-radius:2px;background:${i<score?scoreColor:'var(--border)'};"></div>`).join('')}
+        </div>
+        <span style="font-weight:700;color:${scoreColor};">${score}/10</span>
+      </div>
+      ${feedback ? `<div style="font-size:13px;line-height:1.6;color:var(--text-primary);">${feedback}</div>` : ''}
+    </div>
+  `;
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function handleAnswerKey(e) {
+  if (e.ctrlKey && e.key === 'Enter') sendAnswer();
+}
+
+async function sendAnswer() {
+  const input = document.getElementById('answerInput');
+  const answer = input.value.trim();
+  if (!answer) { Toast.warning('Empty', 'Please type your answer first'); return; }
+
+  const btn = document.getElementById('sendAnswerBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Evaluating...';
+
+  input.value = '';
+  addUserMessage(answer);
+
+  // Add typing indicator
+  const chat = document.getElementById('chatMessages');
+  chat.innerHTML += `<div id="typingIndicator" style="display:flex;gap:12px;align-items:flex-start;"><div style="width:36px;height:36px;background:linear-gradient(135deg,var(--primary),#9B8FFF);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;">🤖</div><div style="background:var(--bg-input);border-radius:4px 14px 14px 14px;padding:14px 18px;color:var(--text-muted);font-size:14px;">🤔 Evaluating your answer...</div></div>`;
+  chat.scrollTop = chat.scrollHeight;
+
+  const res = await API.mock.respond(interviewId, answer, currentQuestionNum);
+  document.getElementById('typingIndicator')?.remove();
+
+  if (!res?.success) {
+    btn.disabled = false;
+    btn.textContent = 'Send Answer 🚀';
+    return;
+  }
+
+  const data = res.data;
+  const evalData = data.evaluation;
+
+  // Show evaluation
+  if (evalData) {
+    addEvalMessage(evalData);
+    if (evalData.score) {
+      sessionScores.push(evalData.score);
+      updateScoreBoard();
+    }
+  }
+
+  document.getElementById('info-qcount').textContent = `${currentQuestionNum} / 10`;
+  document.getElementById('questionCounter').textContent = currentQuestionNum + 1;
+
+  if (data.status === 'COMPLETED') {
+    clearInterval(interviewTimer);
+    setTimeout(() => showFinalResults(data), 1500);
+  } else if (data.nextQuestion?.question) {
+    currentQuestionNum++;
+    setTimeout(() => {
+      addAiMessage(data.nextQuestion.question, data.nextQuestion.questionType);
+    }, 800);
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Send Answer 🚀';
+}
+
+function updateScoreBoard() {
+  const board = document.getElementById('scoreBoard');
+  const content = document.getElementById('scoreBoardContent');
+  board.style.display = 'block';
+  const avg = sessionScores.reduce((a, b) => a + b, 0) / sessionScores.length;
+  document.getElementById('info-avgscore').textContent = `${(avg * 10).toFixed(0)}%`;
+  content.innerHTML = sessionScores.map((s, i) => `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;">
+      <span style="color:var(--text-muted);width:20px;">Q${i+1}</span>
+      <div style="flex:1;height:6px;background:var(--bg-input);border-radius:3px;overflow:hidden;">
+        <div style="height:100%;width:${s*10}%;background:${s>=7?'var(--secondary)':s>=5?'var(--warning)':'var(--accent)'};border-radius:3px;"></div>
+      </div>
+      <span style="font-weight:700;color:${s>=7?'var(--secondary)':s>=5?'var(--warning)':'var(--accent)'};">${s}/10</span>
+    </div>
+  `).join('');
+}
+
+function showFinalResults(data) {
+  clearInterval(interviewTimer);
+  document.getElementById('interviewPanel').style.display = 'none';
+  document.getElementById('resultsPanel').style.display = 'block';
+
+  const avgScore = sessionScores.length
+    ? sessionScores.reduce((a, b) => a + b, 0) / sessionScores.length * 10
+    : data.finalScore || 0;
+
+  document.getElementById('finalResultsContent').innerHTML = `
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-body" style="text-align:center;padding:32px;">
+        <div id="finalScoreCircle"></div>
+        <div style="margin-top:16px;font-size:20px;font-weight:800;">${avgScore >= 80 ? '🎉 Excellent Performance!' : avgScore >= 60 ? '👍 Good Interview!' : '📚 Keep Practicing!'}</div>
+        <div style="color:var(--text-secondary);margin-top:6px;">Overall score based on ${sessionScores.length} questions answered</div>
+        <div style="display:flex;gap:16px;justify-content:center;margin-top:20px;font-size:14px;">
+          <div><div style="font-weight:700;font-size:20px;">${sessionScores.length}</div><div style="color:var(--text-muted);">Questions</div></div>
+          <div><div style="font-weight:700;font-size:20px;">${formatTime(interviewSeconds)}</div><div style="color:var(--text-muted);">Duration</div></div>
+          <div><div style="font-weight:700;font-size:20px;">${data.finalScore ? Math.round(data.finalScore) + '%' : Math.round(avgScore) + '%'}</div><div style="color:var(--text-muted);">Score</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button class="btn btn-primary btn-block btn-lg" onclick="location.reload()">🎤 Start New Interview</button>
+      <a href="/dashboard" class="btn btn-secondary btn-block">← Back to Dashboard</a>
+      <a href="/study-plan" class="btn btn-secondary btn-block">🗺️ Generate Study Plan</a>
+    </div>
+  `;
+
+  renderScoreCircle('finalScoreCircle', avgScore);
+}
+
+function endInterview() {
+  if (confirm('Are you sure you want to end the interview? This will finalize your results.')) {
+    clearInterval(interviewTimer);
+    showFinalResults({ finalScore: sessionScores.length ? sessionScores.reduce((a,b)=>a+b,0)/sessionScores.length*10 : 0 });
+  }
+}
+</script>
+</body>
+</html>
