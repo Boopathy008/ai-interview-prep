@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profile – AI Interview Prep</title>
+  <title>Profile â€“ AI Interview Prep</title>
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
@@ -12,31 +12,31 @@
 
 <div class="app-layout">
   <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand"><div class="brand-logo"><div class="brand-icon">🎯</div><div><div class="brand-name">AI Interview <span>Prep</span></div><span class="brand-sub">Multi-Language Mentor</span></div></div></div>
+    <div class="sidebar-brand"><div class="brand-logo"><div class="brand-icon">ðŸŽ¯</div><div><div class="brand-name">AI Interview <span>Prep</span></div><span class="brand-sub">Multi-Language Mentor</span></div></div></div>
     <nav class="sidebar-nav">
       <div class="nav-section-label">Main</div>
-      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">📊</div><span>Dashboard</span></a>
-      <a class="sidebar-link" href="/topics"><div class="nav-icon">🚀</div><span>Start Practice</span></a>
-      <a class="sidebar-link" href="/mock-interview"><div class="nav-icon">🎤</div><span>Mock Interview</span></a>
+      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">ðŸ“Š</div><span>Dashboard</span></a>
+      <a class="sidebar-link" href="/topics"><div class="nav-icon">ðŸš€</div><span>Start Practice</span></a>
+      <a class="sidebar-link" href="/mock-interview"><div class="nav-icon">ðŸŽ¤</div><span>Mock Interview</span></a>
       <div class="nav-section-label">Progress</div>
-      <a class="sidebar-link" href="/progress"><div class="nav-icon">📈</div><span>My Progress</span></a>
-      <a class="sidebar-link" href="/study-plan"><div class="nav-icon">🗺️</div><span>Study Plan</span></a>
+      <a class="sidebar-link" href="/progress"><div class="nav-icon">ðŸ“ˆ</div><span>My Progress</span></a>
+      <a class="sidebar-link" href="/study-plan"><div class="nav-icon">ðŸ—ºï¸</div><span>Study Plan</span></a>
       <div class="nav-section-label">Account</div>
-      <a class="sidebar-link active" href="/profile"><div class="nav-icon">👤</div><span>My Profile</span></a>
+      <a class="sidebar-link active" href="/profile"><div class="nav-icon">ðŸ‘¤</div><span>My Profile</span></a>
     </nav>
     <div class="sidebar-footer">
       <div class="sidebar-user"><div class="user-avatar" id="sidebarUserAvatar">U</div><div class="user-info"><div class="user-name" id="sidebarUserName">Loading...</div><div class="user-role" id="sidebarUserRole">Student</div></div></div>
-      <a class="sidebar-link" href="#" data-action="logout" style="margin-top:4px;"><div class="nav-icon">🚪</div><span>Logout</span></a>
+      <a class="sidebar-link" href="#" data-action="logout" style="margin-top:4px;"><div class="nav-icon">ðŸšª</div><span>Logout</span></a>
     </div>
   </aside>
 
   <main class="main-content">
     <div class="top-navbar">
       <div style="display:flex;align-items:center;gap:14px;">
-        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
-        <div class="page-title">👤 My Profile</div>
+        <button class="sidebar-toggle" id="sidebarToggle">â˜°</button>
+        <div class="page-title">ðŸ‘¤ My Profile</div>
       </div>
-      <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;"><span id="themeIcon">🌙</span></button>
+      <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;"><span id="themeIcon">ðŸŒ™</span></button>
     </div>
 
     <div class="page-content">
@@ -51,58 +51,58 @@
                 <div id="profileAvatar" style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;color:white;font-size:28px;font-weight:700;border:4px solid var(--bg-card);">U</div>
                 <div style="padding-bottom:8px;">
                   <div style="font-size:20px;font-weight:800;" id="profileName">Loading...</div>
-                  <div style="color:var(--text-secondary);font-size:14px;" id="profileEmail">—</div>
+                  <div style="color:var(--text-secondary);font-size:14px;" id="profileEmail">â€”</div>
                 </div>
               </div>
-              <button class="btn btn-secondary btn-sm" onclick="toggleEdit()">✏️ Edit Profile</button>
+              <button class="btn btn-secondary btn-sm" onclick="toggleEdit()">âœï¸ Edit Profile</button>
             </div>
             <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:12px;">
-              <span id="profileBadgeRole" class="badge badge-primary">🎓 Student</span>
-              <span id="profileBadgeExp" class="badge badge-secondary">—</span>
-              <span id="profileBadgeTarget" class="badge badge-info">—</span>
+              <span id="profileBadgeRole" class="badge badge-primary">ðŸŽ“ Student</span>
+              <span id="profileBadgeExp" class="badge badge-secondary">â€”</span>
+              <span id="profileBadgeTarget" class="badge badge-info">â€”</span>
             </div>
           </div>
         </div>
 
         <!-- Stats -->
         <div class="stats-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;" id="profileStats">
-          <div class="stat-card" style="color:var(--primary);"><div class="stat-icon" style="background:var(--primary-light);">📝</div><div><div class="stat-value" id="pTotalTests">—</div><div class="stat-label">Tests Taken</div></div></div>
-          <div class="stat-card" style="color:#00A87A;"><div class="stat-icon" style="background:#E8FBF5;">🎯</div><div><div class="stat-value" id="pAvgScore">—</div><div class="stat-label">Avg Score</div></div></div>
-          <div class="stat-card" style="color:#B45309;"><div class="stat-icon" style="background:#FFF3E0;">🔥</div><div><div class="stat-value" id="pStreak">—</div><div class="stat-label">Streak</div></div></div>
+          <div class="stat-card" style="color:var(--primary);"><div class="stat-icon" style="background:var(--primary-light);">ðŸ“</div><div><div class="stat-value" id="pTotalTests">â€”</div><div class="stat-label">Tests Taken</div></div></div>
+          <div class="stat-card" style="color:#00A87A;"><div class="stat-icon" style="background:#E8FBF5;">ðŸŽ¯</div><div><div class="stat-value" id="pAvgScore">â€”</div><div class="stat-label">Avg Score</div></div></div>
+          <div class="stat-card" style="color:#B45309;"><div class="stat-icon" style="background:#FFF3E0;">ðŸ”¥</div><div><div class="stat-value" id="pStreak">â€”</div><div class="stat-label">Streak</div></div></div>
         </div>
 
         <!-- Profile Info -->
         <div class="card" id="profileView" style="margin-bottom:20px;">
-          <div class="card-header"><div class="card-title">📋 Profile Information</div></div>
+          <div class="card-header"><div class="card-title">ðŸ“‹ Profile Information</div></div>
           <div class="card-body" id="profileInfo">
             <div class="profile-info-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
               <div>
                 <div class="form-label">Full Name</div>
-                <div style="font-weight:600;" id="pFullName">—</div>
+                <div style="font-weight:600;" id="pFullName">â€”</div>
               </div>
               <div>
                 <div class="form-label">Username</div>
-                <div style="font-weight:600;" id="pUsername">—</div>
+                <div style="font-weight:600;" id="pUsername">â€”</div>
               </div>
               <div>
                 <div class="form-label">Email</div>
-                <div style="font-weight:600;" id="pEmailDisplay">—</div>
+                <div style="font-weight:600;" id="pEmailDisplay">â€”</div>
               </div>
               <div>
                 <div class="form-label">College</div>
-                <div style="font-weight:600;" id="pCollege">—</div>
+                <div style="font-weight:600;" id="pCollege">â€”</div>
               </div>
               <div>
                 <div class="form-label">Graduation Year</div>
-                <div style="font-weight:600;" id="pGradYear">—</div>
+                <div style="font-weight:600;" id="pGradYear">â€”</div>
               </div>
               <div>
                 <div class="form-label">Target Role</div>
-                <div style="font-weight:600;" id="pTargetRole">—</div>
+                <div style="font-weight:600;" id="pTargetRole">â€”</div>
               </div>
               <div>
                 <div class="form-label">Member Since</div>
-                <div style="font-weight:600;" id="pJoinDate">—</div>
+                <div style="font-weight:600;" id="pJoinDate">â€”</div>
               </div>
             </div>
           </div>
@@ -111,11 +111,11 @@
         <!-- Danger Zone -->
         <div class="card" style="border-color:var(--accent);">
           <div class="card-header">
-            <div class="card-title" style="color:var(--accent);">⚠️ Account Actions</div>
+            <div class="card-title" style="color:var(--accent);">âš ï¸ Account Actions</div>
           </div>
           <div class="card-body">
             <div style="display:flex;gap:12px;flex-wrap:wrap;">
-              <button class="btn btn-secondary" onclick="Auth.logout()">🚪 Sign Out</button>
+              <button class="btn btn-secondary" onclick="Auth.logout()">ðŸšª Sign Out</button>
             </div>
           </div>
         </div>
@@ -149,17 +149,17 @@ function populateProfile(u) {
   document.getElementById('profileAvatar').textContent = initial;
   document.getElementById('profileName').textContent = u.fullName || u.username;
   document.getElementById('profileEmail').textContent = u.email || '';
-  document.getElementById('profileBadgeRole').textContent = `🎓 ${u.role || 'Student'}`;
+  document.getElementById('profileBadgeRole').textContent = `ðŸŽ“ ${u.role || 'Student'}`;
   document.getElementById('profileBadgeExp').textContent = u.experienceLevel || 'FRESHER';
-  document.getElementById('profileBadgeTarget').textContent = `🎯 ${u.targetRole || 'Not set'}`;
+  document.getElementById('profileBadgeTarget').textContent = `ðŸŽ¯ ${u.targetRole || 'Not set'}`;
 
-  document.getElementById('pFullName').textContent = u.fullName || '—';
-  document.getElementById('pUsername').textContent = u.username || '—';
-  document.getElementById('pEmailDisplay').textContent = u.email || '—';
+  document.getElementById('pFullName').textContent = u.fullName || 'â€”';
+  document.getElementById('pUsername').textContent = u.username || 'â€”';
+  document.getElementById('pEmailDisplay').textContent = u.email || 'â€”';
   document.getElementById('pCollege').textContent = u.college || 'Not set';
   document.getElementById('pGradYear').textContent = u.graduationYear || 'Not set';
   document.getElementById('pTargetRole').textContent = u.targetRole || 'Not set';
-  document.getElementById('pJoinDate').textContent = formatDate(u.createdAt) || '—';
+  document.getElementById('pJoinDate').textContent = formatDate(u.createdAt) || 'â€”';
 }
 
 function toggleEdit() {
@@ -168,3 +168,4 @@ function toggleEdit() {
 </script>
 </body>
 </html>
+

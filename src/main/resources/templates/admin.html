@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard – AI Interview Prep</title>
+  <title>Admin Dashboard â€“ AI Interview Prep</title>
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
@@ -12,27 +12,27 @@
 
 <div class="app-layout">
   <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand"><div class="brand-logo"><div class="brand-icon">🛡️</div><div><div class="brand-name">Admin <span>Panel</span></div><span class="brand-sub">AI Interview Prep</span></div></div></div>
+    <div class="sidebar-brand"><div class="brand-logo"><div class="brand-icon">ðŸ›¡ï¸</div><div><div class="brand-name">Admin <span>Panel</span></div><span class="brand-sub">AI Interview Prep</span></div></div></div>
     <nav class="sidebar-nav">
       <div class="nav-section-label">Admin</div>
-      <a class="sidebar-link active" href="/admin"><div class="nav-icon">🛡️</div><span>Admin Dashboard</span></a>
+      <a class="sidebar-link active" href="/admin"><div class="nav-icon">ðŸ›¡ï¸</div><span>Admin Dashboard</span></a>
       <div class="nav-section-label">Navigate</div>
-      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">📊</div><span>Student View</span></a>
-      <a class="sidebar-link" href="/topics"><div class="nav-icon">🚀</div><span>Start Practice</span></a>
+      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">ðŸ“Š</div><span>Student View</span></a>
+      <a class="sidebar-link" href="/topics"><div class="nav-icon">ðŸš€</div><span>Start Practice</span></a>
     </nav>
     <div class="sidebar-footer">
-      <div class="sidebar-user"><div class="user-avatar" id="sidebarUserAvatar">A</div><div class="user-info"><div class="user-name" id="sidebarUserName">Admin</div><div class="user-role" id="sidebarUserRole">🛡️ Admin</div></div></div>
-      <a class="sidebar-link" href="#" data-action="logout" style="margin-top:4px;"><div class="nav-icon">🚪</div><span>Logout</span></a>
+      <div class="sidebar-user"><div class="user-avatar" id="sidebarUserAvatar">A</div><div class="user-info"><div class="user-name" id="sidebarUserName">Admin</div><div class="user-role" id="sidebarUserRole">ðŸ›¡ï¸ Admin</div></div></div>
+      <a class="sidebar-link" href="#" data-action="logout" style="margin-top:4px;"><div class="nav-icon">ðŸšª</div><span>Logout</span></a>
     </div>
   </aside>
 
   <main class="main-content">
     <div class="top-navbar">
       <div style="display:flex;align-items:center;gap:14px;">
-        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
-        <div class="page-title">🛡️ Admin Dashboard</div>
+        <button class="sidebar-toggle" id="sidebarToggle">â˜°</button>
+        <div class="page-title">ðŸ›¡ï¸ Admin Dashboard</div>
       </div>
-      <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;"><span id="themeIcon">🌙</span></button>
+      <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;"><span id="themeIcon">ðŸŒ™</span></button>
     </div>
 
     <div class="page-content">
@@ -48,8 +48,8 @@
       <!-- Recent Users -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">👥 Recent Users</div>
-          <span class="badge badge-primary" id="totalUsersCount">—</span>
+          <div class="card-title">ðŸ‘¥ Recent Users</div>
+          <span class="badge badge-primary" id="totalUsersCount">â€”</span>
         </div>
         <div class="card-body" id="recentUsersContainer" style="padding:0;">
           <div style="padding:40px;text-align:center;color:var(--text-muted);">Loading...</div>
@@ -73,19 +73,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.getElementById('adminStats').innerHTML = `
     <div class="stat-card" style="color:var(--primary);">
-      <div class="stat-icon" style="background:var(--primary-light);">👥</div>
+      <div class="stat-icon" style="background:var(--primary-light);">ðŸ‘¥</div>
       <div><div class="stat-value">${d.totalStudents || 0}</div><div class="stat-label">Students</div></div>
     </div>
     <div class="stat-card" style="color:#00A87A;">
-      <div class="stat-icon" style="background:#E8FBF5;">📝</div>
+      <div class="stat-icon" style="background:#E8FBF5;">ðŸ“</div>
       <div><div class="stat-value">${d.totalTests || 0}</div><div class="stat-label">Total Tests</div></div>
     </div>
     <div class="stat-card" style="color:#B45309;">
-      <div class="stat-icon" style="background:#FFF3E0;">✅</div>
+      <div class="stat-icon" style="background:#FFF3E0;">âœ…</div>
       <div><div class="stat-value">${d.completedTests || 0}</div><div class="stat-label">Completed</div></div>
     </div>
     <div class="stat-card" style="color:#0277BD;">
-      <div class="stat-icon" style="background:#E3F7FF;">👤</div>
+      <div class="stat-icon" style="background:#E3F7FF;">ðŸ‘¤</div>
       <div><div class="stat-value">${d.totalUsers || 0}</div><div class="stat-label">All Users</div></div>
     </div>
   `;
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             </td>
             <td style="padding:14px 16px;font-size:13px;color:var(--text-secondary);">${u.email}</td>
             <td style="padding:14px 16px;text-align:center;font-weight:700;">${u.totalTests || 0}</td>
-            <td style="padding:14px 16px;text-align:center;font-weight:700;color:${(u.averageScore||0)>=60?'var(--secondary)':'var(--accent)'};">${u.averageScore ? Math.round(u.averageScore) + '%' : '—'}</td>
+            <td style="padding:14px 16px;text-align:center;font-weight:700;color:${(u.averageScore||0)>=60?'var(--secondary)':'var(--accent)'};">${u.averageScore ? Math.round(u.averageScore) + '%' : 'â€”'}</td>
             <td style="padding:14px 16px;text-align:right;font-size:12px;color:var(--text-muted);">${formatDate(u.createdAt)}</td>
           </tr>
         `).join('')}
@@ -129,3 +129,4 @@ document.addEventListener('DOMContentLoaded', async () => {
 </script>
 </body>
 </html>
+

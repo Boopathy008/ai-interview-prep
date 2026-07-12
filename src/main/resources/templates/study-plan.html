@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Study Plan – AI Interview Prep</title>
+  <title>Study Plan â€“ AI Interview Prep</title>
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
@@ -12,31 +12,31 @@
 
 <div class="app-layout">
   <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand"><div class="brand-logo"><div class="brand-icon">🎯</div><div><div class="brand-name">AI Interview <span>Prep</span></div><span class="brand-sub">Multi-Language Mentor</span></div></div></div>
+    <div class="sidebar-brand"><div class="brand-logo"><div class="brand-icon">ðŸŽ¯</div><div><div class="brand-name">AI Interview <span>Prep</span></div><span class="brand-sub">Multi-Language Mentor</span></div></div></div>
     <nav class="sidebar-nav">
       <div class="nav-section-label">Main</div>
-      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">📊</div><span>Dashboard</span></a>
-      <a class="sidebar-link" href="/topics"><div class="nav-icon">🚀</div><span>Start Practice</span></a>
-      <a class="sidebar-link" href="/mock-interview"><div class="nav-icon">🎤</div><span>Mock Interview</span></a>
+      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">ðŸ“Š</div><span>Dashboard</span></a>
+      <a class="sidebar-link" href="/topics"><div class="nav-icon">ðŸš€</div><span>Start Practice</span></a>
+      <a class="sidebar-link" href="/mock-interview"><div class="nav-icon">ðŸŽ¤</div><span>Mock Interview</span></a>
       <div class="nav-section-label">Progress</div>
-      <a class="sidebar-link" href="/progress"><div class="nav-icon">📈</div><span>My Progress</span></a>
-      <a class="sidebar-link active" href="/study-plan"><div class="nav-icon">🗺️</div><span>Study Plan</span></a>
+      <a class="sidebar-link" href="/progress"><div class="nav-icon">ðŸ“ˆ</div><span>My Progress</span></a>
+      <a class="sidebar-link active" href="/study-plan"><div class="nav-icon">ðŸ—ºï¸</div><span>Study Plan</span></a>
       <div class="nav-section-label">Account</div>
-      <a class="sidebar-link" href="/profile"><div class="nav-icon">👤</div><span>My Profile</span></a>
+      <a class="sidebar-link" href="/profile"><div class="nav-icon">ðŸ‘¤</div><span>My Profile</span></a>
     </nav>
     <div class="sidebar-footer">
       <div class="sidebar-user"><div class="user-avatar" id="sidebarUserAvatar">U</div><div class="user-info"><div class="user-name" id="sidebarUserName">Loading...</div><div class="user-role" id="sidebarUserRole">Student</div></div></div>
-      <a class="sidebar-link" href="#" data-action="logout" style="margin-top:4px;"><div class="nav-icon">🚪</div><span>Logout</span></a>
+      <a class="sidebar-link" href="#" data-action="logout" style="margin-top:4px;"><div class="nav-icon">ðŸšª</div><span>Logout</span></a>
     </div>
   </aside>
 
   <main class="main-content">
     <div class="top-navbar">
       <div style="display:flex;align-items:center;gap:14px;">
-        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
-        <div class="page-title">🗺️ Study Plan</div>
+        <button class="sidebar-toggle" id="sidebarToggle">â˜°</button>
+        <div class="page-title">ðŸ—ºï¸ Study Plan</div>
       </div>
-      <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;"><span id="themeIcon">🌙</span></button>
+      <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;"><span id="themeIcon">ðŸŒ™</span></button>
     </div>
 
     <div class="page-content">
@@ -44,7 +44,7 @@
       <!-- Generator Form -->
       <div class="card" style="margin-bottom:24px;">
         <div class="card-header">
-          <div class="card-title">🤖 Generate Personalized Study Plan</div>
+          <div class="card-title">ðŸ¤– Generate Personalized Study Plan</div>
           <span class="badge badge-success">AI Powered</span>
         </div>
         <div class="card-body">
@@ -73,23 +73,23 @@
             <div class="form-group" style="margin-bottom:0;">
               <label class="form-label">Duration</label>
               <select id="sp-weeks" class="form-control">
-                <option value="2">2 Weeks – Quick Prep</option>
-                <option value="4" selected>4 Weeks – Standard</option>
-                <option value="6">6 Weeks – Thorough</option>
-                <option value="8">8 Weeks – Deep Dive</option>
+                <option value="2">2 Weeks â€“ Quick Prep</option>
+                <option value="4" selected>4 Weeks â€“ Standard</option>
+                <option value="6">6 Weeks â€“ Thorough</option>
+                <option value="8">8 Weeks â€“ Deep Dive</option>
               </select>
             </div>
             <div class="form-group" style="margin-bottom:0;">
               <label class="form-label">Experience Level</label>
               <select id="sp-exp" class="form-control">
-                <option value="FRESHER">🎓 Fresher</option>
-                <option value="JUNIOR">👶 Junior (0-1 yr)</option>
-                <option value="MID">📈 Mid (1-3 yr)</option>
+                <option value="FRESHER">ðŸŽ“ Fresher</option>
+                <option value="JUNIOR">ðŸ‘¶ Junior (0-1 yr)</option>
+                <option value="MID">ðŸ“ˆ Mid (1-3 yr)</option>
               </select>
             </div>
           </div>
           <button class="btn btn-primary btn-lg" onclick="generatePlan()" id="generateBtn" style="margin-top:16px;">
-            🤖 Generate My Study Plan
+            ðŸ¤– Generate My Study Plan
           </button>
         </div>
       </div>
@@ -97,7 +97,7 @@
       <!-- Active Plan Display -->
       <div id="planContainer">
         <div style="text-align:center;padding:60px 20px;">
-          <div style="font-size:64px;margin-bottom:16px;">🗺️</div>
+          <div style="font-size:64px;margin-bottom:16px;">ðŸ—ºï¸</div>
           <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;">No Study Plan Yet</h3>
           <p style="color:var(--text-secondary);font-size:14px;margin-bottom:24px;">Generate a personalized AI study plan based on your weak topics and goals</p>
         </div>
@@ -125,12 +125,12 @@ async function generatePlan() {
   if (!language) { Toast.warning('Missing', 'Please select a language'); return; }
 
   const btn = document.getElementById('generateBtn');
-  btn.innerHTML = '<div class="ai-loading-orb" style="width:24px;height:24px;font-size:12px;display:inline-flex;margin-right:8px;">🤖</div> Generating...';
+  btn.innerHTML = '<div class="ai-loading-orb" style="width:24px;height:24px;font-size:12px;display:inline-flex;margin-right:8px;">ðŸ¤–</div> Generating...';
   btn.disabled = true;
 
   document.getElementById('planContainer').innerHTML = `
     <div class="ai-loading" style="padding:80px;">
-      <div class="ai-loading-orb">🤖</div>
+      <div class="ai-loading-orb">ðŸ¤–</div>
       <div class="ai-loading-text">Creating your personalized study plan...</div>
       <div class="ai-loading-subtext">The AI is analysing your progress and building a customized roadmap</div>
     </div>
@@ -145,7 +145,7 @@ async function generatePlan() {
 
   const res = await API.studyPlan.generate(params);
 
-  btn.innerHTML = '🤖 Generate My Study Plan';
+  btn.innerHTML = 'ðŸ¤– Generate My Study Plan';
   btn.disabled = false;
 
   if (res?.success) {
@@ -185,7 +185,7 @@ function renderPlan(planJson, title, isDraft = false) {
     <!-- Key Milestones -->
     ${plan.keyMilestones?.length ? `
       <div class="card" style="margin-bottom:20px;">
-        <div class="card-header"><div class="card-title">🏆 Key Milestones</div></div>
+        <div class="card-header"><div class="card-title">ðŸ† Key Milestones</div></div>
         <div class="card-body">
           <div style="display:flex;flex-wrap:wrap;gap:10px;">
             ${plan.keyMilestones.map((m, i) => `
@@ -208,10 +208,10 @@ function renderPlan(planJson, title, isDraft = false) {
               <div style="width:40px;height:40px;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:14px;flex-shrink:0;">W${week.weekNumber || wi+1}</div>
               <div>
                 <div class="card-title">${week.theme || `Week ${wi+1}`}</div>
-                <div style="font-size:12px;color:var(--text-muted);">${week.goals?.length || 0} goals · ${week.days?.length || 0} days planned</div>
+                <div style="font-size:12px;color:var(--text-muted);">${week.goals?.length || 0} goals Â· ${week.days?.length || 0} days planned</div>
               </div>
             </div>
-            <span id="weekArrow-${wi}" style="color:var(--text-muted);">▼</span>
+            <span id="weekArrow-${wi}" style="color:var(--text-muted);">â–¼</span>
           </div>
 
           <div id="weekContent-${wi}" style="${wi === 0 ? '' : 'display:none;'}">
@@ -232,17 +232,17 @@ function renderPlan(planJson, title, isDraft = false) {
                     ${day.topics?.length ? `
                       <div style="margin-bottom:8px;">
                         <div style="font-size:11px;font-weight:600;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">Topics</div>
-                        ${day.topics.map(t => `<div style="font-size:13px;color:var(--text-primary);padding:2px 0;">📌 ${t}</div>`).join('')}
+                        ${day.topics.map(t => `<div style="font-size:13px;color:var(--text-primary);padding:2px 0;">ðŸ“Œ ${t}</div>`).join('')}
                       </div>
                     ` : ''}
                     ${day.exercises?.length ? `
                       <div style="margin-bottom:8px;">
                         <div style="font-size:11px;font-weight:600;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">Exercises</div>
-                        ${day.exercises.map(e => `<div style="font-size:13px;color:var(--text-primary);padding:2px 0;">💻 ${e}</div>`).join('')}
+                        ${day.exercises.map(e => `<div style="font-size:13px;color:var(--text-primary);padding:2px 0;">ðŸ’» ${e}</div>`).join('')}
                       </div>
                     ` : ''}
                     ${day.estimatedHours ? `
-                      <div style="margin-top:8px;font-size:12px;color:var(--text-muted);">⏱️ ~${day.estimatedHours}h estimated</div>
+                      <div style="margin-top:8px;font-size:12px;color:var(--text-muted);">â±ï¸ ~${day.estimatedHours}h estimated</div>
                     ` : ''}
                   </div>
                 `).join('')}
@@ -254,12 +254,12 @@ function renderPlan(planJson, title, isDraft = false) {
     </div>
 
     <div style="margin-top:20px;display:flex;gap:12px;justify-content:center;" id="planActionButtons">
-      <a href="/topics" class="btn btn-primary">🚀 Start Practicing Now</a>
+      <a href="/topics" class="btn btn-primary">ðŸš€ Start Practicing Now</a>
       ${isDraft ? `
-        <button class="btn btn-success" style="background:#00A87A;color:white;" onclick="savePlan()" id="savePlanBtn">💾 Save Study Plan</button>
+        <button class="btn btn-success" style="background:#00A87A;color:white;" onclick="savePlan()" id="savePlanBtn">ðŸ’¾ Save Study Plan</button>
       ` : `
-        <button class="btn btn-secondary" onclick="generatePlan()">🔄 Regenerate Plan</button>
-        <button class="btn" style="background:#FEF0F0;color:var(--accent);border:1px solid var(--accent);" onclick="deletePlan()">🗑️ Delete Plan</button>
+        <button class="btn btn-secondary" onclick="generatePlan()">ðŸ”„ Regenerate Plan</button>
+        <button class="btn" style="background:#FEF0F0;color:var(--accent);border:1px solid var(--accent);" onclick="deletePlan()">ðŸ—‘ï¸ Delete Plan</button>
       `}
     </div>
   `;
@@ -270,14 +270,14 @@ function toggleWeek(wi) {
   const arrow = document.getElementById(`weekArrow-${wi}`);
   const isHidden = content.style.display === 'none';
   content.style.display = isHidden ? 'block' : 'none';
-  arrow.textContent = isHidden ? '▲' : '▼';
+  arrow.textContent = isHidden ? 'â–²' : 'â–¼';
 }
 
 async function deletePlan() {
   if (!confirm('Are you sure you want to delete your active study plan?')) return;
   const btn = event.target;
   const originalHtml = btn.innerHTML;
-  btn.innerHTML = '🗑️ Deleting...';
+  btn.innerHTML = 'ðŸ—‘ï¸ Deleting...';
   btn.disabled = true;
 
   const res = await API.studyPlan.deleteActive();
@@ -285,7 +285,7 @@ async function deletePlan() {
     Toast.success('Deleted', 'Study plan deleted successfully');
     document.getElementById('planContainer').innerHTML = `
       <div style="text-align:center;padding:60px 20px;">
-        <div style="font-size:64px;margin-bottom:16px;">🗺️</div>
+        <div style="font-size:64px;margin-bottom:16px;">ðŸ—ºï¸</div>
         <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;">No Study Plan Yet</h3>
         <p style="color:var(--text-secondary);font-size:14px;margin-bottom:24px;">Generate a personalized AI study plan based on your weak topics and goals</p>
       </div>
@@ -301,7 +301,7 @@ async function savePlan() {
   if (!btn || !currentDraftParams || !currentDraftPlanJson) return;
 
   const originalHtml = btn.innerHTML;
-  btn.innerHTML = '💾 Saving...';
+  btn.innerHTML = 'ðŸ’¾ Saving...';
   btn.disabled = true;
 
   const requestData = {
@@ -315,9 +315,9 @@ async function savePlan() {
     Toast.success('Saved!', 'Your study plan is now active.');
     // Change buttons to standard active plan buttons
     document.getElementById('planActionButtons').innerHTML = `
-      <a href="/topics" class="btn btn-primary">🚀 Start Practicing Now</a>
-      <button class="btn btn-secondary" onclick="generatePlan()">🔄 Regenerate Plan</button>
-      <button class="btn" style="background:#FEF0F0;color:var(--accent);border:1px solid var(--accent);" onclick="deletePlan()">🗑️ Delete Plan</button>
+      <a href="/topics" class="btn btn-primary">ðŸš€ Start Practicing Now</a>
+      <button class="btn btn-secondary" onclick="generatePlan()">ðŸ”„ Regenerate Plan</button>
+      <button class="btn" style="background:#FEF0F0;color:var(--accent);border:1px solid var(--accent);" onclick="deletePlan()">ðŸ—‘ï¸ Delete Plan</button>
     `;
   } else {
     btn.innerHTML = originalHtml;
@@ -327,3 +327,4 @@ async function savePlan() {
 </script>
 </body>
 </html>
+
