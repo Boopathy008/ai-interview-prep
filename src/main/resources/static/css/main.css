@@ -1281,3 +1281,144 @@ textarea.code-input {
   color: var(--text-muted);
   font-size: 16px;
 }
+
+/* ============================================================
+   Mobile Responsive - Tablet (max 1024px)
+   ============================================================ */
+@media (max-width: 1024px) {
+  :root { --sidebar-width: 220px; }
+
+  .page-content { padding: 20px; }
+
+  .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+/* ============================================================
+   Mobile Responsive - Phone (max 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+  :root { --sidebar-width: 260px; }
+
+  /* Sidebar: hidden by default on mobile */
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 200;
+  }
+  .sidebar.open { transform: translateX(0); }
+
+  /* Main content: full width on mobile */
+  .main-content { margin-left: 0 !important; }
+
+  /* Navbar */
+  .top-navbar { padding: 0 16px; }
+  .page-title { font-size: 15px; }
+
+  /* Page content padding */
+  .page-content { padding: 16px; }
+
+  /* ---- Stats grid: 2 columns on mobile ---- */
+  .stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+  .stat-card { padding: 14px; }
+  .stat-value { font-size: 22px; }
+  .stat-icon { width: 40px; height: 40px; font-size: 18px; }
+
+  /* ---- Dashboard two-column grids → single column ---- */
+  div[style*="grid-template-columns:1fr 1fr"],
+  div[style*="grid-template-columns: 1fr 1fr"],
+  div[style*="grid-template-columns:2fr 1fr"],
+  div[style*="grid-template-columns: 2fr 1fr"],
+  div[style*="grid-template-columns:1fr 300px"],
+  div[style*="grid-template-columns: 1fr 300px"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ---- Cards ---- */
+  .card-body { padding: 16px; }
+  .card-header { padding: 14px 16px; }
+
+  /* ---- Quick start buttons wrap ---- */
+  .btn-block { font-size: 14px; }
+
+  /* ---- Lang grid: 2 columns ---- */
+  .lang-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* ---- Top navbar hidden quick-start padding ---- */
+  .top-navbar > div:first-child { gap: 10px; }
+
+  /* ---- Form grids: single column ---- */
+  div[style*="grid-template-columns:1fr 1fr;gap:16px"],
+  div[style*="grid-template-columns: 1fr 1fr; gap: 16px"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ---- Study plan page ---- */
+  div[style*="max-width:700px"] { max-width: 100% !important; }
+  div[style*="max-width:800px"] { max-width: 100% !important; }
+
+  /* ---- Test timer bar ---- */
+  .test-timer { font-size: 12px; padding: 4px 10px; }
+
+  /* ---- Score circle ---- */
+  .score-circle { width: 100px !important; height: 100px !important; }
+
+  /* ---- Option items ---- */
+  .option-item { padding: 12px 14px; }
+
+  /* ---- Mock interview layout ---- */
+  div[style*="grid-template-columns:1fr 300px;gap:20px"] {
+    grid-template-columns: 1fr !important;
+    height: auto !important;
+  }
+
+  /* ---- Heading sizes ---- */
+  h2[style*="font-size:26px"] { font-size: 20px !important; }
+  h2[style*="font-size:28px"] { font-size: 20px !important; }
+
+  /* ---- Progress bars text ---- */
+  .stat-label { font-size: 12px; }
+  .stat-change { font-size: 11px; }
+
+  /* ---- Sidebar overlay ---- */
+  .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 199;
+    display: none;
+  }
+  .sidebar-overlay.show { display: block; }
+
+  /* ---- Dashboard streak calendar ---- */
+  div[style*="display:flex;align-items:center;justify-content:space-between;font-size:11px"] {
+    font-size: 10px !important;
+  }
+
+  /* ---- Ensure all text is visible ---- */
+  .card-title { font-size: 14px; }
+  .form-label { font-size: 12px; }
+  .btn { font-size: 13px; }
+  .badge { font-size: 10px; }
+
+  /* ---- Topic cards in dashboard ---- */
+  div[style*="gap:12px;flex-wrap:wrap"] { gap: 8px !important; }
+}
+
+/* ============================================================
+   Mobile Responsive - Small Phone (max 480px)
+   ============================================================ */
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr !important; }
+  .lang-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .page-content { padding: 12px; }
+
+  /* ---- Full width buttons on tiny screens ---- */
+  .btn-sm { font-size: 12px; padding: 6px 12px; }
+
+  /* ---- Navbar title hidden on very small ---- */
+  .page-title { font-size: 14px; }
+
+  /* ---- Hero section on landing page ---- */
+  .hero-stats { gap: 16px !important; }
+  .hero-stat-value { font-size: 22px; }
+}
