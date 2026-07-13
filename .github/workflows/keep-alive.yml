@@ -2,8 +2,8 @@ name: Keep Render App Alive
 
 on:
   schedule:
-    # Runs every 14 minutes
-    - cron: '*/14 * * * *'
+    # Runs every 5 minutes to account for GitHub Actions scheduling delays
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 jobs:
