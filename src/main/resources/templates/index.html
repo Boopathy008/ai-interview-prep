@@ -348,7 +348,7 @@
 <!-- Hero -->
 <section class="hero-section" style="padding: 120px 60px 80px;">
   <div class="hero-grid"></div>
-  <div class="hero-content" style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;max-width:1200px;margin:0 auto;width:100%;">
+  <div class="hero-content" style="display:flex;flex-direction:column;align-items:center;text-align:center;max-width:800px;margin:0 auto;width:100%;">
     <div>
 
       <h1 class="hero-title">
@@ -358,7 +358,7 @@
       <p class="hero-subtitle">
         AI-powered interview prep for fresher developers. Practice MCQs, coding problems, theory questions, and mock interviews — in Java, Python, JavaScript, C++, Go, and 10+ languages.
       </p>
-      <div style="display:flex;gap:14px;flex-wrap:wrap;">
+      <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">
         <a href="/register" class="btn btn-primary btn-lg">
           🚀 Start Practicing Free
         </a>
@@ -366,7 +366,7 @@
           Sign In
         </a>
       </div>
-      <div class="lang-tags" style="margin-top:24px;">
+      <div class="lang-tags" style="margin-top:24px;justify-content:center;">
         <span class="lang-tag">☕ Java</span>
         <span class="lang-tag">🐍 Python</span>
         <span class="lang-tag">🟨 JavaScript</span>
@@ -374,7 +374,7 @@
         <span class="lang-tag">🔷 TypeScript</span>
         <span class="lang-tag">+ 9 more</span>
       </div>
-      <div class="hero-stats">
+      <div class="hero-stats" style="justify-content:center;">
         <div>
           <div class="hero-stat-value">14+</div>
           <div class="hero-stat-label">Languages</div>
@@ -389,56 +389,6 @@
           <div class="hero-stat-value">AI</div>
           <div class="hero-stat-label">Powered Feedback</div>
         </div>
-      </div>
-    </div>
-
-    <!-- Hero Visual -->
-    <div class="hero-visual" style="position:relative">
-      <div class="hero-mockup">
-        <div class="mockup-header">
-          <div class="mockup-dot" style="background:#FF5F57"></div>
-          <div class="mockup-dot" style="background:#FFBD2E"></div>
-          <div class="mockup-dot" style="background:#27C93F"></div>
-          <span class="mockup-title">🐍 Python — Medium — DSA</span>
-        </div>
-        <div class="mockup-question">
-          <strong style="color:#B4ACFF;">Q2.</strong> Implement a function to find the longest common subsequence of two strings.
-        </div>
-        <div class="mockup-code">
-def lcs(s1, s2):
-    m, n = len(s1), len(s2)
-    dp = [[0]*(n+1) for _ in range(m+1)]
-    for i in range(1, m+1):
-        for j in range(1, n+1):
-            if s1[i-1] == s2[j-1]:
-                dp[i][j] = dp[i-1][j-1] + 1
-            else:
-                dp[i][j] = max(dp[i-1][j], dp[i][j-1])
-    return dp[m][n]</div>
-        <div class="mockup-feedback">
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div>
-              <div class="mockup-score">92/100</div>
-              <div class="mockup-label">AI Score</div>
-            </div>
-            <div style="color:rgba(255,255,255,0.6);font-size:13px;line-height:1.5;">
-              ✅ Correct DP approach<br>
-              💡 Time O(m×n), Space O(m×n)
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="floating-card float-1" style="width:160px;">
-        <div style="font-size:11px;color:rgba(255,255,255,0.5)">Mock Interview</div>
-        <div style="font-size:14px;font-weight:700;color:white;margin:4px 0">🎤 In Progress</div>
-        <div style="font-size:11px;color:#00D8A0">Question 4 / 10</div>
-      </div>
-
-      <div class="floating-card float-2" style="width:180px;">
-        <div style="font-size:11px;color:rgba(255,255,255,0.5)">Today's Streak</div>
-        <div style="font-size:20px;font-weight:800;color:white;margin:4px 0">🔥 7 Days</div>
-        <div style="font-size:11px;color:#FFB74D">Keep it up!</div>
       </div>
     </div>
   </div>
