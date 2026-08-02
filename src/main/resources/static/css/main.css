@@ -47,6 +47,37 @@
   --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Dark theme — always active (applied by JS on load) */
+[data-theme="dark"] {
+  --primary: #6366F1;
+  --primary-dark: #4F46E5;
+  --primary-light: rgba(99, 102, 241, 0.15);
+  --secondary: #14B8A6;
+  --accent: #8B5CF6;
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --info: #3B82F6;
+
+  --bg: #0B1020;
+  --bg-card: #111827;
+  --bg-sidebar: #0F172A;
+  --bg-input: #1E293B;
+
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --text-sidebar: #94A3B8;
+  --text-sidebar-active: #F8FAFC;
+
+  --border: rgba(255,255,255,0.08);
+  --border-focus: #6366F1;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 12px rgba(99, 102, 241, 0.12);
+  --shadow-lg: 0 8px 24px rgba(99, 102, 241, 0.2);
+  --shadow-card: 0 4px 6px rgba(0,0,0,0.2);
+}
+
 /* ============================================================
    Base Styles
    ============================================================ */

@@ -8,19 +8,20 @@
 // ---------------------------------------------------------------
 const Theme = {
   init() {
-    const saved = localStorage.getItem('theme') || 'light';
-    this.apply(saved);
+    // Always default to dark theme — clear any old light-mode preference
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') {
+      localStorage.setItem('theme', 'dark');
+    }
+    this.apply('dark');
   },
   toggle() {
-    const current = document.documentElement.getAttribute('data-theme') || 'light';
-    const next = current === 'light' ? 'dark' : 'light';
-    this.apply(next);
-    localStorage.setItem('theme', next);
+    // Theme is always dark — toggle is removed
   },
   apply(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     const icon = document.getElementById('themeIcon');
-    if (icon) icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+    if (icon) icon.textContent = '🌙';
   }
 };
 
