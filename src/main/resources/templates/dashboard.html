@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard – AI Interview Prep</title>
+  <title>Overview – AI Interview Prep</title>
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
@@ -25,12 +25,12 @@
     </div>
     <nav class="sidebar-nav">
       <div class="nav-section-label">Main</div>
-      <a class="sidebar-link active" href="/dashboard" data-href="/dashboard"><div class="nav-icon">📊</div><span>Dashboard</span></a>
-      <a class="sidebar-link" href="/topics" data-href="/topics"><div class="nav-icon">🚀</div><span>Start Practice</span></a>
-      <a class="sidebar-link" href="/mock-interview" data-href="/mock-interview"><div class="nav-icon">🎤</div><span>Mock Interview</span></a>
+      <a class="sidebar-link active" href="/dashboard" data-href="/dashboard"><div class="nav-icon">📊</div><span>Overview</span></a>
+      <a class="sidebar-link" href="/topics" data-href="/topics"><div class="nav-icon">🚀</div><span>Begin Practice</span></a>
+      <a class="sidebar-link" href="/mock-interview" data-href="/mock-interview"><div class="nav-icon">🎤</div><span>Interview Practice</span></a>
       <div class="nav-section-label">Progress</div>
-      <a class="sidebar-link" href="/progress" data-href="/progress"><div class="nav-icon">📈</div><span>My Progress</span></a>
-      <a class="sidebar-link" href="/study-plan" data-href="/study-plan"><div class="nav-icon">🗺️</div><span>Study Plan</span></a>
+      <a class="sidebar-link" href="/progress" data-href="/progress"><div class="nav-icon">📈</div><span>Progress</span></a>
+      <a class="sidebar-link" href="/study-plan" data-href="/study-plan"><div class="nav-icon">🗺️</div><span>Learning Plan</span></a>
       <div class="nav-section-label">Account</div>
       <a class="sidebar-link" href="/profile" data-href="/profile"><div class="nav-icon">👤</div><span>My Profile</span></a>
       <a class="sidebar-link admin-only" href="/admin" style="display:none"><div class="nav-icon">🛡️</div><span>Admin Panel</span></a>
@@ -54,7 +54,7 @@
       <div style="display:flex;align-items:center;gap:14px;">
         <button class="sidebar-toggle" id="sidebarToggle">☰</button>
         <div>
-          <div class="page-title">Dashboard</div>
+          <div class="page-title">Overview</div>
           <div style="font-size:12px;color:var(--text-muted)" id="greetingDate">Welcome back!</div>
         </div>
       </div>
@@ -79,7 +79,7 @@
             <div style="font-size:28px;font-weight:800;" id="bannerStreak">0</div>
             <div style="font-size:12px;opacity:0.75;">🔥 Day Streak</div>
           </div>
-          <a href="/topics" class="btn" style="background:rgba(255,255,255,0.2);color:white;border:1px solid rgba(255,255,255,0.3);">Start Today's Practice →</a>
+          <a href="/topics" class="btn" style="background:rgba(255,255,255,0.2);color:white;border:1px solid rgba(255,255,255,0.3);">Start Now →</a>
         </div>
       </div>
 
@@ -93,16 +93,16 @@
             <div class="stat-change positive" id="testsChange">+0 this week</div>
           </div>
         </div>
-        <div class="stat-card" style="color:#00A87A;">
-          <div class="stat-icon" style="background:#E8FBF5;">🎯</div>
+        <div class="stat-card" style="color:var(--success);">
+          <div class="stat-icon" style="background:rgba(34, 197, 94, 0.1);">🎯</div>
           <div>
             <div class="stat-value" id="avgScore">—</div>
             <div class="stat-label">Avg Score</div>
             <div class="stat-change positive" id="scoreChange">Overall performance</div>
           </div>
         </div>
-        <div class="stat-card" style="color:#B45309;">
-          <div class="stat-icon" style="background:#FFF3E0;">🔥</div>
+        <div class="stat-card" style="color:var(--warning);">
+          <div class="stat-icon" style="background:rgba(245, 158, 11, 0.1);">🔥</div>
           <div>
             <div class="stat-value" id="streakDays">—</div>
             <div class="stat-label">Day Streak</div>
@@ -121,10 +121,10 @@
 
       <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-bottom:24px;">
 
-        <!-- Recent Tests -->
+        <!-- Recent Activity -->
         <div class="card">
           <div class="card-header">
-            <div class="card-title">📋 Recent Tests</div>
+            <div class="card-title">📋 Recent Activity</div>
             <a href="/progress" class="btn btn-sm btn-secondary">View All</a>
           </div>
           <div id="recentTestsContainer">
@@ -138,7 +138,7 @@
         <!-- Quick Actions -->
         <div style="display:flex;flex-direction:column;gap:16px;">
           <div class="card">
-            <div class="card-header"><div class="card-title">⚡ Quick Start</div></div>
+            <div class="card-header"><div class="card-title">⚡ Continue Practice</div></div>
             <div class="card-body" style="padding:16px;">
               <div style="display:flex;flex-direction:column;gap:10px;">
                 <a href="/topics?preset=python-mcq" class="btn btn-secondary btn-block" style="justify-content:flex-start;">
@@ -153,7 +153,7 @@
                 <a href="/topics?preset=dsa-hard" class="btn btn-secondary btn-block" style="justify-content:flex-start;">
                   🧮 DSA Challenge — Hard
                 </a>
-                <a href="/mock-interview" class="btn btn-primary btn-block">🎤 Start Mock Interview</a>
+                <a href="/mock-interview" class="btn btn-primary btn-block">🎤 Start Interview Practice</a>
               </div>
             </div>
           </div>
@@ -187,7 +187,7 @@
         <div class="card">
           <div class="card-header">
             <div class="card-title">🎯 Focus Areas</div>
-            <a href="/study-plan" class="btn btn-sm btn-primary">Get Study Plan</a>
+            <a href="/study-plan" class="btn btn-sm btn-primary">Get Learning Plan</a>
           </div>
           <div class="card-body" id="weakTopicsContainer">
             <div style="color:var(--text-muted);font-size:13px;text-align:center;padding:20px;">Complete a few tests to see your weak areas</div>
@@ -262,7 +262,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('topicsCount').textContent = d.topicProgress?.length || 0;
   document.getElementById('bannerStreak').textContent = d.streakDays || 0;
 
-  // Recent Tests
+  // Recent Activity
   renderRecentTests(d.recentTests || []);
 
   // Topic Progress

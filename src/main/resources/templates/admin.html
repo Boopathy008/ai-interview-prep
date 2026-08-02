@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard – AI Interview Prep</title>
+  <title>Admin Overview – AI Interview Prep</title>
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
@@ -15,10 +15,10 @@
     <div class="sidebar-brand"><div class="brand-logo"><div class="brand-icon">🛡️</div><div><div class="brand-name">Admin <span>Panel</span></div><span class="brand-sub">AI Interview Prep</span></div></div></div>
     <nav class="sidebar-nav">
       <div class="nav-section-label">Admin</div>
-      <a class="sidebar-link active" href="/admin"><div class="nav-icon">🛡️</div><span>Admin Dashboard</span></a>
+      <a class="sidebar-link active" href="/admin"><div class="nav-icon">🛡️</div><span>Admin Overview</span></a>
       <div class="nav-section-label">Navigate</div>
       <a class="sidebar-link" href="/dashboard"><div class="nav-icon">📊</div><span>Student View</span></a>
-      <a class="sidebar-link" href="/topics"><div class="nav-icon">🚀</div><span>Start Practice</span></a>
+      <a class="sidebar-link" href="/topics"><div class="nav-icon">🚀</div><span>Begin Practice</span></a>
     </nav>
     <div class="sidebar-footer">
       <div class="sidebar-user"><div class="user-avatar" id="sidebarUserAvatar">A</div><div class="user-info"><div class="user-name" id="sidebarUserName">Admin</div><div class="user-role" id="sidebarUserRole">🛡️ Admin</div></div></div>
@@ -30,7 +30,7 @@
     <div class="top-navbar">
       <div style="display:flex;align-items:center;gap:14px;">
         <button class="sidebar-toggle" id="sidebarToggle">☰</button>
-        <div class="page-title">🛡️ Admin Dashboard</div>
+        <div class="page-title">🛡️ Admin Overview</div>
       </div>
       <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;"><span id="themeIcon">🌙</span></button>
     </div>
@@ -76,12 +76,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       <div class="stat-icon" style="background:var(--primary-light);">👥</div>
       <div><div class="stat-value">${d.totalStudents || 0}</div><div class="stat-label">Students</div></div>
     </div>
-    <div class="stat-card" style="color:#00A87A;">
-      <div class="stat-icon" style="background:#E8FBF5;">📝</div>
+    <div class="stat-card" style="color:var(--success);">
+      <div class="stat-icon" style="background:rgba(34, 197, 94, 0.1);">📝</div>
       <div><div class="stat-value">${d.totalTests || 0}</div><div class="stat-label">Total Tests</div></div>
     </div>
-    <div class="stat-card" style="color:#B45309;">
-      <div class="stat-icon" style="background:#FFF3E0;">✅</div>
+    <div class="stat-card" style="color:var(--warning);">
+      <div class="stat-icon" style="background:rgba(245, 158, 11, 0.1);">✅</div>
       <div><div class="stat-value">${d.completedTests || 0}</div><div class="stat-label">Completed</div></div>
     </div>
     <div class="stat-card" style="color:#0277BD;">

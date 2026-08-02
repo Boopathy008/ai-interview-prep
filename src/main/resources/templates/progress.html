@@ -29,12 +29,12 @@
     <div class="sidebar-brand"><div class="brand-logo"><div class="brand-icon">🤖</div><div><div class="brand-name">AI Interview <span>Prep</span></div><span class="brand-sub">Multi-Language Mentor</span></div></div></div>
     <nav class="sidebar-nav">
       <div class="nav-section-label">Main</div>
-      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">📊</div><span>Dashboard</span></a>
-      <a class="sidebar-link" href="/topics"><div class="nav-icon">🚀</div><span>Start Practice</span></a>
-      <a class="sidebar-link" href="/mock-interview"><div class="nav-icon">🎤</div><span>Mock Interview</span></a>
+      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">📊</div><span>Overview</span></a>
+      <a class="sidebar-link" href="/topics"><div class="nav-icon">🚀</div><span>Begin Practice</span></a>
+      <a class="sidebar-link" href="/mock-interview"><div class="nav-icon">🎤</div><span>Interview Practice</span></a>
       <div class="nav-section-label">Progress</div>
-      <a class="sidebar-link active" href="/progress"><div class="nav-icon">📈</div><span>My Progress</span></a>
-      <a class="sidebar-link" href="/study-plan"><div class="nav-icon">🗺️</div><span>Study Plan</span></a>
+      <a class="sidebar-link active" href="/progress"><div class="nav-icon">📈</div><span>Progress</span></a>
+      <a class="sidebar-link" href="/study-plan"><div class="nav-icon">🗺️</div><span>Learning Plan</span></a>
       <div class="nav-section-label">Account</div>
       <a class="sidebar-link" href="/profile"><div class="nav-icon">👤</div><span>My Profile</span></a>
     </nav>
@@ -48,7 +48,7 @@
     <div class="top-navbar">
       <div style="display:flex;align-items:center;gap:14px;">
         <button class="sidebar-toggle" id="sidebarToggle">☰</button>
-        <div class="page-title">📈 My Progress</div>
+        <div class="page-title">📈 Progress</div>
       </div>
       <div style="display:flex;gap:10px;">
         <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;"><span id="themeIcon">🌙</span></button>
@@ -124,10 +124,10 @@ let allProgress = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
   Sidebar.init();
-  loadDashboard();
+  loadOverview();
 });
 
-async function loadDashboard() {
+async function loadOverview() {
   const [dashRes, testsRes, progressRes] = await Promise.all([
     API.dashboard.get(),
     API.tests.my(),
@@ -145,12 +145,12 @@ function renderOverview(d) {
       <div class="stat-icon" style="background:var(--primary-light);">📝</div>
       <div><div class="stat-value">${d.totalTests || 0}</div><div class="stat-label">Total Tests</div></div>
     </div>
-    <div class="stat-card" style="color:#00A87A;">
-      <div class="stat-icon" style="background:#E8FBF5;">🎯</div>
+    <div class="stat-card" style="color:var(--success);">
+      <div class="stat-icon" style="background:rgba(34, 197, 94, 0.1);">🎯</div>
       <div><div class="stat-value">${d.averageScore ? Math.round(d.averageScore) + '%' : '0%'}</div><div class="stat-label">Avg Score</div></div>
     </div>
-    <div class="stat-card" style="color:#B45309;">
-      <div class="stat-icon" style="background:#FFF3E0;">🔥</div>
+    <div class="stat-card" style="color:var(--warning);">
+      <div class="stat-icon" style="background:rgba(245, 158, 11, 0.1);">🔥</div>
       <div><div class="stat-value">${d.streakDays || 0}</div><div class="stat-label">Day Streak</div></div>
     </div>
     <div class="stat-card" style="color:#0277BD;">
@@ -199,15 +199,15 @@ function renderProgressGrid(progress) {
 
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px;text-align:center;">
             <div style="background:var(--bg-card);border-radius:6px;padding:8px;">
-              <div style="font-weight:700;font-size:14px;color:#00875A;">${p.easyCompleted}</div>
+              <div style="font-weight:700;font-size:14px;color:var(--success);">${p.easyCompleted}</div>
               <div style="font-size:10px;color:var(--text-muted);">Easy</div>
             </div>
             <div style="background:var(--bg-card);border-radius:6px;padding:8px;">
-              <div style="font-weight:700;font-size:14px;color:#B45309;">${p.mediumCompleted}</div>
+              <div style="font-weight:700;font-size:14px;color:var(--warning);">${p.mediumCompleted}</div>
               <div style="font-size:10px;color:var(--text-muted);">Medium</div>
             </div>
             <div style="background:var(--bg-card);border-radius:6px;padding:8px;">
-              <div style="font-weight:700;font-size:14px;color:#B91C1C;">${p.hardCompleted}</div>
+              <div style="font-weight:700;font-size:14px;color:var(--accent);">${p.hardCompleted}</div>
               <div style="font-size:10px;color:var(--text-muted);">Hard</div>
             </div>
           </div>

@@ -6,13 +6,13 @@
   <title>AI Interview Prep – Multi-Language Coding Mentor</title>
   <link rel="stylesheet" href="/css/main.css">
   <style>
-    body { background: #0F0F2D; }
+    body { background: var(--bg); }
 
     nav.landing-nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
       padding: 16px 60px;
-      background: rgba(15,15,45,0.8);
+      background: rgba(11, 16, 32, 0.85);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(255,255,255,0.08);
     }
@@ -20,13 +20,13 @@
     .nav-logo { display: flex; align-items: center; gap: 12px; }
     .nav-logo .logo-icon {
       width: 40px; height: 40px;
-      background: linear-gradient(135deg, #6C63FF, #00D8A0);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
       border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
       font-size: 18px;
     }
     .nav-logo .logo-text { color: white; font-weight: 700; font-size: 18px; }
-    .nav-logo .logo-text span { color: #00D8A0; }
+    .nav-logo .logo-text span { color: var(--secondary); }
 
     .nav-links { display: flex; align-items: center; gap: 32px; }
     .nav-links a { color: rgba(255,255,255,0.7); font-size: 14px; font-weight: 500; transition: color 0.2s; }
@@ -37,12 +37,12 @@
     section { position: relative; }
 
     .features-section {
-      background: #12122A;
+      background: var(--bg-card);
       padding: 100px 60px;
     }
 
     .section-label {
-      color: #6C63FF;
+      color: var(--primary);
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 2px;
@@ -81,8 +81,8 @@
     }
 
     .feature-card:hover {
-      background: rgba(108,99,255,0.08);
-      border-color: rgba(108,99,255,0.3);
+      background: var(--primary-light);
+      border-color: var(--border-focus);
       transform: translateY(-4px);
     }
 
@@ -98,7 +98,7 @@
     .feature-desc { color: rgba(255,255,255,0.5); font-size: 14px; line-height: 1.6; }
 
     .languages-section {
-      background: #0F0F2D;
+      background: var(--bg);
       padding: 100px 60px;
     }
 
@@ -126,14 +126,14 @@
     }
 
     .lang-pill:hover {
-      background: rgba(108,99,255,0.2);
+      background: var(--primary-light);
       border-color: rgba(108,99,255,0.5);
       color: white;
       transform: scale(1.05);
     }
 
     .how-section {
-      background: #12122A;
+      background: var(--bg-card);
       padding: 100px 60px;
     }
 
@@ -152,7 +152,7 @@
 
     .step-number {
       width: 56px; height: 56px;
-      background: linear-gradient(135deg, #6C63FF, #00D8A0);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       font-size: 22px;
@@ -165,7 +165,7 @@
     .step-desc { color: rgba(255,255,255,0.5); font-size: 14px; line-height: 1.6; }
 
     .cta-section {
-      background: linear-gradient(135deg, #1A1A4E, #0F0F2D);
+      background: linear-gradient(135deg, var(--bg-card), var(--bg));
       padding: 100px 60px;
       text-align: center;
     }
@@ -278,7 +278,7 @@
       padding: 12px 14px;
     }
 
-    .mockup-score { color: #00D8A0; font-weight: 700; font-size: 18px; }
+    .mockup-score { color: var(--secondary); font-weight: 700; font-size: 18px; }
     .mockup-label { color: rgba(255,255,255,0.5); font-size: 12px; }
 
     .floating-card {
@@ -299,7 +299,7 @@
     .ticker {
       overflow: hidden;
       white-space: nowrap;
-      background: rgba(108,99,255,0.08);
+      background: var(--primary-light);
       border-top: 1px solid rgba(108,99,255,0.15);
       border-bottom: 1px solid rgba(108,99,255,0.15);
       padding: 12px 0;
@@ -430,12 +430,12 @@
         <div class="feature-desc">Hundreds of AI-generated multiple choice questions covering language fundamentals, OOP, libraries, and more.</div>
       </div>
       <div class="feature-card">
-        <div class="feature-icon" style="background:rgba(0,216,160,0.15)">💻</div>
+        <div class="feature-icon" style="background:rgba(20,184,166,0.15)">💻</div>
         <div class="feature-title">Coding Challenges</div>
         <div class="feature-desc">Solve real interview coding problems with AI-powered code review and feedback on your solution.</div>
       </div>
       <div class="feature-card">
-        <div class="feature-icon" style="background:rgba(255,183,77,0.15)">🖥️</div>
+        <div class="feature-icon" style="background:rgba(245,158,11,0.15)">🖥️</div>
         <div class="feature-title">Output Questions</div>
         <div class="feature-desc">Predict the output of code snippets — a critical skill tested in every technical interview.</div>
       </div>
@@ -446,7 +446,7 @@
       </div>
       <div class="feature-card">
         <div class="feature-icon" style="background:rgba(255,107,107,0.15)">🎤</div>
-        <div class="feature-title">Mock Interviews</div>
+        <div class="feature-title">Interview Practices</div>
         <div class="feature-desc">AI acts as your interviewer with progressive questions, real-time feedback, and a final score.</div>
       </div>
       <div class="feature-card">
@@ -455,8 +455,8 @@
         <div class="feature-desc">Visual dashboards show your scores, streaks, weak topics, and mastery level per language.</div>
       </div>
       <div class="feature-card">
-        <div class="feature-icon" style="background:rgba(0,216,160,0.15)">🗺️</div>
-        <div class="feature-title">Study Plan Generator</div>
+        <div class="feature-icon" style="background:rgba(20,184,166,0.15)">🗺️</div>
+        <div class="feature-title">Learning Plan Generator</div>
         <div class="feature-desc">AI creates a personalized week-by-week study plan based on your weak topics and target role.</div>
       </div>
       <div class="feature-card">
@@ -465,7 +465,7 @@
         <div class="feature-desc">AI analyses your results to pinpoint exactly where you need improvement and why.</div>
       </div>
       <div class="feature-card">
-        <div class="feature-icon" style="background:rgba(255,183,77,0.15)">🏆</div>
+        <div class="feature-icon" style="background:rgba(245,158,11,0.15)">🏆</div>
         <div class="feature-title">Detailed AI Feedback</div>
         <div class="feature-desc">Every test gets comprehensive feedback: strengths, mistakes, tips, and what to study next.</div>
       </div>
@@ -499,7 +499,7 @@
 
     <div class="info-grid-3col" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:60px;text-align:left;">
       <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px;">
-        <div style="color:#00D8A0;font-size:13px;font-weight:600;margin-bottom:8px">QUESTION TYPES</div>
+        <div style="color:var(--secondary);font-size:13px;font-weight:600;margin-bottom:8px">QUESTION TYPES</div>
         <ul style="color:rgba(255,255,255,0.65);font-size:14px;line-height:2;list-style:none;">
           <li>📝 MCQ (Multiple Choice)</li>
           <li>💻 Coding Problems</li>
@@ -510,24 +510,24 @@
         </ul>
       </div>
       <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px;">
-        <div style="color:#6C63FF;font-size:13px;font-weight:600;margin-bottom:8px">DIFFICULTY LEVELS</div>
+        <div style="color:var(--primary);font-size:13px;font-weight:600;margin-bottom:8px">DIFFICULTY LEVELS</div>
         <ul style="color:rgba(255,255,255,0.65);font-size:14px;line-height:2;list-style:none;">
           <li>🟢 Easy – Fundamentals</li>
           <li>🟡 Medium – Applied Skills</li>
           <li>🔴 Hard – Advanced Topics</li>
-          <li>🎤 Mock Interview Mode</li>
+          <li>🎤 Interview Practice Mode</li>
           <li>🔀 Mixed Mode</li>
           <li>🎯 Target Role Focus</li>
         </ul>
       </div>
       <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px;">
-        <div style="color:#FFB74D;font-size:13px;font-weight:600;margin-bottom:8px">AI CAPABILITIES</div>
+        <div style="color:var(--warning);font-size:13px;font-weight:600;margin-bottom:8px">AI CAPABILITIES</div>
         <ul style="color:rgba(255,255,255,0.65);font-size:14px;line-height:2;list-style:none;">
           <li>🤖 AI-powered Q&A</li>
           <li>✅ Auto-evaluation</li>
           <li>📊 Score & Grade</li>
           <li>💡 Improvement Tips</li>
-          <li>🗺️ Study Plan Generator</li>
+          <li>🗺️ Learning Plan Generator</li>
           <li>🔍 Weak Topic Analysis</li>
         </ul>
       </div>
@@ -585,7 +585,7 @@
 <!-- Footer -->
 <footer>
   <div style="display:flex;align-items:center;gap:10px;">
-    <div style="width:30px;height:30px;background:linear-gradient(135deg,#6C63FF,#00D8A0);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;">🤖</div>
+    <div style="width:30px;height:30px;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;">🤖</div>
     <span>AI Interview Prep</span>
   </div>
   <div>© 2026 AI Interview Prep. Built for Fresher Developers.</div>

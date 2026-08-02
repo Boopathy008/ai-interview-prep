@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mock Interview – AI Interview Prep</title>
+  <title>Interview Practice – AI Interview Prep</title>
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
@@ -15,12 +15,12 @@
     <div class="sidebar-brand"><div class="brand-logo"><div class="brand-icon">🤖</div><div><div class="brand-name">AI Interview <span>Prep</span></div><span class="brand-sub">Multi-Language Mentor</span></div></div></div>
     <nav class="sidebar-nav">
       <div class="nav-section-label">Main</div>
-      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">📊</div><span>Dashboard</span></a>
-      <a class="sidebar-link" href="/topics"><div class="nav-icon">🚀</div><span>Start Practice</span></a>
-      <a class="sidebar-link active" href="/mock-interview"><div class="nav-icon">🎤</div><span>Mock Interview</span></a>
+      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">📊</div><span>Overview</span></a>
+      <a class="sidebar-link" href="/topics"><div class="nav-icon">🚀</div><span>Begin Practice</span></a>
+      <a class="sidebar-link active" href="/mock-interview"><div class="nav-icon">🎤</div><span>Interview Practice</span></a>
       <div class="nav-section-label">Progress</div>
-      <a class="sidebar-link" href="/progress"><div class="nav-icon">📈</div><span>My Progress</span></a>
-      <a class="sidebar-link" href="/study-plan"><div class="nav-icon">🗺️</div><span>Study Plan</span></a>
+      <a class="sidebar-link" href="/progress"><div class="nav-icon">📈</div><span>Progress</span></a>
+      <a class="sidebar-link" href="/study-plan"><div class="nav-icon">🗺️</div><span>Learning Plan</span></a>
       <div class="nav-section-label">Account</div>
       <a class="sidebar-link" href="/profile"><div class="nav-icon">👤</div><span>My Profile</span></a>
     </nav>
@@ -34,7 +34,7 @@
     <div class="top-navbar">
       <div style="display:flex;align-items:center;gap:14px;">
         <button class="sidebar-toggle" id="sidebarToggle">☰</button>
-        <div class="page-title">🎤 Mock Interview</div>
+        <div class="page-title">🎤 Interview Practice</div>
       </div>
       <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;"><span id="themeIcon">🌙</span></button>
     </div>
@@ -46,7 +46,7 @@
         <div style="max-width:700px;margin:0 auto;">
           <div style="text-align:center;margin-bottom:32px;">
             <div style="font-size:56px;margin-bottom:12px;">🎤</div>
-            <h2 style="font-size:26px;font-weight:800;margin-bottom:8px;">AI Mock Interview</h2>
+            <h2 style="font-size:26px;font-weight:800;margin-bottom:8px;">AI Interview Practice</h2>
             <p style="color:var(--text-secondary);font-size:15px;">Simulate a real technical interview with our AI interviewer. Get feedback on every answer.</p>
           </div>
 
@@ -101,14 +101,14 @@
               </div>
 
               <button class="btn btn-primary btn-block btn-lg" onclick="startInterview()" id="startInterviewBtn">
-                🎤 Start Mock Interview
+                🎤 Start Interview Practice
               </button>
             </div>
           </div>
 
           <!-- Past Interviews -->
           <div class="card" style="margin-top:20px;">
-            <div class="card-header"><div class="card-title">📋 Past Mock Interviews</div></div>
+            <div class="card-header"><div class="card-title">📋 Past Interview Practices</div></div>
             <div class="card-body" id="pastInterviewsContainer">
               <div style="text-align:center;color:var(--text-muted);padding:20px;">Loading...</div>
             </div>
@@ -331,7 +331,7 @@ async function startInterview() {
   });
 
   if (!res?.success) {
-    btn.innerHTML = '🎤 Start Mock Interview';
+    btn.innerHTML = '🎤 Start Interview Practice';
     btn.disabled = false;
     return;
   }
@@ -514,8 +514,8 @@ function showFinalResults(data) {
 
     <div style="display:flex;flex-direction:column;gap:10px;">
       <button class="btn btn-primary btn-block btn-lg" onclick="location.reload()">🎤 Start New Interview</button>
-      <a href="/dashboard" class="btn btn-secondary btn-block">← Back to Dashboard</a>
-      <a href="/study-plan" class="btn btn-secondary btn-block">🗺️ Generate Study Plan</a>
+      <a href="/dashboard" class="btn btn-secondary btn-block">← Back to Overview</a>
+      <a href="/study-plan" class="btn btn-secondary btn-block">🗺️ Generate Learning Plan</a>
     </div>
   `;
 

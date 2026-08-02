@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Study Plan – AI Interview Prep</title>
+  <title>Learning Plan – AI Interview Prep</title>
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
@@ -15,12 +15,12 @@
     <div class="sidebar-brand"><div class="brand-logo"><div class="brand-icon">🤖</div><div><div class="brand-name">AI Interview <span>Prep</span></div><span class="brand-sub">Multi-Language Mentor</span></div></div></div>
     <nav class="sidebar-nav">
       <div class="nav-section-label">Main</div>
-      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">📊</div><span>Dashboard</span></a>
-      <a class="sidebar-link" href="/topics"><div class="nav-icon">🚀</div><span>Start Practice</span></a>
-      <a class="sidebar-link" href="/mock-interview"><div class="nav-icon">🎤</div><span>Mock Interview</span></a>
+      <a class="sidebar-link" href="/dashboard"><div class="nav-icon">📊</div><span>Overview</span></a>
+      <a class="sidebar-link" href="/topics"><div class="nav-icon">🚀</div><span>Begin Practice</span></a>
+      <a class="sidebar-link" href="/mock-interview"><div class="nav-icon">🎤</div><span>Interview Practice</span></a>
       <div class="nav-section-label">Progress</div>
-      <a class="sidebar-link" href="/progress"><div class="nav-icon">📈</div><span>My Progress</span></a>
-      <a class="sidebar-link active" href="/study-plan"><div class="nav-icon">🗺️</div><span>Study Plan</span></a>
+      <a class="sidebar-link" href="/progress"><div class="nav-icon">📈</div><span>Progress</span></a>
+      <a class="sidebar-link active" href="/study-plan"><div class="nav-icon">🗺️</div><span>Learning Plan</span></a>
       <div class="nav-section-label">Account</div>
       <a class="sidebar-link" href="/profile"><div class="nav-icon">👤</div><span>My Profile</span></a>
     </nav>
@@ -34,7 +34,7 @@
     <div class="top-navbar">
       <div style="display:flex;align-items:center;gap:14px;">
         <button class="sidebar-toggle" id="sidebarToggle">☰</button>
-        <div class="page-title">🗺️ Study Plan</div>
+        <div class="page-title">🗺️ Learning Plan</div>
       </div>
       <button id="themeToggle" style="background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;"><span id="themeIcon">🌙</span></button>
     </div>
@@ -44,7 +44,7 @@
       <!-- Generator Form -->
       <div class="card" style="margin-bottom:24px;">
         <div class="card-header">
-          <div class="card-title">🤖 Generate Personalized Study Plan</div>
+          <div class="card-title">🤖 Generate Personalized Learning Plan</div>
           <span class="badge badge-success">AI Powered</span>
         </div>
         <div class="card-body">
@@ -89,7 +89,7 @@
             </div>
           </div>
           <button class="btn btn-primary btn-lg" onclick="generatePlan()" id="generateBtn" style="margin-top:16px;">
-            🤖 Generate My Study Plan
+            🤖 Generate My Learning Plan
           </button>
         </div>
       </div>
@@ -98,7 +98,7 @@
       <div id="planContainer">
         <div style="text-align:center;padding:60px 20px;">
           <div style="font-size:64px;margin-bottom:16px;">🗺️</div>
-          <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;">No Study Plan Yet</h3>
+          <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;">No Learning Plan Yet</h3>
           <p style="color:var(--text-secondary);font-size:14px;margin-bottom:24px;">Generate a personalized AI study plan based on your weak topics and goals</p>
         </div>
       </div>
@@ -145,7 +145,7 @@ async function generatePlan() {
 
   const res = await API.studyPlan.generate(params);
 
-  btn.innerHTML = '🤖 Generate My Study Plan';
+  btn.innerHTML = '🤖 Generate My Learning Plan';
   btn.disabled = false;
 
   if (res?.success) {
@@ -174,7 +174,7 @@ function renderPlan(planJson, title, isDraft = false) {
   document.getElementById('planContainer').innerHTML = `
     <!-- Plan Header -->
     <div style="background:linear-gradient(135deg,var(--primary),#9B8FFF);border-radius:var(--radius-md);padding:24px 28px;margin-bottom:24px;color:white;">
-      <div style="font-size:20px;font-weight:800;margin-bottom:8px;">${plan.title || title || 'Study Plan'}</div>
+      <div style="font-size:20px;font-weight:800;margin-bottom:8px;">${plan.title || title || 'Learning Plan'}</div>
       ${plan.overview ? `<div style="opacity:0.85;font-size:14px;line-height:1.6;margin-bottom:12px;">${plan.overview}</div>` : ''}
       <div style="display:flex;gap:20px;flex-wrap:wrap;">
         <div><span style="opacity:0.7;font-size:12px;">Duration</span><br><strong>${weeks.length} Weeks</strong></div>
@@ -256,10 +256,10 @@ function renderPlan(planJson, title, isDraft = false) {
     <div style="margin-top:20px;display:flex;gap:12px;justify-content:center;" id="planActionButtons">
       <a href="/topics" class="btn btn-primary">🚀 Start Practicing Now</a>
       ${isDraft ? `
-        <button class="btn btn-success" style="background:#00A87A;color:white;" onclick="savePlan()" id="savePlanBtn">💾 Save Study Plan</button>
+        <button class="btn btn-success" style="background:var(--success);color:white;" onclick="savePlan()" id="savePlanBtn">💾 Save Learning Plan</button>
       ` : `
         <button class="btn btn-secondary" onclick="generatePlan()">🔄 Regenerate Plan</button>
-        <button class="btn" style="background:#FEF0F0;color:var(--accent);border:1px solid var(--accent);" onclick="deletePlan()">🗑️ Delete Plan</button>
+        <button class="btn" style="background:rgba(139, 92, 246, 0.1);color:var(--accent);border:1px solid var(--accent);" onclick="deletePlan()">🗑️ Delete Plan</button>
       `}
     </div>
   `;
@@ -286,7 +286,7 @@ async function deletePlan() {
     document.getElementById('planContainer').innerHTML = `
       <div style="text-align:center;padding:60px 20px;">
         <div style="font-size:64px;margin-bottom:16px;">🗺️</div>
-        <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;">No Study Plan Yet</h3>
+        <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;">No Learning Plan Yet</h3>
         <p style="color:var(--text-secondary);font-size:14px;margin-bottom:24px;">Generate a personalized AI study plan based on your weak topics and goals</p>
       </div>
     `;
@@ -317,7 +317,7 @@ async function savePlan() {
     document.getElementById('planActionButtons').innerHTML = `
       <a href="/topics" class="btn btn-primary">🚀 Start Practicing Now</a>
       <button class="btn btn-secondary" onclick="generatePlan()">🔄 Regenerate Plan</button>
-      <button class="btn" style="background:#FEF0F0;color:var(--accent);border:1px solid var(--accent);" onclick="deletePlan()">🗑️ Delete Plan</button>
+      <button class="btn" style="background:rgba(139, 92, 246, 0.1);color:var(--accent);border:1px solid var(--accent);" onclick="deletePlan()">🗑️ Delete Plan</button>
     `;
   } else {
     btn.innerHTML = originalHtml;
