@@ -10,33 +10,33 @@
    CSS Custom Properties (Light Mode Default)
    ============================================================ */
 :root {
-  --primary: #6366F1;
-  --primary-dark: #4F46E5;
-  --primary-light: rgba(99, 102, 241, 0.15);
-  --secondary: #14B8A6;
-  --accent: #8B5CF6;
+  --primary: #D97706;
+  --primary-dark: #B45309;
+  --primary-light: rgba(217, 119, 6, 0.15);
+  --secondary: #F59E0B;
+  --accent: #E5E7EB;
   --success: #22C55E;
   --warning: #F59E0B;
-  --info: #3B82F6;
+  --info: #60A5FA;
 
-  --bg: #0B1020;
-  --bg-card: #111827;
-  --bg-sidebar: #0F172A;
-  --bg-input: #1E293B;
+  --bg: #111111;
+  --bg-card: #1A1A1A;
+  --bg-sidebar: #0D0D0D;
+  --bg-input: #222222;
 
-  --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
-  --text-sidebar: #94A3B8;
-  --text-sidebar-active: #F8FAFC;
+  --text-primary: #F3F4F6;
+  --text-secondary: #A1A1AA;
+  --text-muted: #71717A;
+  --text-sidebar: #A1A1AA;
+  --text-sidebar-active: #F3F4F6;
 
-  --border: rgba(255,255,255,0.08);
-  --border-focus: #6366F1;
+  --border: rgba(255,255,255,0.07);
+  --border-focus: #D97706;
 
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
-  --shadow-md: 0 4px 12px rgba(99, 102, 241, 0.12);
-  --shadow-lg: 0 8px 24px rgba(99, 102, 241, 0.2);
-  --shadow-card: 0 4px 6px rgba(0,0,0,0.2);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.5);
+  --shadow-md: 0 4px 12px rgba(217, 119, 6, 0.15);
+  --shadow-lg: 0 8px 24px rgba(217, 119, 6, 0.2);
+  --shadow-card: 0 4px 8px rgba(0,0,0,0.3);
 
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -49,33 +49,33 @@
 
 /* Dark theme — always active (applied by JS on load) */
 [data-theme="dark"] {
-  --primary: #6366F1;
-  --primary-dark: #4F46E5;
-  --primary-light: rgba(99, 102, 241, 0.15);
-  --secondary: #14B8A6;
-  --accent: #8B5CF6;
+  --primary: #D97706;
+  --primary-dark: #B45309;
+  --primary-light: rgba(217, 119, 6, 0.15);
+  --secondary: #F59E0B;
+  --accent: #E5E7EB;
   --success: #22C55E;
   --warning: #F59E0B;
-  --info: #3B82F6;
+  --info: #60A5FA;
 
-  --bg: #0B1020;
-  --bg-card: #111827;
-  --bg-sidebar: #0F172A;
-  --bg-input: #1E293B;
+  --bg: #111111;
+  --bg-card: #1A1A1A;
+  --bg-sidebar: #0D0D0D;
+  --bg-input: #222222;
 
-  --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
-  --text-sidebar: #94A3B8;
-  --text-sidebar-active: #F8FAFC;
+  --text-primary: #F3F4F6;
+  --text-secondary: #A1A1AA;
+  --text-muted: #71717A;
+  --text-sidebar: #A1A1AA;
+  --text-sidebar-active: #F3F4F6;
 
-  --border: rgba(255,255,255,0.08);
-  --border-focus: #6366F1;
+  --border: rgba(255,255,255,0.07);
+  --border-focus: #D97706;
 
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
-  --shadow-md: 0 4px 12px rgba(99, 102, 241, 0.12);
-  --shadow-lg: 0 8px 24px rgba(99, 102, 241, 0.2);
-  --shadow-card: 0 4px 6px rgba(0,0,0,0.2);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.5);
+  --shadow-md: 0 4px 12px rgba(217, 119, 6, 0.15);
+  --shadow-lg: 0 8px 24px rgba(217, 119, 6, 0.2);
+  --shadow-card: 0 4px 8px rgba(0,0,0,0.3);
 }
 
 /* ============================================================
@@ -581,15 +581,15 @@ textarea.form-control { resize: vertical; min-height: 100px; }
 }
 
 .badge-primary { background: var(--primary-light); color: var(--primary); }
-.badge-success { background: #E8FBF5; color: #00A87A; }
-.badge-warning { background: #FFF3E0; color: #E65100; }
-.badge-danger { background: #FEF0F0; color: #C62828; }
-.badge-info { background: #E3F7FF; color: #0277BD; }
+.badge-success { background: rgba(34, 197, 94, 0.12); color: #22C55E; }
+.badge-warning { background: rgba(245, 158, 11, 0.12); color: #F59E0B; }
+.badge-danger { background: rgba(239, 68, 68, 0.12); color: #F87171; }
+.badge-info { background: rgba(96, 165, 250, 0.12); color: #60A5FA; }
 .badge-secondary { background: var(--bg-input); color: var(--text-secondary); }
 
-.difficulty-easy { background: #E8FBF5; color: #00875A; }
-.difficulty-medium { background: #FFF3E0; color: #B45309; }
-.difficulty-hard { background: #FEF0F0; color: #B91C1C; }
+.difficulty-easy { background: rgba(34, 197, 94, 0.12); color: #22C55E; }
+.difficulty-medium { background: rgba(245, 158, 11, 0.12); color: #F59E0B; }
+.difficulty-hard { background: rgba(239, 68, 68, 0.12); color: #F87171; }
 
 /* ============================================================
    Progress Bars
@@ -607,10 +607,10 @@ textarea.form-control { resize: vertical; min-height: 100px; }
   transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.progress-bar-fill.primary { background: linear-gradient(90deg, var(--primary), #9B8FFF); }
-.progress-bar-fill.success { background: linear-gradient(90deg, var(--secondary), #00D46A); }
-.progress-bar-fill.warning { background: linear-gradient(90deg, var(--warning), #FF7043); }
-.progress-bar-fill.info { background: linear(90deg, var(--info), #0D47A1); }
+.progress-bar-fill.primary { background: linear-gradient(90deg, var(--primary), var(--secondary)); }
+.progress-bar-fill.success { background: linear-gradient(90deg, #22C55E, #16A34A); }
+.progress-bar-fill.warning { background: linear-gradient(90deg, var(--warning), #D97706); }
+.progress-bar-fill.info { background: linear-gradient(90deg, var(--info), #2563EB); }
 
 /* ============================================================
    Language Selector Cards
