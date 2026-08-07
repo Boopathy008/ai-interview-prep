@@ -2,15 +2,19 @@ name: Keep Render App Alive
 
 on:
   schedule:
-    # Runs every 5 minutes to account for GitHub Actions scheduling delays
-    - cron: '*/5 * * * *'
+    # Runs every 14 minutes (Render sleeps after 15 mins of inactivity)
+    - cron: '*/14 * * * *'
   workflow_dispatch:
+
+concurrency:
+  group: keep-alive-render
+  cancel-in-progress: true
 
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
       - name: Ping Application
-        run: curl -s https://ai-interview-prep-38xp.onrender.com > /dev/null
-        # If the app fails to respond for some reason, the action will just fail silently or we can ignore errors
-        continue-on-error: true
+        run: |
+          curl -s --max-time 15 https://ai-interview-prep-38xp.onrender.com > /dev/null || true
+
